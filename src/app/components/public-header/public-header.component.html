@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" routerLink="/">Halo Earth</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/partners" routerLinkActive="active">Partners</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/corals" routerLinkActive="active">Corals</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/blog" routerLinkActive="active">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/faq" routerLinkActive="active">FAQ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/gallery" routerLinkActive="active">Gallery</a>
+                </li>
+            </ul>
+            <div class="d-flex ms-lg-3">
+                <a routerLink="/donate" class="btn btn-primary">Donate Now</a>
+            </div>
+        </div>
+    </div>
+</nav>
