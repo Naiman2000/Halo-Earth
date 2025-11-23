@@ -1,0 +1,68 @@
+Here is a plain, ASCII-format requirements checklist you can directly copy and use in any text editor. All key requirements are represented as standard bullet points for universal compatibility.
+
+***
+
+Halo World – Requirements Checklist
+
+Objective: Deliver a mobile-friendly, web-based coral conservation platform with public information, donation features, and full admin content management.
+
+PUBLIC WEBSITE REQUIREMENTS
+- Homepage: hero section, mission statement, key statistics, featured partner programs
+- Searchable partner program directory (filter by location, price; detailed pages, external links)
+- Coral species dictionary: searchable/filterable, details (name, images, habitat, status)
+- Blog/news section: article listing, category/tag filtering, share buttons, individual pages
+- Donation system: validated form, QR code (bank transfer), unique reference, thank you page, donation tracking
+- Interest form for partner programs: collects name, email, phone, program, message; validated and stored
+- Contact form: name, email, subject, message; validated, stored for admin review
+- About Us page: mission/vision, team, history, contact details
+- FAQ section: categorized, searchable, expandable answers
+- Photo gallery: responsive layout, lightbox, captions, category filtering
+- Mobile-first, responsive design (320px–2560px), optimized images
+- All above features deployable within 3 months
+
+ADMIN DASHBOARD REQUIREMENTS
+- Secure admin login (email/password via Firebase), password reset, auto-logout/session management
+- Dashboard overview: statistics, latest donations/messages/leads
+- Partner program management: add/edit/delete, upload images, set status, preview, bulk operations
+- Coral species management: full CRUD, images, rich text, preview, search/filter
+- Blog/news management: CRUD, rich text, image upload, categories/tags, draft/publish, metadata
+- Donation management: view, filter, verify manually, export CSV, view donor info, admin notes
+- Lead management: view/filter, mark contacted, export CSV, follow-up notes
+- Contact message management: view/search, read/unread, replied, admin notes
+- Site settings: manage homepage, stats, bank/social details, contact, global settings
+- Gallery management: bulk upload, captions, categories, reordering, delete/optimize images
+- All admin operations secured for authenticated users only
+
+SYSTEM & TECHNICAL REQUIREMENTS
+- Angular 17 frontend (Angular Material or Bootstrap 5)
+- Firebase backend: Firestore (NoSQL), Authentication, Storage, Hosting
+- Libraries: angularfire, ngx-qrcode2, ngx-quill, Material Icons/Font Awesome, etc.
+- Responsive components for all device sizes
+- QR code system: banking compatible, unique references
+- Real-time data, secure validation, structured DB, Firestore rules
+- Image upload/hosting/optimization: images only, max 5MB, WebP preferred
+- Security: HTTPS, strict Firestore rules, input validation
+- Performance: page load <3 seconds (mobile), 100+ concurrent users, Lighthouse score ≥80
+- Accessibility: WCAG 2.1 AA, alt text, keyboard nav, contrast, form usability
+- Documentation: SRS, project plan, admin guide, deployment, README, troubleshooting
+- Code quality: Angular best practices, linting (ESLint), formatting (Prettier), JSDoc, Git version control
+- Deployment: Firebase Hosting, SSL, env config, backup/recovery, custom domain optional
+
+OUT OF SCOPE (DO NOT IMPLEMENT)
+- Public user registration/login, user profiles/dashboards
+- Payment/payout gateways, auto-verification, credit cards/PayPal
+- Direct adoption management, tracking, certificates, automated updates
+- IoT integration, native mobile apps, advanced analytics, chatbots, multi-language, e-commerce, forums, gamification
+- In-app/sms/email messaging or notifications
+
+SUCCESS & ACCEPTANCE CRITERIA
+- Homepage and public pages load <3 sec, work on all major browsers
+- Functional navigation on all screens/devices
+- Admin can manage content and verify/export donations/leads
+- QR codes are distinct and consistently scannable
+- All forms validate and store data; images optimized/upload correctly
+- No critical launch bugs; user-friendly errors everywhere
+- Accessibility and usability standards fully met
+- Documentation complete and admin team trained
+
+***
