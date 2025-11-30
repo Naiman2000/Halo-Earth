@@ -1,0 +1,112 @@
+<div class="volunteer-page ocean-bg">
+    <div class="container-fluid px-4">
+        <div class="row g-4 align-items-center">
+            <!-- Left Side: Content -->
+            <div class="col-lg-6">
+                <div class="volunteer-content text-overlay">
+                    <h1 class="volunteer-title">Become a Reef Guardian</h1>
+                    <p class="volunteer-description">
+                        Join a passionate community dedicated to making a difference. As a volunteer, you can 
+                        participate in local cleanup events, help in our coral nurseries, or contribute your skills 
+                        remotely. Your time and talent are invaluable to our cause.
+                    </p>
+                    <!-- Volunteer Image Placeholder -->
+                    <div class="volunteer-image">
+                        <img 
+                            src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop" 
+                            alt="Volunteers working together for coral conservation"
+                            class="img-fluid rounded"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Form -->
+            <div class="col-lg-6">
+                <div class="glass-card volunteer-form-card">
+                    <h2 class="form-title">Volunteer Sign-up</h2>
+                    <p class="form-subtitle">Fill out the form below to get started.</p>
+
+                    <form [formGroup]="volunteerForm" (ngSubmit)="onSubmit()" class="volunteer-form">
+                        <!-- Full Name -->
+                        <div class="form-group mb-3">
+                            <label for="fullName" class="form-label">Full Name</label>
+                            <input 
+                                type="text" 
+                                id="fullName"
+                                formControlName="fullName"
+                                class="form-control input-mycoral"
+                                placeholder="Alex Reefsaver"
+                                [class.is-invalid]="volunteerForm.get('fullName')?.invalid && volunteerForm.get('fullName')?.touched"
+                            />
+                            <div class="invalid-feedback" *ngIf="volunteerForm.get('fullName')?.invalid && volunteerForm.get('fullName')?.touched">
+                                Please enter your full name
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input 
+                                type="email" 
+                                id="email"
+                                formControlName="email"
+                                class="form-control input-mycoral"
+                                placeholder="alex@oceanlover.com"
+                                [class.is-invalid]="volunteerForm.get('email')?.invalid && volunteerForm.get('email')?.touched"
+                            />
+                            <div class="invalid-feedback" *ngIf="volunteerForm.get('email')?.invalid && volunteerForm.get('email')?.touched">
+                                Please enter a valid email address
+                            </div>
+                        </div>
+
+                        <!-- Interests -->
+                        <div class="form-group mb-4">
+                            <label for="interests" class="form-label">Your Interests (optional)</label>
+                            <textarea 
+                                id="interests"
+                                formControlName="interests"
+                                class="form-control input-mycoral"
+                                rows="4"
+                                placeholder="e.g., Scuba diving, graphic design, event planning..."
+                            ></textarea>
+                        </div>
+
+                        <!-- Error Message -->
+                        <div class="alert alert-danger" *ngIf="errorMessage" role="alert">
+                            {{ errorMessage }}
+                        </div>
+
+                        <!-- Success Message -->
+                        <div class="alert alert-success" *ngIf="isSuccess" role="alert">
+                            Thank you for signing up! We'll be in touch soon.
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button 
+                            type="submit" 
+                            class="btn btn-mycoral w-100 volunteer-submit-btn"
+                            [disabled]="isSubmitting"
+                        >
+                            <i class="bi bi-people-fill me-2"></i>
+                            <span *ngIf="!isSubmitting">Sign Up to Volunteer</span>
+                            <span *ngIf="isSubmitting">
+                                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                Submitting...
+                            </span>
+                        </button>
+
+                        <!-- Footer Text -->
+                        <p class="form-footer">
+                            Questions? Email us at 
+                            <a href="mailto:volunteer@coralconservation.org" class="email-link">
+                                volunteer@coralconservation.org
+                            </a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

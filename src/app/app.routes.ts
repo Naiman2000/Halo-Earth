@@ -13,6 +13,8 @@ import { ThankYou } from './pages/public/donation/thank-you/thank-you';
 import { InterestForm } from './pages/public/forms/interest-form/interest-form';
 import { ContactForm } from './pages/public/forms/contact-form/contact-form';
 import { AboutUs } from './pages/public/static/about-us/about-us';
+import { Newsletter } from './pages/public/newsletter/newsletter';
+import { Volunteer } from './pages/public/volunteer/volunteer';
 import { Faq } from './pages/public/static/faq/faq';
 import { Gallery } from './pages/public/static/gallery/gallery';
 
@@ -64,6 +66,8 @@ export const routes: Routes = [
             { path: 'interest', component: InterestForm },
             { path: 'contact', component: ContactForm },
             { path: 'about', component: AboutUs },
+            { path: 'newsletter', component: Newsletter },
+            { path: 'volunteer', component: Volunteer },
             { path: 'faq', component: Faq },
             { path: 'gallery', component: Gallery }
         ]

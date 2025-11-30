@@ -1,27 +1,86 @@
-<footer class="bg-dark text-light py-3 mt-auto">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-4 mb-2 mb-md-0">
-                <h6 class="mb-1">Halo Earth</h6>
-                <small class="text-muted">Dedicated to coral conservation</small>
+<footer class="mycoral-footer">
+    <div class="container-fluid px-4">
+        <div class="row g-4">
+            <!-- Brand Section -->
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-brand">
+                    <div class="brand-wrapper">
+                        <i class="bi bi-flower1 footer-logo-icon"></i>
+                        <div class="brand-text">
+                            <span class="brand-name">MyCoral</span>
+                            <span class="brand-tagline">MARINE YOUTH</span>
+                        </div>
+                    </div>
+                    <p class="footer-description">
+                        Dedicated to protecting and restoring coral reefs around the world through conservation, 
+                        education, and community engagement.
+                    </p>
+                </div>
             </div>
-            <div class="col-md-4 mb-2 mb-md-0">
-                <ul class="list-unstyled mb-0 d-flex flex-wrap gap-3 justify-content-center">
-                    <li><a routerLink="/" class="text-light text-decoration-none small">Home</a></li>
-                    <li><a routerLink="/partners" class="text-light text-decoration-none small">Partners</a></li>
-                    <li><a routerLink="/corals" class="text-light text-decoration-none small">Corals</a></li>
-                    <li><a routerLink="/about" class="text-light text-decoration-none small">About</a></li>
-                    <li><a routerLink="/contact" class="text-light text-decoration-none small">Contact</a></li>
+
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-6">
+                <h5 class="footer-heading">Quick Links</h5>
+                <ul class="footer-links">
+                    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">My Coral Sites</a></li>
+                    <li><a routerLink="/about" routerLinkActive="active">About Us</a></li>
+                    <li><a routerLink="/newsletter" routerLinkActive="active">Newsletter</a></li>
+                    <li><a routerLink="/volunteer" routerLinkActive="active">Be a Volunteer</a></li>
+                    <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
                 </ul>
             </div>
-            <div class="col-md-4 text-md-end">
-                <div class="d-flex gap-3 justify-content-md-end justify-content-center mb-2">
-                    <a href="#" class="text-light"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="text-light"><i class="bi bi-twitter"></i></a>
-                    <a href="#" class="text-light"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="text-light"><i class="bi bi-linkedin"></i></a>
+
+            <!-- Resources -->
+            <div class="col-lg-2 col-md-6">
+                <h5 class="footer-heading">Resources</h5>
+                <ul class="footer-links">
+                    <li><a routerLink="/corals" routerLinkActive="active">Coral Species</a></li>
+                    <li><a routerLink="/blog" routerLinkActive="active">Blog</a></li>
+                    <li><a routerLink="/gallery" routerLinkActive="active">Gallery</a></li>
+                    <li><a routerLink="/faq" routerLinkActive="active">FAQ</a></li>
+                    <li><a routerLink="/partners" routerLinkActive="active">Partners</a></li>
+                </ul>
+            </div>
+
+            <!-- Newsletter & Social -->
+            <div class="col-lg-4 col-md-6">
+                <h5 class="footer-heading">Stay Connected</h5>
+                <p class="footer-description-small">Subscribe to our newsletter for the latest updates.</p>
+                <a routerLink="/newsletter" class="btn btn-mycoral-outline mb-3 w-100">
+                    Subscribe to Newsletter
+                </a>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Facebook">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <i class="bi bi-twitter-x"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
                 </div>
-                <small class="text-muted">&copy; {{ currentYear }} Halo Earth</small>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="footer-bottom">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="copyright-text">
+                        &copy; {{ currentYear }} MyCoral - Marine Youth. All rights reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="footer-bottom-links">
+                        <a routerLink="/contact">Privacy Policy</a>
+                        <span class="separator">|</span>
+                        <a routerLink="/contact">Terms of Service</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -1,0 +1,200 @@
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 500px;
+    z-index: 1;
+}
+
+.login-card {
+    width: 100%;
+    padding: 3rem;
+}
+
+.login-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--mycoral-text);
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.login-subtitle {
+    font-size: 1rem;
+    color: var(--mycoral-text-muted);
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.login-form {
+    .form-label {
+        color: var(--mycoral-text);
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .input-wrapper {
+        position: relative;
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.125rem;
+            z-index: 1;
+        }
+
+        .input-mycoral {
+            padding-left: 3rem;
+            padding-right: 3rem;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            font-size: 1.125rem;
+            padding: 0.25rem;
+            transition: color 0.3s ease;
+            z-index: 1;
+
+            &:hover {
+                color: var(--mycoral-text);
+            }
+        }
+    }
+}
+
+.form-options {
+    .form-check {
+        .form-check-input {
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            
+            &:checked {
+                background-color: var(--mycoral-primary);
+                border-color: var(--mycoral-primary);
+            }
+        }
+
+        .form-check-label {
+            color: var(--mycoral-text);
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+    }
+
+    .forgot-password-link {
+        background: none;
+        border: none;
+        color: var(--mycoral-primary);
+        font-size: 0.875rem;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+            color: var(--mycoral-text);
+            text-decoration: underline;
+        }
+    }
+}
+
+.login-submit-btn {
+    padding: 0.875rem;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.login-divider {
+    text-align: center;
+    color: var(--mycoral-text-muted);
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+
+    .register-link {
+        color: var(--mycoral-primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+
+        &:hover {
+            color: var(--mycoral-text);
+            text-decoration: underline;
+        }
+    }
+}
+
+.back-home-link {
+    text-align: center;
+
+    .back-link {
+        color: var(--mycoral-text-muted);
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+
+        &:hover {
+            color: var(--mycoral-text);
+            transform: translateX(-3px);
+        }
+    }
+}
+
+.alert {
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 1rem;
+}
+
+.alert-danger {
+    background: rgba(220, 53, 69, 0.2);
+    color: #ffcccb;
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .login-page {
+        padding: 1rem;
+    }
+
+    .login-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .login-title {
+        font-size: 2rem;
+    }
+
+    .login-subtitle {
+        font-size: 0.9375rem;
+    }
+
+    .form-options {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 1rem;
+    }
+}
+

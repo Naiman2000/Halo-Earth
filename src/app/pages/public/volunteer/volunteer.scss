@@ -1,0 +1,158 @@
+.volunteer-page {
+    min-height: 100vh;
+    padding-top: 120px;
+    padding-bottom: 4rem;
+    position: relative;
+}
+
+.volunteer-content {
+    padding: 2rem 0;
+}
+
+.volunteer-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--mycoral-text);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.volunteer-description {
+    font-size: 1.125rem;
+    color: var(--mycoral-text-muted);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.volunteer-image {
+    margin-top: 2rem;
+    
+    img {
+        width: 100%;
+        height: auto;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        object-fit: cover;
+    }
+}
+
+.volunteer-form-card {
+    max-width: 100%;
+}
+
+.form-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--mycoral-text);
+    margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+    font-size: 1rem;
+    color: var(--mycoral-text-muted);
+    margin-bottom: 2rem;
+}
+
+.volunteer-form {
+    .form-label {
+        color: var(--mycoral-text);
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    textarea.input-mycoral {
+        resize: vertical;
+        min-height: 120px;
+    }
+}
+
+.volunteer-submit-btn {
+    padding: 1rem;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    
+    i {
+        font-size: 1.125rem;
+    }
+}
+
+.form-footer {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--mycoral-text-muted);
+    margin: 0;
+    
+    .email-link {
+        color: #87CEEB; // Bright light blue/cyan that stands out
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        
+        &:hover {
+            color: #ffffff; // White on hover for better visibility
+            text-decoration: underline;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+    }
+}
+
+.alert {
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 1rem;
+}
+
+.alert-danger {
+    background: rgba(220, 53, 69, 0.2);
+    color: #ffcccb;
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.alert-success {
+    background: rgba(40, 167, 69, 0.2);
+    color: #90ee90;
+    border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+// Responsive Design
+@media (max-width: 991px) {
+    .volunteer-page {
+        padding-top: 100px;
+    }
+
+    .volunteer-content {
+        padding: 1rem 0 2rem;
+    }
+
+    .volunteer-title {
+        font-size: 2.5rem;
+        text-align: center;
+    }
+
+    .volunteer-description {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .volunteer-image {
+        margin-bottom: 2rem;
+    }
+
+    .form-title {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .volunteer-title {
+        font-size: 2rem;
+    }
+
+    .volunteer-description {
+        font-size: 0.9375rem;
+    }
+}
+

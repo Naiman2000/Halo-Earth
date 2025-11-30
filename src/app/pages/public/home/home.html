@@ -1,1 +1,42 @@
-<p>home works!</p>
+<div class="home-page ocean-bg">
+    <div class="container-fluid px-4">
+        <!-- Hero Section -->
+        <section class="hero-section text-overlay">
+            <h1 class="hero-title">My Coral Sites</h1>
+            <p class="hero-subtitle">
+                Explore our global network of coral conservation stations. Each site represents our commitment 
+                to protecting and restoring reef ecosystems around the world.
+            </p>
+        </section>
+
+        <!-- Global Conservation Network Section -->
+        <section class="conservation-network-section">
+            <h2 class="section-title">Global Conservation Network</h2>
+            
+            <!-- Map Container with Glassmorphism -->
+            <div class="map-container glass-card">
+                <div id="conservation-map" class="conservation-map"></div>
+                
+                <!-- Legend -->
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot active-station"></div>
+                        <span>Active Station</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot expanding-station"></div>
+                        <span>Expanding Station</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div *ngIf="isLoading" class="loading-state text-overlay">
+                <div class="spinner-border text-light" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p>Loading conservation sites...</p>
+            </div>
+        </section>
+    </div>
+</div>

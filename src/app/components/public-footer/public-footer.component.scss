@@ -1,6 +1,200 @@
-footer {
-    a:hover {
-        text-decoration: underline !important;
-        color: var(--bs-primary) !important;
+.mycoral-footer {
+    background: #f5f5f5; // Light gray background
+    padding: 3rem 0 1.5rem;
+    margin-top: auto;
+    position: relative;
+    
+    // Thin blue horizontal strip at the top
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: #5BC0DE; // Light blue strip
     }
 }
+
+.footer-brand {
+    .brand-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .footer-logo-icon {
+        font-size: 2rem;
+        color: #5BC0DE; // Light blue icon
+    }
+
+    .brand-text {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .brand-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #808080; // Light gray text
+        line-height: 1.2;
+    }
+
+    .brand-tagline {
+        font-size: 0.65rem;
+        font-weight: 400;
+        color: #808080; // Light gray text
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+}
+
+.footer-description {
+    color: #808080; // Light gray text
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.footer-description-small {
+    color: #808080; // Light gray text
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.footer-heading {
+    color: #555555; // Dark gray for headings
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+        margin-bottom: 0.75rem;
+
+        a {
+            color: #808080; // Light gray text
+            text-decoration: none;
+            font-size: 0.9375rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+
+            &:hover {
+                color: #5BC0DE; // Light blue on hover
+                transform: translateX(3px);
+            }
+
+            &.active {
+                color: #5BC0DE; // Light blue for active links
+            }
+        }
+    }
+}
+
+.btn-mycoral-outline {
+    background: #f5f5f5; // Light gray background
+    color: #808080; // Light gray text
+    border: 2px solid #5BC0DE; // Light blue border
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.875rem;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+
+    &:hover {
+        background: #5BC0DE; // Light blue background on hover
+        color: #ffffff; // White text on hover
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(91, 192, 222, 0.4);
+    }
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e0e0e0; // Light gray background
+    border: 1px solid #5BC0DE; // Light blue border
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff; // White icons
+    font-size: 1.125rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: #5BC0DE; // Light blue background on hover
+        border-color: #5BC0DE;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(91, 192, 222, 0.4);
+        color: #ffffff;
+    }
+}
+
+.footer-bottom {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #d0d0d0; // Light gray border
+}
+
+.copyright-text {
+    color: #808080; // Light gray text
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.footer-bottom-links {
+    a {
+        color: #808080; // Light gray text
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+
+        &:hover {
+            color: #5BC0DE; // Light blue on hover
+        }
+    }
+
+    .separator {
+        color: #808080; // Light gray separator
+        margin: 0 0.5rem;
+    }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .mycoral-footer {
+        padding: 2rem 0 1rem;
+    }
+
+    .footer-heading {
+        font-size: 1rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .footer-bottom-links {
+        margin-top: 1rem;
+        text-align: center !important;
+    }
+}
+
