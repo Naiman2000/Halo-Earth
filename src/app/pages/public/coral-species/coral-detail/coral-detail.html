@@ -1,1 +1,230 @@
-<p>coral-detail works!</p>
+<div class="coral-detail-page ocean-bg">
+    <!-- Full-screen Background Image -->
+    <div class="fullscreen-bg">
+        <img src="/assets/background2.png" alt="Coral reef background" />
+    </div>
+    
+    <!-- Cyan Gradient Overlay -->
+    <div class="gradient-overlay gradient-overlay-cyan"></div>
+    
+    <div class="container-fluid px-6 pt-32 pb-16 content-wrapper text-overlay">
+        <div class="max-w-7xl mx-auto">
+            <!-- Back Button -->
+            <div class="mb-6">
+                <a routerLink="/corals" class="back-button">
+                    <i class="bi bi-arrow-left me-2"></i>
+                    Back to Coral List
+                </a>
+            </div>
+
+            <!-- Loading State -->
+            <div *ngIf="isLoading" class="loading-state text-overlay text-center">
+                <div class="spinner-border text-light" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3 text-white-90">Loading coral details...</p>
+            </div>
+
+            <!-- Coral Detail Content -->
+            <div *ngIf="!isLoading && coral" class="row g-6">
+                <!-- Left Column: Coral Information -->
+                <div class="col-lg-6">
+                    <div class="glass-card">
+                        <!-- Coral Image -->
+                        <div class="coral-image-large mb-6">
+                            <img 
+                                [src]="coral.imageUrl || '/assets/examplepic1.png'" 
+                                [alt]="coral.commonName"
+                                class="coral-detail-image"
+                                (error)="$event.target.src='/assets/examplepic1.png'">
+                        </div>
+
+                        <!-- Coral Information -->
+                        <div class="coral-info-detail">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h1 class="text-white text-5xl mb-0">{{ coral.commonName }}</h1>
+                                <span class="status-badge" [ngClass]="getStatusClass(coral.conservationStatus)">
+                                    {{ coral.conservationStatus }}
+                                </span>
+                            </div>
+
+                            <p class="text-white-90 text-lg mb-4 italic">
+                                <i class="bi bi-flower1 me-2"></i>
+                                <em>{{ coral.scientificName }}</em>
+                            </p>
+
+                            <div class="coral-description">
+                                <h3 class="text-white text-2xl mb-3">About This Coral</h3>
+                                <p class="text-white-90 leading-relaxed">
+                                    {{ coral.description }}
+                                </p>
+                            </div>
+
+                            <div class="conservation-info mt-6">
+                                <h3 class="text-white text-2xl mb-3">Conservation Status</h3>
+                                <p class="text-white-90">
+                                    This coral species is currently classified as 
+                                    <strong class="text-white">{{ coral.conservationStatus }}</strong>. 
+                                    Your adoption helps fund research, restoration, and protection efforts 
+                                    for this important marine species.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Adoption Form -->
+                <div class="col-lg-6">
+                    <div class="glass-card">
+                        <h2 class="text-white text-4xl mb-2 text-center">Adopt This Coral</h2>
+                        <p class="text-white-90 text-center mb-6">
+                            Support the conservation of {{ coral.commonName }} through adoption
+                        </p>
+
+                        <form [formGroup]="adoptionForm" (ngSubmit)="onSubmit()">
+                            <!-- Amount Selection -->
+                            <div class="mb-6">
+                                <label class="form-label text-white mb-4 d-block">
+                                    <i class="bi bi-currency-dollar me-2"></i>
+                                    Adoption Amount (RM)
+                                </label>
+                                
+                                <!-- Preset Amount Buttons -->
+                                <div class="d-flex flex-wrap gap-3 mb-4">
+                                    <button
+                                        type="button"
+                                        *ngFor="let amount of presetAmounts"
+                                        class="amount-btn"
+                                        [class.active]="selectedAmount === amount"
+                                        (click)="selectPresetAmount(amount)">
+                                        RM {{ amount }}
+                                    </button>
+                                </div>
+
+                                <!-- Custom Amount Input -->
+                                <div class="custom-amount-wrapper">
+                                    <input
+                                        type="number"
+                                        formControlName="amount"
+                                        class="form-control input-mycoral"
+                                        placeholder="Enter custom amount (min RM 10)"
+                                        min="10"
+                                        step="1"
+                                        (input)="onCustomAmountChange()">
+                                    <div class="invalid-feedback d-block" *ngIf="amountControl?.invalid && amountControl?.touched">
+                                        <span *ngIf="amountControl?.errors?.['required']">Amount is required</span>
+                                        <span *ngIf="amountControl?.errors?.['min']">Minimum amount is RM 10</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Adopter Information -->
+                            <div class="row g-4 mb-6">
+                                <div class="col-md-6">
+                                    <label class="form-label text-white mb-2 d-block">
+                                        <i class="bi bi-person me-2"></i>
+                                        Your Name <span class="text-danger">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        formControlName="adopterName"
+                                        class="form-control input-mycoral"
+                                        placeholder="Enter your name">
+                                    <div class="invalid-feedback d-block" *ngIf="adopterNameControl?.invalid && adopterNameControl?.touched">
+                                        <span *ngIf="adopterNameControl?.errors?.['required']">Name is required</span>
+                                        <span *ngIf="adopterNameControl?.errors?.['minlength']">Name must be at least 2 characters</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label text-white mb-2 d-block">
+                                        <i class="bi bi-envelope me-2"></i>
+                                        Email Address <span class="text-danger">*</span>
+                                    </label>
+                                    <input
+                                        type="email"
+                                        formControlName="adopterEmail"
+                                        class="form-control input-mycoral"
+                                        placeholder="your.email@example.com">
+                                    <div class="invalid-feedback d-block" *ngIf="adopterEmailControl?.invalid && adopterEmailControl?.touched">
+                                        <span *ngIf="adopterEmailControl?.errors?.['required']">Email is required</span>
+                                        <span *ngIf="adopterEmailControl?.errors?.['email']">Please enter a valid email</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Optional Dedication Message -->
+                            <div class="mb-6">
+                                <label class="form-label text-white mb-2 d-block">
+                                    <i class="bi bi-heart me-2"></i>
+                                    Dedication Message (Optional)
+                                </label>
+                                <textarea
+                                    formControlName="dedicationMessage"
+                                    class="form-control input-mycoral"
+                                    rows="4"
+                                    placeholder="Leave a dedication message for your adopted coral..."></textarea>
+                            </div>
+
+                            <!-- QR Code Section -->
+                            <div class="qr-section mb-6" *ngIf="qrCodeValue">
+                                <div class="text-center mb-4">
+                                    <h3 class="text-white text-xl mb-2">Bank Transfer Details</h3>
+                                    <p class="text-white-90 text-sm mb-4">
+                                        Scan the QR code or use the details below to complete your adoption
+                                    </p>
+                                </div>
+                                
+                                <div class="row g-4">
+                                    <div class="col-md-6 d-flex flex-column align-items-center">
+                                        <div class="qr-code-container glass-card-sm mb-3">
+                                            <qrcode [qrdata]="qrCodeValue" [width]="180" [errorCorrectionLevel]="'M'"></qrcode>
+                                        </div>
+                                        <p class="text-white-90 text-xs text-center">
+                                            Scan with your banking app
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="transfer-details glass-card-sm p-4">
+                                            <div class="mb-3">
+                                                <strong class="text-white d-block mb-1">Reference Number:</strong>
+                                                <code class="text-white bg-white-30 px-3 py-2 rounded d-inline-block">
+                                                    {{ referenceNumber }}
+                                                </code>
+                                            </div>
+                                            <div class="mb-2">
+                                                <strong class="text-white-90 d-block mb-1">Amount:</strong>
+                                                <span class="text-white">RM {{ adoptionForm.get('amount')?.value }}</span>
+                                            </div>
+                                            <div class="text-white-90 text-sm">
+                                                <p class="mb-1">Please include the reference number when making the transfer.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="text-center">
+                                <button
+                                    type="submit"
+                                    class="glass-button px-10 py-3"
+                                    [disabled]="adoptionForm.invalid || isSubmitting">
+                                    <span *ngIf="!isSubmitting">
+                                        <i class="bi bi-heart-fill me-2"></i>
+                                        Complete Adoption
+                                    </span>
+                                    <span *ngIf="isSubmitting">
+                                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                        Processing...
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,236 @@
+.thank-you-page {
+    position: relative;
+    min-height: 100vh;
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+    display: flex;
+    align-items: center;
+}
+
+.max-w-3xl {
+    max-width: 48rem;
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+    margin-bottom: 0.75rem;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.mb-6 {
+    margin-bottom: 1.5rem;
+}
+
+.mb-8 {
+    margin-bottom: 2rem;
+}
+
+.pb-16 {
+    padding-bottom: 4rem;
+}
+
+.pt-32 {
+    padding-top: 8rem;
+}
+
+.px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.text-white {
+    color: var(--mycoral-text);
+}
+
+.text-white-90 {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.text-xl {
+    font-size: 1.25rem;
+}
+
+.text-2xl {
+    font-size: 1.5rem;
+}
+
+.text-6xl {
+    font-size: 4rem;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.leading-relaxed {
+    line-height: 1.625;
+}
+
+.max-w-2xl {
+    max-width: 42rem;
+}
+
+.gap-3 {
+    gap: 0.75rem;
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
+// Success Icon
+.success-icon {
+    display: flex;
+    justify-content: center;
+}
+
+.icon-circle-large {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cyan-600), var(--blue-600));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 4rem;
+    box-shadow: 0 8px 32px rgba(8, 145, 178, 0.4);
+    animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+// Reference Section
+.reference-section {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--white-30);
+}
+
+.reference-number {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: var(--white-30);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--white-40);
+    border-radius: var(--radius-2xl);
+    margin: 1rem 0;
+}
+
+.reference-number code {
+    font-family: 'Courier New', monospace;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--mycoral-text);
+}
+
+// Next Steps
+.next-steps {
+    padding: 2rem 0;
+}
+
+.step-item {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--white-20);
+    height: 100%;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-4px);
+    }
+}
+
+.step-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--white-30);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--mycoral-text);
+}
+
+// Glass Button
+.glass-button {
+    background: var(--white-30);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--white-40);
+    color: var(--mycoral-text);
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    
+    &:hover {
+        background: var(--white-40);
+        transform: translateY(-1px);
+        color: var(--mycoral-text);
+        text-decoration: none;
+    }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .thank-you-page {
+        padding-top: 6rem;
+        padding-bottom: 2rem;
+    }
+
+    .text-6xl {
+        font-size: 2.5rem;
+    }
+
+    .icon-circle-large {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+    }
+
+    .reference-number code {
+        font-size: 1rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        
+        .glass-button {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+}
+

@@ -1,1 +1,170 @@
-<p>donation-form works!</p>
+<div class="donation-page ocean-bg">
+    <!-- Full-screen Background Image -->
+    <div class="fullscreen-bg">
+        <img src="/assets/background2.png" alt="Coral reef background" />
+    </div>
+    
+    <!-- Cyan Gradient Overlay -->
+    <div class="gradient-overlay gradient-overlay-cyan"></div>
+    
+    <div class="container-fluid px-6 pt-32 pb-16 content-wrapper text-overlay">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-white text-7xl md-text-8xl mb-4">
+                    Support Our Mission
+                </h1>
+                <p class="text-white-90 text-xl max-w-2xl mx-auto leading-relaxed">
+                    Your donation helps us protect and restore coral reefs around the world. 
+                    Every contribution makes a difference.
+                </p>
+            </div>
+
+            <!-- Donation Form Card -->
+            <div class="glass-card">
+                <form [formGroup]="donationForm" (ngSubmit)="onSubmit()">
+                    <!-- Amount Selection -->
+                    <div class="mb-6">
+                        <label class="form-label text-white mb-4 d-block">
+                            <i class="bi bi-currency-dollar me-2"></i>
+                            Donation Amount (RM)
+                        </label>
+                        
+                        <!-- Preset Amount Buttons -->
+                        <div class="d-flex flex-wrap gap-3 mb-4">
+                            <button
+                                type="button"
+                                *ngFor="let amount of presetAmounts"
+                                class="amount-btn"
+                                [class.active]="selectedAmount === amount"
+                                (click)="selectPresetAmount(amount)">
+                                RM {{ amount }}
+                            </button>
+                        </div>
+
+                        <!-- Custom Amount Input -->
+                        <div class="custom-amount-wrapper">
+                            <input
+                                type="number"
+                                formControlName="amount"
+                                class="form-control input-mycoral"
+                                placeholder="Enter custom amount (min RM 10)"
+                                min="10"
+                                step="1"
+                                (input)="onCustomAmountChange()">
+                            <div class="invalid-feedback d-block" *ngIf="amountControl?.invalid && amountControl?.touched">
+                                <span *ngIf="amountControl?.errors?.['required']">Amount is required</span>
+                                <span *ngIf="amountControl?.errors?.['min']">Minimum amount is RM 10</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Donor Information -->
+                    <div class="row g-4 mb-6">
+                        <div class="col-md-6">
+                            <label class="form-label text-white mb-2 d-block">
+                                <i class="bi bi-person me-2"></i>
+                                Your Name <span class="text-danger">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                formControlName="donorName"
+                                class="form-control input-mycoral"
+                                placeholder="Enter your name">
+                            <div class="invalid-feedback d-block" *ngIf="donorNameControl?.invalid && donorNameControl?.touched">
+                                <span *ngIf="donorNameControl?.errors?.['required']">Name is required</span>
+                                <span *ngIf="donorNameControl?.errors?.['minlength']">Name must be at least 2 characters</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label text-white mb-2 d-block">
+                                <i class="bi bi-envelope me-2"></i>
+                                Email Address <span class="text-danger">*</span>
+                            </label>
+                            <input
+                                type="email"
+                                formControlName="donorEmail"
+                                class="form-control input-mycoral"
+                                placeholder="your.email@example.com">
+                            <div class="invalid-feedback d-block" *ngIf="donorEmailControl?.invalid && donorEmailControl?.touched">
+                                <span *ngIf="donorEmailControl?.errors?.['required']">Email is required</span>
+                                <span *ngIf="donorEmailControl?.errors?.['email']">Please enter a valid email</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Optional Message -->
+                    <div class="mb-6">
+                        <label class="form-label text-white mb-2 d-block">
+                            <i class="bi bi-chat-left-text me-2"></i>
+                            Message (Optional)
+                        </label>
+                        <textarea
+                            formControlName="message"
+                            class="form-control input-mycoral"
+                            rows="4"
+                            placeholder="Leave a message with your donation..."></textarea>
+                    </div>
+
+                    <!-- QR Code Section -->
+                    <div class="qr-section mb-6" *ngIf="qrCodeValue">
+                        <div class="text-center mb-4">
+                            <h3 class="text-white text-2xl mb-2">Bank Transfer Details</h3>
+                            <p class="text-white-90 text-sm mb-4">
+                                Scan the QR code or use the details below to complete your donation
+                            </p>
+                        </div>
+                        
+                        <div class="row g-4">
+                            <div class="col-md-6 d-flex flex-column align-items-center">
+                                <div class="qr-code-container glass-card-sm mb-3">
+                                    <qrcode [qrdata]="qrCodeValue" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+                                </div>
+                                <p class="text-white-90 text-xs text-center">
+                                    Scan with your banking app
+                                </p>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="transfer-details glass-card-sm p-4">
+                                    <div class="mb-3">
+                                        <strong class="text-white d-block mb-1">Reference Number:</strong>
+                                        <code class="text-white bg-white-30 px-3 py-2 rounded d-inline-block">
+                                            {{ referenceNumber }}
+                                        </code>
+                                    </div>
+                                    <div class="mb-2">
+                                        <strong class="text-white-90 d-block mb-1">Amount:</strong>
+                                        <span class="text-white">RM {{ donationForm.get('amount')?.value }}</span>
+                                    </div>
+                                    <div class="text-white-90 text-sm">
+                                        <p class="mb-1">Please include the reference number when making the transfer.</p>
+                                        <p class="mb-0">Your donation will be processed once we receive the payment.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button
+                            type="submit"
+                            class="glass-button px-10 py-3"
+                            [disabled]="donationForm.invalid || isSubmitting">
+                            <span *ngIf="!isSubmitting">
+                                <i class="bi bi-heart-fill me-2"></i>
+                                Submit Donation
+                            </span>
+                            <span *ngIf="isSubmitting">
+                                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                Processing...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

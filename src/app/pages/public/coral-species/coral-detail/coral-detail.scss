@@ -1,0 +1,363 @@
+.coral-detail-page {
+    position: relative;
+    min-height: 100vh;
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+}
+
+.max-w-7xl {
+    max-width: 80rem;
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+    margin-bottom: 0.75rem;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.mb-6 {
+    margin-bottom: 1.5rem;
+}
+
+.pb-16 {
+    padding-bottom: 4rem;
+}
+
+.pt-32 {
+    padding-top: 8rem;
+}
+
+.px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.px-10 {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
+
+.py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.text-white {
+    color: var(--mycoral-text);
+}
+
+.text-white-90 {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.text-lg {
+    font-size: 1.125rem;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+}
+
+.text-2xl {
+    font-size: 1.5rem;
+}
+
+.text-4xl {
+    font-size: 2.25rem;
+}
+
+.text-5xl {
+    font-size: 3rem;
+    line-height: 1.2;
+}
+
+.leading-relaxed {
+    line-height: 1.625;
+}
+
+.gap-3 {
+    gap: 0.75rem;
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
+.gap-6 {
+    gap: 1.5rem;
+}
+
+// Back Button
+.back-button {
+    background: var(--white-30);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--white-40);
+    color: var(--mycoral-text);
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500;
+    
+    &:hover {
+        background: var(--white-40);
+        transform: translateY(-1px);
+        color: var(--mycoral-text);
+        text-decoration: none;
+    }
+}
+
+// Coral Image Large
+.coral-image-large {
+    width: 100%;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.coral-detail-image {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    display: block;
+}
+
+// Coral Info Detail
+.coral-info-detail {
+    padding: 0;
+}
+
+.italic {
+    font-style: italic;
+}
+
+// Status Badge
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    white-space: nowrap;
+}
+
+.status-least-concern {
+    background: rgba(34, 197, 94, 0.3);
+    color: white;
+}
+
+.status-near-threatened {
+    background: rgba(234, 179, 8, 0.3);
+    color: white;
+}
+
+.status-vulnerable {
+    background: rgba(251, 146, 60, 0.3);
+    color: white;
+}
+
+.status-endangered {
+    background: rgba(239, 68, 68, 0.3);
+    color: white;
+}
+
+.status-critically-endangered {
+    background: rgba(185, 28, 28, 0.4);
+    color: white;
+}
+
+.status-default {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+// Conservation Info
+.conservation-info {
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+// Amount Buttons
+.amount-btn {
+    background: var(--white-30);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--white-40);
+    color: var(--mycoral-text);
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--white-40);
+    
+    &:hover {
+        background: var(--white-40);
+        transform: translateY(-2px);
+    }
+    
+    &.active {
+        background: linear-gradient(to right, var(--cyan-600), var(--blue-600));
+        border-color: var(--cyan-600);
+        box-shadow: 0 4px 12px rgba(8, 145, 178, 0.3);
+    }
+}
+
+// Custom Amount Input
+.custom-amount-wrapper {
+    width: 100%;
+}
+
+// Form Label
+.form-label {
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+// QR Code Section
+.qr-section {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--white-30);
+}
+
+.qr-code-container {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: var(--radius-2xl);
+}
+
+.glass-card-sm {
+    background: var(--mycoral-glass-bg-30);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--mycoral-glass-border-40);
+    border-radius: var(--radius-2xl);
+}
+
+.transfer-details {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+}
+
+// Glass Button
+.glass-button {
+    background: var(--white-30);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--white-40);
+    color: var(--mycoral-text);
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid var(--white-40);
+    
+    &:hover:not(:disabled) {
+        background: var(--white-40);
+        transform: translateY(-1px);
+        color: var(--mycoral-text);
+    }
+    
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+// Invalid Feedback
+.invalid-feedback {
+    color: #ff6b6b;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+// Loading State
+.loading-state {
+    text-align: center;
+    padding: 3rem;
+    
+    p {
+        margin-top: 1rem;
+        color: var(--mycoral-text-muted);
+    }
+}
+
+// Responsive Design
+@media (max-width: 992px) {
+    .coral-detail-page {
+        padding-top: 6rem;
+        padding-bottom: 2rem;
+    }
+
+    .text-5xl {
+        font-size: 2.5rem;
+    }
+
+    .text-4xl {
+        font-size: 2rem;
+    }
+
+    .coral-detail-image {
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .text-5xl {
+        font-size: 2rem;
+    }
+
+    .text-4xl {
+        font-size: 1.75rem;
+    }
+
+    .amount-btn {
+        flex: 1;
+        min-width: calc(50% - 0.5rem);
+    }
+
+    .qr-section {
+        padding: 1rem;
+    }
+
+    .qr-code-container {
+        margin-bottom: 1rem;
+    }
+}
+

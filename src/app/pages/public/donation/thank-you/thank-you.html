@@ -1,1 +1,99 @@
-<p>thank-you works!</p>
+<div class="thank-you-page ocean-bg">
+    <!-- Full-screen Background Image -->
+    <div class="fullscreen-bg">
+        <img src="/assets/background3.png" alt="Coral reef background" />
+    </div>
+    
+    <!-- Cyan Gradient Overlay -->
+    <div class="gradient-overlay gradient-overlay-cyan"></div>
+    
+    <div class="container-fluid px-6 pt-32 pb-16 content-wrapper text-overlay">
+        <div class="max-w-3xl mx-auto">
+            <!-- Thank You Card -->
+            <div class="glass-card text-center">
+                <!-- Success Icon -->
+                <div class="success-icon mb-6">
+                    <div class="icon-circle-large">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                </div>
+
+                <!-- Thank You Message -->
+                <h1 class="text-white text-6xl mb-4">
+                    Thank You!
+                </h1>
+                <p class="text-white-90 text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
+                    Your generous donation helps us protect and restore coral reefs around the world. 
+                    We truly appreciate your support for our conservation mission.
+                </p>
+
+                <!-- Reference Number -->
+                <div class="reference-section mb-8" *ngIf="referenceNumber">
+                    <p class="text-white-90 mb-3">Your donation reference number:</p>
+                    <div class="reference-number">
+                        <code class="text-white">{{ referenceNumber }}</code>
+                    </div>
+                    <p class="text-white-90 text-sm mt-3">
+                        Please save this reference number for your records. You will receive a confirmation email shortly.
+                    </p>
+                </div>
+
+                <!-- Next Steps -->
+                <div class="next-steps mb-8">
+                    <h3 class="text-white text-2xl mb-4">What's Next?</h3>
+                    <div class="row g-4 text-start">
+                        <div class="col-md-4">
+                            <div class="step-item">
+                                <div class="step-icon mb-3">
+                                    <i class="bi bi-bank"></i>
+                                </div>
+                                <h4 class="text-white mb-2">Complete Payment</h4>
+                                <p class="text-white-90 text-sm">
+                                    Use the QR code or bank details from the previous page to complete your transfer.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="step-item">
+                                <div class="step-icon mb-3">
+                                    <i class="bi bi-envelope-check"></i>
+                                </div>
+                                <h4 class="text-white mb-2">Check Your Email</h4>
+                                <p class="text-white-90 text-sm">
+                                    You'll receive a confirmation email once we process your donation.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="step-item">
+                                <div class="step-icon mb-3">
+                                    <i class="bi bi-heart"></i>
+                                </div>
+                                <h4 class="text-white mb-2">Make an Impact</h4>
+                                <p class="text-white-90 text-sm">
+                                    Your contribution directly supports coral restoration and conservation efforts.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons d-flex flex-wrap gap-3 justify-content-center">
+                    <a routerLink="/" class="glass-button">
+                        <i class="bi bi-house me-2"></i>
+                        Back to Home
+                    </a>
+                    <a routerLink="/corals" class="glass-button">
+                        <i class="bi bi-heart me-2"></i>
+                        Adopt a Coral
+                    </a>
+                    <a routerLink="/blog" class="glass-button">
+                        <i class="bi bi-file-text me-2"></i>
+                        Read Our Blog
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
