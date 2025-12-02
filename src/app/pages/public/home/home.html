@@ -1,42 +1,100 @@
 <div class="home-page ocean-bg">
-    <div class="container-fluid px-4">
-        <!-- Hero Section -->
-        <section class="hero-section text-overlay">
-            <h1 class="hero-title">My Coral Sites</h1>
-            <p class="hero-subtitle">
-                Explore our global network of coral conservation stations. Each site represents our commitment 
-                to protecting and restoring reef ecosystems around the world.
-            </p>
-        </section>
+    <!-- Full-screen Background Image -->
+    <div class="fullscreen-bg">
+        <img src="/assets/background3.png" alt="Coral reef background" />
+    </div>
+    
+    <!-- Cyan Gradient Overlay -->
+    <div class="gradient-overlay gradient-overlay-cyan"></div>
+    
+    <div class="container-fluid px-6 pt-32 pb-16 content-wrapper text-overlay">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-16">
+                <h1 class="text-white text-7xl md-text-8xl mb-6">
+                    My Coral Sites
+                </h1>
+                <p class="text-white text-xl max-w-3xl mx-auto leading-relaxed">
+                    Explore our global network of coral conservation stations. Each site represents 
+                    our commitment to protecting and restoring reef ecosystems around the world.
+                </p>
+            </div>
 
-        <!-- Global Conservation Network Section -->
-        <section class="conservation-network-section">
-            <h2 class="section-title">Global Conservation Network</h2>
-            
-            <!-- Map Container with Glassmorphism -->
-            <div class="map-container glass-card">
-                <div id="conservation-map" class="conservation-map"></div>
+            <!-- Interactive Map Section -->
+            <div class="glass-card mb-12">
+                <h2 class="text-white text-3xl mb-6 text-center">Our Conservation Site Location</h2>
                 
-                <!-- Legend -->
-                <div class="map-legend">
-                    <div class="legend-item">
-                        <div class="legend-dot active-station"></div>
-                        <span>Active Station</span>
+                <!-- Map View - Pulau Bidong, Terengganu -->
+                <div class="map-container-wrapper mb-8">
+                    <div id="conservation-map" class="conservation-map"></div>
+                </div>
+
+                <!-- Map Info -->
+                <div class="text-center mb-4">
+                    <p class="text-white text-sm">
+                        <i class="bi bi-geo-alt"></i>
+                        Pulau Bidong, Terengganu - 5.6217°N, 103.0544°E
+                    </p>
+                </div>
+
+                <!-- Map Legend -->
+                <div class="d-flex justify-content-center gap-4 text-sm">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="legend-dot-active"></div>
+                        <span class="text-white">Active Station</span>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-dot expanding-station"></div>
-                        <span>Expanding Station</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="legend-dot-expanding"></div>
+                        <span class="text-white">Expanding Station</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conservation Sites Grid -->
+            <div class="row g-4 mb-12" *ngIf="!isLoading && sites.length > 0">
+                <div class="col-md-6" *ngFor="let site of sites">
+                    <div class="glass-card site-card">
+                        <!-- Site Header -->
+                        <div class="d-flex align-items-start justify-content-between mb-4">
+                            <div>
+                                <div class="d-flex align-items-center gap-3 mb-2">
+                                    <i class="bi bi-geo-alt-fill text-white"></i>
+                                    <h3 class="text-white text-2xl mb-0">{{ site.name }}</h3>
+                                </div>
+                                <p class="text-white-90 ml-5">{{ site.description || 'Conservation station' }}</p>
+                            </div>
+                            <span class="status-badge" [ngClass]="site.status === 'active' ? 'status-active' : 'status-expanding'">
+                                {{ site.status === 'active' ? 'Active' : 'Expanding' }}
+                            </span>
+                        </div>
+
+                        <!-- Action Button -->
+                        <button class="w-100 py-3 glass-button-sm text-white rounded-xl">
+                            View Detailed Report
+                        </button>
                     </div>
                 </div>
             </div>
 
             <!-- Loading State -->
-            <div *ngIf="isLoading" class="loading-state text-overlay">
+            <div *ngIf="isLoading" class="loading-state text-overlay text-center">
                 <div class="spinner-border text-light" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
-                <p>Loading conservation sites...</p>
+                <p class="mt-3">Loading conservation sites...</p>
             </div>
-        </section>
+
+            <!-- Call to Action -->
+            <div class="cta-section glass-card text-center">
+                <h2 class="text-white text-3xl mb-4">Want to Support a Station?</h2>
+                <p class="text-white-90 text-lg mb-6 max-w-2xl mx-auto">
+                    Your contribution directly supports coral restoration efforts at these sites. 
+                    Adopt a coral today and help us expand our conservation network.
+                </p>
+                <a routerLink="/corals" class="btn btn-light text-cyan-600 fw-bold rounded-full px-5 py-3">
+                    Adopt a Coral Now
+                </a>
+            </div>
+        </div>
     </div>
 </div>

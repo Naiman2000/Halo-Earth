@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { PublicLayout } from './layouts/public-layout/public-layout';
 import { AdminLayout } from './layouts/admin-layout/admin-layout';
+import { Landing } from './pages/public/landing/landing';
 import { Home } from './pages/public/home/home';
 import { PartnerList } from './pages/public/partner-program/partner-list/partner-list';
 import { PartnerDetail } from './pages/public/partner-program/partner-detail/partner-detail';
@@ -54,7 +55,8 @@ export const routes: Routes = [
         path: '',
         component: PublicLayout,
         children: [
-            { path: '', component: Home },
+            { path: '', component: Landing },
+            { path: 'mycoral', component: Home },
             { path: 'partners', component: PartnerList },
             { path: 'partners/:id', component: PartnerDetail },
             { path: 'corals', component: CoralList },

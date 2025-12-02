@@ -1,0 +1,194 @@
+.landing-page {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.landing-content {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-content {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 2rem;
+}
+
+.max-w-4xl {
+    max-width: 56rem;
+}
+
+.hero-title {
+    color: var(--mycoral-text);
+    margin-bottom: 1rem;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.hero-subtitle {
+    color: var(--mycoral-text);
+    font-size: 1.25rem;
+    line-height: 1.75;
+    letter-spacing: 0.025em;
+}
+
+.tracking-wide {
+    letter-spacing: 0.025em;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.mb-16 {
+    margin-bottom: 4rem;
+}
+
+.pb-8 {
+    padding-bottom: 2rem;
+}
+
+.px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.px-10 {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
+
+.pt-32 {
+    padding-top: 8rem;
+}
+
+.action-buttons-row {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.gap-2 {
+    gap: 0.5rem;
+}
+
+.gap-3 {
+    gap: 0.75rem;
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
+/* Glass Button - Figma Specs */
+.glass-button {
+    background: var(--white-30);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--white-40);
+    color: var(--mycoral-text);
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    
+    &:hover {
+        background: var(--white-40);
+        transform: translateY(-1px);
+        color: var(--mycoral-text);
+        text-decoration: none;
+    }
+}
+
+/* Glass Icon Circle - Figma Specs */
+.glass-icon-circle {
+    width: 3rem;
+    height: 3rem;
+    background: var(--white-30);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--white-40);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mycoral-text);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    
+    i {
+        font-size: 1.25rem;
+    }
+    
+    &:hover {
+        background: var(--white-40);
+        transform: scale(1.05);
+        color: var(--mycoral-text);
+        text-decoration: none;
+    }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .hero-content {
+        padding-top: 1rem;
+    }
+
+    .hero-title {
+        font-size: 3rem !important;
+    }
+
+    .text-9xl-md {
+        font-size: 4rem !important;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+
+    .action-buttons-row {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 0 1rem;
+    }
+    
+    .action-buttons-row .container-fluid {
+        padding-bottom: 1rem !important;
+    }
+
+    .d-flex {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+
+    .glass-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .pt-32 {
+        padding-top: 6rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .text-9xl-md {
+        font-size: var(--text-9xl);
+    }
+}
+

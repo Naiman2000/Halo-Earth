@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ConservationSitesService, ConservationSite } from '../../../services/conservation-sites.service';
 import { Subscription } from 'rxjs';
 import * as L from 'leaflet';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -87,13 +88,25 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
       this.map.remove();
     }
 
-    // Create map centered on a default location (world view)
+    // Create map centered on Pulau Bidong, Terengganu
     this.map = L.map('conservation-map', {
-      center: [20, 0],
-      zoom: 2,
+      center: [5.6217, 103.0544], // Pulau Bidong, Terengganu
+      zoom: 13, // Zoom level 13 for showing the island
       zoomControl: true,
       attributionControl: true
     });
+    
+    // Add marker for Pulau Bidong
+    const pulauBidongMarker = L.marker([5.6217, 103.0544]).addTo(this.map);
+    pulauBidongMarker.bindPopup(`
+      <div style="padding: 0.5rem;">
+        <h5 style="margin: 0 0 0.5rem 0; font-weight: 600;">Pulau Bidong, Terengganu</h5>
+        <p style="margin: 0; font-size: 0.875rem; color: #666;">5.6217°N, 103.0544°E</p>
+        <span style="display: inline-block; margin-top: 0.5rem; padding: 0.25rem 0.5rem; background: #0891B2; color: white; border-radius: 4px; font-size: 0.75rem;">
+          Active Station
+        </span>
+      </div>
+    `);
 
     // Add tile layer (using OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

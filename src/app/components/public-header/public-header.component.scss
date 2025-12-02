@@ -31,6 +31,14 @@
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
+.mycoral-logo-img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    transition: all 0.3s ease;
+}
+
 .brand-text {
     display: flex;
     flex-direction: column;
@@ -110,6 +118,10 @@
 
     .brand-name {
         font-size: 1.25rem;
+    }
+
+    .mycoral-logo-img {
+        height: 45px;
     }
 
     .nav-link {

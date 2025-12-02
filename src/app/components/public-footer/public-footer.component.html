@@ -5,83 +5,59 @@
             <div class="col-lg-4 col-md-6">
                 <div class="footer-brand">
                     <div class="brand-wrapper">
-                        <i class="bi bi-flower1 footer-logo-icon"></i>
-                        <div class="brand-text">
-                            <span class="brand-name">MyCoral</span>
-                            <span class="brand-tagline">MARINE YOUTH</span>
-                        </div>
+                        <img src="/assets/mycoralLogo.png" alt="MyCoral" class="footer-logo-img" />
                     </div>
                     <p class="footer-description">
-                        Dedicated to protecting and restoring coral reefs around the world through conservation, 
-                        education, and community engagement.
+                        Dedicated to the preservation and restoration of our planet's coral reefs for future generations.
                     </p>
+                    <div class="social-links">
+                        <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter">
+                            <i class="bi bi-twitter-x"></i>
+                        </a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="YouTube">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <!-- Quick Links -->
+            <!-- Explore Links -->
             <div class="col-lg-2 col-md-6">
-                <h5 class="footer-heading">Quick Links</h5>
+                <h5 class="footer-heading">Explore</h5>
                 <ul class="footer-links">
-                    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">My Coral Sites</a></li>
                     <li><a routerLink="/about" routerLinkActive="active">About Us</a></li>
+                    <li><a routerLink="/corals" routerLinkActive="active">Adopt a Coral</a></li>
                     <li><a routerLink="/newsletter" routerLinkActive="active">Newsletter</a></li>
-                    <li><a routerLink="/volunteer" routerLinkActive="active">Be a Volunteer</a></li>
-                    <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+                    <li><a routerLink="/donate" routerLinkActive="active">Donate</a></li>
                 </ul>
             </div>
 
-            <!-- Resources -->
-            <div class="col-lg-2 col-md-6">
-                <h5 class="footer-heading">Resources</h5>
-                <ul class="footer-links">
-                    <li><a routerLink="/corals" routerLinkActive="active">Coral Species</a></li>
-                    <li><a routerLink="/blog" routerLinkActive="active">Blog</a></li>
-                    <li><a routerLink="/gallery" routerLinkActive="active">Gallery</a></li>
-                    <li><a routerLink="/faq" routerLinkActive="active">FAQ</a></li>
-                    <li><a routerLink="/partners" routerLinkActive="active">Partners</a></li>
-                </ul>
-            </div>
-
-            <!-- Newsletter & Social -->
-            <div class="col-lg-4 col-md-6">
-                <h5 class="footer-heading">Stay Connected</h5>
-                <p class="footer-description-small">Subscribe to our newsletter for the latest updates.</p>
+            <!-- Stay Updated / Newsletter -->
+            <div class="col-lg-6 col-md-12">
+                <h5 class="footer-heading">Stay Updated</h5>
+                <p class="footer-description-small">Subscribe to our newsletter for the latest news on coral conservation.</p>
                 <a routerLink="/newsletter" class="btn btn-mycoral-outline mb-3 w-100">
                     Subscribe to Newsletter
                 </a>
-                <div class="social-links">
-                    <a href="#" class="social-link" aria-label="Facebook">
-                        <i class="bi bi-facebook"></i>
-                    </a>
-                    <a href="#" class="social-link" aria-label="Twitter">
-                        <i class="bi bi-twitter-x"></i>
-                    </a>
-                    <a href="#" class="social-link" aria-label="Instagram">
-                        <i class="bi bi-instagram"></i>
-                    </a>
-                    <a href="#" class="social-link" aria-label="LinkedIn">
-                        <i class="bi bi-linkedin"></i>
-                    </a>
-                </div>
             </div>
         </div>
 
         <!-- Copyright -->
         <div class="footer-bottom">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <p class="copyright-text">
-                        &copy; {{ currentYear }} MyCoral - Marine Youth. All rights reserved.
-                    </p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <div class="footer-bottom-links">
-                        <a routerLink="/contact">Privacy Policy</a>
-                        <span class="separator">|</span>
-                        <a routerLink="/contact">Terms of Service</a>
-                    </div>
-                </div>
-            </div>
+            <p class="copyright-text text-center">
+                &copy; 2025 Coral Aid. All Rights Reserved.
+            </p>
         </div>
     </div>
+    
+    <!-- Help Button -->
+    <button class="help-button" aria-label="Help">
+        <i class="bi bi-question-circle"></i>
+    </button>
 </footer>
