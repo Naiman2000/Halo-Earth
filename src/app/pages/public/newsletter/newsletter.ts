@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FirestoreService } from '../../../services/firestore.service';
@@ -9,7 +9,7 @@ import { FirestoreService } from '../../../services/firestore.service';
   templateUrl: './newsletter.html',
   styleUrl: './newsletter.scss',
 })
-export class Newsletter {
+export class Newsletter implements AfterViewInit {
   private fb = inject(FormBuilder);
   private firestoreService = inject(FirestoreService);
   
@@ -31,6 +31,16 @@ export class Newsletter {
       email: ['', [Validators.required, Validators.email]],
       interests: [[]] // Array of selected interests
     });
+  }
+
+  ngAfterViewInit() {
+    // Scroll to subscription form after view initialization
+    setTimeout(() => {
+      const subscribeForm = document.getElementById('subscribe-form');
+      if (subscribeForm) {
+        subscribeForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   }
 
   toggleInterest(interest: string) {
