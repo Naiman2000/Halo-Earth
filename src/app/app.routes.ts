@@ -20,6 +20,7 @@ import { Faq } from './pages/public/static/faq/faq';
 import { Gallery } from './pages/public/static/gallery/gallery';
 
 import { Login } from './pages/admin/auth/login/login';
+import { Signout } from './pages/admin/auth/signout/signout';
 import { Dashboard } from './pages/admin/dashboard/dashboard';
 import { PartnerManagement } from './pages/admin/partner-management/partner-management';
 import { CoralManagement } from './pages/admin/coral-management/coral-management';
@@ -34,6 +35,10 @@ export const routes: Routes = [
     {
         path: 'admin/login',
         component: Login
+    },
+    {
+        path: 'admin/auth/signout',
+        component: Signout
     },
     {
         path: 'admin',

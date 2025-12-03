@@ -12,8 +12,5 @@ export class AdminHeaderComponent {
     // Placeholder for user name, in real app this would come from auth service
     userName = 'Admin User';
 
-    logout() {
-        // Placeholder for logout logic
-        console.log('Logout clicked');
-    }
+
 }
