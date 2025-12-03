@@ -32,7 +32,7 @@ export class CoralDetail implements OnInit, OnDestroy {
   referenceNumber: string = '';
   isSubmitting = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     const coralId = this.route.snapshot.paramMap.get('id');
@@ -68,14 +68,34 @@ export class CoralDetail implements OnInit, OnDestroy {
         console.error('Error loading coral:', error);
         this.isLoading = false;
         // Use sample data for development
-        this.coral = {
-          id: id,
-          scientificName: 'Acropora millepora',
-          commonName: 'Staghorn Coral',
-          description: 'A branching coral species known for its rapid growth and important role in reef building. This species forms dense thickets that provide habitat for many marine organisms. Staghorn corals are particularly important for reef structure and are commonly found in shallow reef environments.',
-          conservationStatus: 'Vulnerable',
-          imageUrl: '/assets/examplepic1.png'
-        };
+        const sampleCorals: CoralSpecies[] = [
+          {
+            id: '1',
+            scientificName: 'Acropora millepora',
+            commonName: 'Staghorn Coral',
+            description: 'A branching coral species known for its rapid growth and important role in reef building. This species forms dense thickets that provide habitat for many marine organisms. Staghorn corals are particularly important for reef structure and are commonly found in shallow reef environments.',
+            conservationStatus: 'Vulnerable',
+            imageUrl: '/assets/examplepic1.png'
+          },
+          {
+            id: '2',
+            scientificName: 'Porites lobata',
+            commonName: 'Lobe Coral',
+            description: 'A massive coral species that forms large boulder-like structures on reefs. These corals are known for their resilience and longevity, often forming the foundation of the reef ecosystem.',
+            conservationStatus: 'Least Concern',
+            imageUrl: '/assets/examplepic1.png'
+          },
+          {
+            id: '3',
+            scientificName: 'Montipora capricornis',
+            commonName: 'Vase Coral',
+            description: 'A plating coral species with distinctive vase-like growth patterns. These corals create intricate structures that offer shelter to small fish and invertebrates.',
+            conservationStatus: 'Near Threatened',
+            imageUrl: '/assets/examplepic1.png'
+          }
+        ];
+
+        this.coral = sampleCorals.find(c => c.id === id) || sampleCorals[0];
       }
     });
   }
@@ -105,7 +125,7 @@ export class CoralDetail implements OnInit, OnDestroy {
       // Bank account details (should be in environment or config)
       const bankAccount = '1234567890'; // Placeholder - should be in environment
       const bankName = 'MyCoral Bank'; // Placeholder
-      
+
       // Format QR code data for bank transfer
       this.qrCodeValue = `Bank Transfer\nAccount: ${bankAccount}\nBank: ${bankName}\nAmount: RM ${amount}\nReference: ${this.referenceNumber}\nCoral: ${this.coral?.commonName || 'Coral Adoption'}`;
     } else {
@@ -124,14 +144,14 @@ export class CoralDetail implements OnInit, OnDestroy {
 
     try {
       const formValue = this.adoptionForm.value;
-      
+
       // Create donation with coral reference
       const reference = await this.donationService.createDonation({
         amount: formValue.amount,
         donorName: formValue.adopterName,
         donorEmail: formValue.adopterEmail,
-        message: formValue.dedicationMessage 
-          ? `Coral Adoption: ${this.coral.commonName}\n${formValue.dedicationMessage}`
+        message: formValue.dedicationMessage
+          ? `Coral Adoption: ${this.coral.commonName} - ${formValue.dedicationMessage}`
           : `Coral Adoption: ${this.coral.commonName}`,
         date: Timestamp.now(),
         programId: this.coral.id // Using programId to link to coral
