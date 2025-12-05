@@ -1,26 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface SiteConfig {
-  siteName: string;
-  tagline: string;
-  description: string;
-  contactEmail: string;
-  contactPhone: string;
-  address: string;
-  facebookUrl: string;
-  twitterUrl: string;
-  instagramUrl: string;
-  linkedinUrl: string;
-  bankName: string;
-  accountNumber: string;
-  accountName: string;
-  donationGoal: number;
-  currentDonations: number;
-  maintenanceMode: boolean;
-  allowRegistration: boolean;
-}
+import { SiteSettingsService, SiteSettings as SiteConfig } from '../../../services/site-settings.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-site-settings',
@@ -29,50 +11,49 @@ interface SiteConfig {
   templateUrl: './site-settings.html',
   styleUrl: './site-settings.scss',
 })
-export class SiteSettings implements OnInit {
-  config: SiteConfig = this.getDefaultConfig();
+export class SiteSettings implements OnInit, OnDestroy {
+  private settingsService = inject(SiteSettingsService);
+  private subscription?: Subscription;
+
+  config: SiteConfig = this.settingsService.getCurrentSettings();
   isSaving = false;
   saveSuccess = false;
+  saveError = false;
+  errorMessage = '';
   activeTab: 'general' | 'contact' | 'social' | 'donation' | 'advanced' = 'general';
 
   ngOnInit(): void {
     this.loadSettings();
   }
 
-  getDefaultConfig(): SiteConfig {
-    return {
-      siteName: 'Halo Earth',
-      tagline: 'Protecting Our Oceans, One Coral at a Time',
-      description: 'Halo Earth is dedicated to coral conservation and marine ecosystem restoration.',
-      contactEmail: 'info@haloearth.org',
-      contactPhone: '+1 (555) 123-4567',
-      address: '123 Ocean Drive, Coastal City, CC 12345',
-      facebookUrl: 'https://facebook.com/haloearth',
-      twitterUrl: 'https://twitter.com/haloearth',
-      instagramUrl: 'https://instagram.com/haloearth',
-      linkedinUrl: 'https://linkedin.com/company/haloearth',
-      bankName: 'Ocean Bank',
-      accountNumber: '1234567890',
-      accountName: 'Halo Earth Foundation',
-      donationGoal: 60000,
-      currentDonations: 45280,
-      maintenanceMode: false,
-      allowRegistration: true
-    };
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 
   loadSettings(): void {
-    // In production, load from Firestore
-    setTimeout(() => {
-      this.config = this.getDefaultConfig();
-    }, 300);
+    // Subscribe to settings updates (real-time)
+    this.subscription = this.settingsService.settings$.subscribe({
+      next: (settings) => {
+        if (settings) {
+          this.config = { ...settings };
+        }
+      },
+      error: (error) => {
+        console.error('Error loading settings:', error);
+        this.errorMessage = 'Failed to load settings';
+      }
+    });
   }
 
-  saveSettings(): void {
+  async saveSettings(): Promise<void> {
     this.isSaving = true;
+    this.saveError = false;
+    this.saveSuccess = false;
     
-    // In production, save to Firestore
-    setTimeout(() => {
+    try {
+      // Save to Firestore (this will update ALL public pages automatically!)
+      await this.settingsService.saveSettings(this.config);
+      
       this.isSaving = false;
       this.saveSuccess = true;
       
@@ -80,16 +61,34 @@ export class SiteSettings implements OnInit {
       setTimeout(() => {
         this.saveSuccess = false;
       }, 3000);
-    }, 1000);
+    } catch (error: any) {
+      this.isSaving = false;
+      this.saveError = true;
+      this.errorMessage = error.message || 'Failed to save settings';
+      console.error('Error saving settings:', error);
+    }
   }
 
   switchTab(tab: 'general' | 'contact' | 'social' | 'donation' | 'advanced'): void {
     this.activeTab = tab;
   }
 
-  resetToDefaults(): void {
+  async resetToDefaults(): Promise<void> {
     if (confirm('Are you sure you want to reset all settings to default values?')) {
-      this.config = this.getDefaultConfig();
+      this.isSaving = true;
+      try {
+        await this.settingsService.resetToDefaults();
+        this.isSaving = false;
+        this.saveSuccess = true;
+        
+        setTimeout(() => {
+          this.saveSuccess = false;
+        }, 3000);
+      } catch (error: any) {
+        this.isSaving = false;
+        this.saveError = true;
+        this.errorMessage = error.message || 'Failed to reset settings';
+      }
     }
   }
 

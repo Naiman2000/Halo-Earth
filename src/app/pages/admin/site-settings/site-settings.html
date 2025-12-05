@@ -20,7 +20,13 @@
   <!-- Success Alert -->
   <div *ngIf="saveSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
     <i class="bi bi-check-circle-fill me-2"></i>
-    Settings saved successfully!
+    Settings saved successfully! Changes are now live on all public pages.
+  </div>
+
+  <!-- Error Alert -->
+  <div *ngIf="saveError" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    {{ errorMessage }}
   </div>
 
   <!-- Tabs -->
