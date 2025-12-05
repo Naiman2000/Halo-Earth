@@ -84,6 +84,10 @@ database.rules.json
 .env.local
 .env.*.local
 
+# Angular environment files with sensitive data
+src/environments/environment.ts
+src/environments/environment.prod.ts
+
 # Build files
 *.tgz
 *.swp
