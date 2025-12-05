@@ -55,25 +55,25 @@ Before you begin, ensure you have the following installed:
     - Enable **Authentication** (Email/Password).
     - Enable **Firestore Database**.
     - Enable **Storage**.
+    - **Configure Security Rules** (see SECURITY.md for details).
 
 2.  **Environment Configuration:**
-    - Open `src/environments/environment.ts`.
-    - Replace the placeholder values with your Firebase project configuration:
+    
+    ⚠️ **IMPORTANT: Never commit real API keys to version control!**
 
-    ```typescript
-    export const environment = {
-      production: false,
-      firebase: {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT_ID.appspot.com",
-        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-        appId: "YOUR_APP_ID"
-      }
-    };
-    ```
+    - Copy the template files to create your local environment files:
+      ```bash
+      cp src/environments/environment.template.ts src/environments/environment.ts
+      cp src/environments/environment.prod.template.ts src/environments/environment.prod.ts
+      ```
+    
+    - Open `src/environments/environment.ts` and replace the placeholder values with your Firebase project configuration from the Firebase Console.
+    
     - For production, update `src/environments/environment.prod.ts` similarly.
+    
+    - **Note**: The actual `environment.ts` and `environment.prod.ts` files are gitignored to prevent accidental commits of sensitive data.
+    
+    For detailed security setup instructions, see [SECURITY.md](./SECURITY.md).
 
 ## Development Server
 
