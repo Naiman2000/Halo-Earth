@@ -1,1 +1,237 @@
-<p>donation-management works!</p>
+<div class="management-container">
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-3 mb-4 border-bottom">
+    <h1 class="h2">Donation Management</h1>
+    <button class="btn btn-success" (click)="exportToCSV()">
+      <i class="bi bi-download me-2"></i>Export to CSV
+    </button>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="row g-4 mb-4">
+    <div class="col-md-4">
+      <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-muted mb-1">Total Donations</h6>
+              <h3 class="mb-0">{{ filteredDonations.length }}</h3>
+            </div>
+            <div class="stat-icon bg-primary-subtle text-primary">
+              <i class="bi bi-cash-stack"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-muted mb-1">Total Amount</h6>
+              <h3 class="mb-0">{{ formatCurrency(totalAmount) }}</h3>
+            </div>
+            <div class="stat-icon bg-success-subtle text-success">
+              <i class="bi bi-currency-dollar"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-muted mb-1">Average Amount</h6>
+              <h3 class="mb-0">{{ formatCurrency(averageAmount) }}</h3>
+            </div>
+            <div class="stat-icon bg-info-subtle text-info">
+              <i class="bi bi-graph-up"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search & Filter -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="bi bi-search"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control border-start-0 ps-0" 
+              placeholder="Search by name, email, or amount..."
+              [(ngModel)]="searchTerm"
+              (input)="filterDonations()">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <select class="form-select" [(ngModel)]="filterDate" (change)="filterDonations()">
+            <option value="all">All Time</option>
+            <option value="today">Today</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+            <option value="year">This Year</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-outline-secondary w-100">
+            <i class="bi bi-funnel me-2"></i>Advanced Filters
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Data Table -->
+  <div *ngIf="!isLoading" class="card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light">
+          <tr>
+            <th class="px-4 py-3">Donor</th>
+            <th class="py-3">Amount</th>
+            <th class="py-3">Date</th>
+            <th class="py-3">Message</th>
+            <th class="py-3 text-end pe-4">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let donation of paginatedDonations">
+            <td class="px-4">
+              <div class="d-flex align-items-center">
+                <div class="donor-avatar me-3">
+                  {{ (donation.donorName?.charAt(0) || '?').toUpperCase() }}
+                </div>
+                <div>
+                  <div class="fw-semibold">{{ donation.donorName || 'Anonymous' }}</div>
+                  <small class="text-muted">{{ donation.donorEmail || 'No email' }}</small>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="badge bg-success-subtle text-success px-3 py-2">
+                {{ formatCurrency(donation.amount) }}
+              </span>
+            </td>
+            <td>
+              <small>{{ formatDate(donation.date) }}</small>
+            </td>
+            <td>
+              <div class="text-truncate" style="max-width: 200px;">
+                {{ donation.message || '—' }}
+              </div>
+            </td>
+            <td class="text-end pe-4">
+              <button class="btn btn-sm btn-outline-primary" (click)="viewDetails(donation)">
+                <i class="bi bi-eye me-1"></i>View
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="filteredDonations.length === 0">
+            <td colspan="5" class="text-center py-5 text-muted">
+              <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+              No donations found
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="totalPages > 1" class="card-footer bg-white border-top">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-muted small">
+          Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to 
+          {{ Math.min(currentPage * itemsPerPage, filteredDonations.length) }} of 
+          {{ filteredDonations.length }} entries
+        </div>
+        <nav>
+          <ul class="pagination pagination-sm mb-0">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <a class="page-link" (click)="previousPage()" tabindex="-1">
+                <i class="bi bi-chevron-left"></i>
+              </a>
+            </li>
+            <li *ngFor="let page of pageNumbers" 
+                class="page-item" 
+                [class.active]="page === currentPage">
+              <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+            </li>
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <a class="page-link" (click)="nextPage()">
+                <i class="bi bi-chevron-right"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal fade" [class.show]="showDetailModal" [style.display]="showDetailModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" *ngIf="selectedDonation">
+      <div class="modal-header">
+        <h5 class="modal-title">Donation Details</h5>
+        <button type="button" class="btn-close" (click)="closeDetailModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-4">
+          <div class="col-md-6">
+            <label class="form-label text-muted small">Donor Name</label>
+            <p class="fw-semibold">{{ selectedDonation.donorName || 'Anonymous' }}</p>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label text-muted small">Email</label>
+            <p class="fw-semibold">{{ selectedDonation.donorEmail || 'Not provided' }}</p>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label text-muted small">Amount</label>
+            <p class="fw-semibold fs-4 text-success">{{ formatCurrency(selectedDonation.amount) }}</p>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label text-muted small">Date & Time</label>
+            <p class="fw-semibold">{{ formatDate(selectedDonation.date) }}</p>
+          </div>
+          <div class="col-12">
+            <label class="form-label text-muted small">Program ID</label>
+            <p class="fw-semibold">{{ selectedDonation.programId || 'General donation' }}</p>
+          </div>
+          <div class="col-12">
+            <label class="form-label text-muted small">Message</label>
+            <p class="border rounded p-3 bg-light">
+              {{ selectedDonation.message || 'No message provided' }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary">
+          <i class="bi bi-envelope me-2"></i>Send Thank You
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="closeDetailModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="showDetailModal" *ngIf="showDetailModal" (click)="closeDetailModal()"></div>

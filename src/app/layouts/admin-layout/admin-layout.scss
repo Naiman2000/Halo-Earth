@@ -1,4 +1,33 @@
-/* Admin layout specific styles if needed */
+/* Admin layout specific styles */
+.container-fluid {
+  padding: 0;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.row {
+  margin: 0;
+}
+
 main {
-    min-height: 100vh;
+  min-height: calc(100vh - 56px);
+  padding: 2rem;
+  background-color: #f8f9fa;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  .pt-3 {
+    padding-top: 0 !important;
+  }
+
+  .border-bottom {
+    border-bottom: none !important;
+  }
+}
+
+// Smooth transitions
+* {
+  transition: background-color 0.2s ease, color 0.2s ease;
 }

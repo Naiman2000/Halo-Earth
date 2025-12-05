@@ -1,0 +1,103 @@
+.management-container {
+  padding: 0;
+
+  .stat-card {
+    .stat-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+  }
+
+  .donor-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .table {
+    th {
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #6c757d;
+    }
+
+    td {
+      padding: 1rem 0.5rem;
+    }
+
+    tbody tr {
+      transition: background-color 0.2s ease;
+      
+      &:hover {
+        background-color: #f8f9fa;
+      }
+    }
+  }
+
+  .input-group-text {
+    background: transparent;
+    color: #6c757d;
+  }
+
+  .badge {
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+}
+
+// Modal enhancements
+.modal {
+  &.show {
+    padding-right: 0 !important;
+  }
+
+  .modal-header {
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 1.25rem 1.5rem;
+
+    .modal-title {
+      font-weight: 600;
+      color: #212529;
+    }
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+
+    .form-label {
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  .modal-footer {
+    background: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    padding: 1rem 1.5rem;
+  }
+}
+
+.modal-backdrop {
+  &.show {
+    opacity: 0.5;
+  }
+}

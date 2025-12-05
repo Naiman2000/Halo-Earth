@@ -1,0 +1,83 @@
+.dashboard-container {
+  padding: 0;
+
+  .stat-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .card-footer {
+      padding: 0.75rem 1.5rem;
+
+      a {
+        color: #6c757d;
+        font-weight: 500;
+        
+        &:hover {
+          color: var(--bs-primary);
+        }
+      }
+    }
+  }
+
+  .stat-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+
+  .activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bs-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bs-primary);
+    flex-shrink: 0;
+  }
+
+  .list-group-item {
+    padding: 1rem 1.5rem;
+    border-left: none;
+    border-right: none;
+
+    &:first-child {
+      border-top: none;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: #f8f9fa;
+    }
+  }
+
+  h2 {
+    font-weight: 600;
+    color: #212529;
+  }
+
+  .progress {
+    border-radius: 10px;
+    background-color: #e9ecef;
+  }
+
+  .progress-bar {
+    border-radius: 10px;
+  }
+}

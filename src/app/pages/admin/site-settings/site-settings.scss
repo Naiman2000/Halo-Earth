@@ -1,0 +1,118 @@
+.settings-container {
+  padding: 0;
+
+  .nav-tabs {
+    border-bottom: 2px solid #dee2e6;
+
+    .nav-link {
+      color: #6c757d;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+
+      i {
+        opacity: 0.7;
+      }
+
+      &:hover {
+        color: var(--bs-primary);
+        border-color: transparent;
+
+        i {
+          opacity: 1;
+        }
+      }
+
+      &.active {
+        color: var(--bs-primary);
+        background: transparent;
+        border: none;
+        border-bottom: 3px solid var(--bs-primary);
+
+        i {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .card {
+    .card-title {
+      font-weight: 600;
+      color: #212529;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e9ecef;
+    }
+  }
+
+  .form-label {
+    color: #495057;
+    margin-bottom: 0.5rem;
+
+    &.fw-semibold {
+      font-size: 0.95rem;
+    }
+
+    i {
+      font-size: 1.1rem;
+    }
+  }
+
+  .form-control,
+  .form-select {
+    padding: 0.625rem 0.875rem;
+    border-color: #ced4da;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:focus {
+      border-color: var(--bs-primary);
+      box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+    }
+  }
+
+  textarea.form-control {
+    resize: vertical;
+  }
+
+  .form-check-input {
+    width: 3rem;
+    height: 1.5rem;
+    cursor: pointer;
+
+    &:checked {
+      background-color: var(--bs-success);
+      border-color: var(--bs-success);
+    }
+  }
+
+  .form-check-label {
+    margin-left: 0.75rem;
+    cursor: pointer;
+  }
+
+  .alert {
+    border-radius: 8px;
+    border: none;
+
+    &.alert-success {
+      background: #d1f4e0;
+      color: #0f7d43;
+    }
+
+    &.alert-warning {
+      background: #fff3cd;
+      color: #856404;
+      border-left: 4px solid #ffc107;
+    }
+  }
+
+  .progress {
+    border-radius: 10px;
+    background-color: #e9ecef;
+  }
+
+  .progress-bar {
+    border-radius: 10px;
+  }
+}
