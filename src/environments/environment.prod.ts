@@ -1,12 +1,12 @@
 export const environment = {
     production: true,
     firebase: {
-        apiKey: "AIzaSyAP_Y6sGFnIAVDiBmWu0MXSeGRcRSOgRak",
-        authDomain: "halo-earth.firebaseapp.com",
-        projectId: "halo-earth",
-        storageBucket: "halo-earth.firebasestorage.app",
-        messagingSenderId: "1000673804580",
-        appId: "1:1000673804580:web:3390157353faa5c11973b1",
-        measurementId: "G-N3YBCWHSTQ"
+        apiKey: "YOUR_FIREBASE_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.firebasestorage.app",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID",
+        measurementId: "YOUR_MEASUREMENT_ID"
     }
 };
