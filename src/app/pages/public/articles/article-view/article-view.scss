@@ -1,0 +1,355 @@
+.article-view-page {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #0f172a, #1e293b);
+    color: #f8fafc;
+    padding-bottom: 4rem;
+}
+
+.hero-section {
+    position: relative;
+    height: 60vh;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+}
+
+.hero-image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, #0f172a, rgba(15, 23, 42, 0.6), transparent);
+}
+
+.back-button {
+    position: absolute;
+    top: 6rem;
+    left: 1.5rem;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding-bottom: 3rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.container {
+    max-width: 56rem;
+    /* max-w-4xl */
+    margin: 0 auto;
+}
+
+.category-badge {
+    background: #06b6d4;
+    color: white;
+    padding: 0.25rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.article-title {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    line-height: 1.1;
+}
+
+.article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    i {
+        font-size: 1.1rem;
+    }
+}
+
+.content-section {
+    padding-top: 4rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.content-wrapper {
+    max-width: 56rem;
+    margin: 0 auto;
+}
+
+.share-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.share-text {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-weight: 500;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.share-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:hover {
+        opacity: 0.9;
+    }
+
+    &.facebook {
+        background: #2563eb;
+    }
+
+    &.twitter {
+        background: #0ea5e9;
+    }
+
+    &.linkedin {
+        background: #1d4ed8;
+    }
+}
+
+.article-body {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1rem;
+    padding: 2rem;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+
+    ::ng-deep h2 {
+        font-size: 1.875rem;
+        color: white;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    ::ng-deep p {
+        margin-bottom: 1.5rem;
+    }
+
+    ::ng-deep ul {
+        list-style: disc;
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+        padding: 3rem;
+    }
+}
+
+.tags-section {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.tag-icon {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.tag {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+}
+
+.related-section {
+    max-width: 72rem;
+    margin: 4rem auto 0;
+}
+
+.section-title {
+    font-size: 1.875rem;
+    color: white;
+    margin-bottom: 2rem;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @media (min-width: 768px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.related-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: scale(1.02);
+    }
+}
+
+.related-image {
+    height: 12rem;
+    background-size: cover;
+    background-position: center;
+}
+
+.related-content {
+    padding: 1.5rem;
+}
+
+.related-category {
+    background: rgba(6, 182, 212, 0.3);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+}
+
+.related-title {
+    font-size: 1.25rem;
+    color: white;
+    margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.related-excerpt {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.related-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+
+    span {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+}
+
+.cta-section {
+    max-width: 56rem;
+    margin: 4rem auto 0;
+}
+
+.cta-card {
+    background: linear-gradient(to right, #0891b2, #2563eb);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+
+    @media (min-width: 768px) {
+        padding: 3rem;
+    }
+
+    h2 {
+        font-size: 1.875rem;
+        color: white;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 1.5rem;
+        max-width: 42rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.cta-button {
+    background: white;
+    color: #0e7490;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.9);
+    }
+}

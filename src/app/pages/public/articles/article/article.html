@@ -1,0 +1,72 @@
+<div class="article-page">
+    <header class="article-header">
+        <h1>Articles & News</h1>
+        <p>
+            Stay informed about the latest research, conservation efforts, and
+            stories from the world of coral reef protection.
+        </p>
+    </header>
+
+    <section class="article-controls">
+        <div class="search-wrapper">
+            <input type="text" placeholder="Search articles..." [(ngModel)]="searchQuery" />
+        </div>
+        <div class="categories">
+            <button *ngFor="let cat of categories" class="category-chip"
+                [class.category-chip--active]="cat === selectedCategory" (click)="selectCategory(cat)">
+                {{ cat }}
+            </button>
+        </div>
+    </section>
+
+    <section class="article-featured" *ngIf="featuredArticle as a">
+        <article class="feature-card">
+            <div class="feature-image" [style.background-image]="'url(' + a.image + ')'"></div>
+            <div class="feature-body">
+                <div class="feature-tags">
+                    <span class="tag-pill tag-pill--primary">Featured</span>
+                    <span class="tag-pill tag-pill--secondary">{{ a.category }}</span>
+                </div>
+                <h2 class="feature-title">{{ a.title }}</h2>
+                <p class="feature-excerpt">{{ a.excerpt }}</p>
+                <div class="feature-meta">
+                    <span>{{ a.author }}</span>
+                    <span>{{ a.date }}</span>
+                </div>
+                <button class="feature-button" type="button" (click)="viewArticle(a.id)">
+                    <span>Read Article</span>
+                    <span>→</span>
+                </button>
+            </div>
+        </article>
+    </section>
+
+    <section class="article-list-wrapper" *ngIf="listArticles.length > 0">
+        <h2>Latest Articles</h2>
+        <div class="article-list">
+            <article class="article-card" *ngFor="let a of listArticles">
+                <div class="article-card-image" [style.background-image]="'url(' + a.image + ')'"></div>
+                <div class="article-card-body">
+                    <div class="article-card-top">
+                        <span class="article-card-category">{{ a.category }}</span>
+                        <span class="article-card-readtime">{{ a.readTime }}</span>
+                    </div>
+                    <h3 class="article-card-title">{{ a.title }}</h3>
+                    <p class="article-card-excerpt">{{ a.excerpt }}</p>
+                    <div class="article-card-meta">
+                        <span>{{ a.author }}</span>
+                        <!-- Simple date formatting for demo -->
+                        <span>{{ a.date.split(' ').slice(0, 2).join(' ') }}</span>
+                    </div>
+                    <button class="article-card-button" type="button" (click)="viewArticle(a.id)">
+                        Read More
+                    </button>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="article-empty" *ngIf="filteredArticles.length === 0">
+        <p>No articles found. Try a different search or category.</p>
+    </section>
+</div>

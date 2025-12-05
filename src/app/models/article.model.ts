@@ -1,6 +1,6 @@
 import { Timestamp } from '@angular/fire/firestore';
 
-export interface BlogPost {
+export interface Article {
     id?: string;
     title: string;
     content: string;

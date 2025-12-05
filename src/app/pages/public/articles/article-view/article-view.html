@@ -1,0 +1,99 @@
+<div class="article-view-page" *ngIf="article$ | async as article">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-image" [style.background-image]="'url(' + article.image + ')'"></div>
+        <div class="hero-overlay"></div>
+
+        <button class="back-button" (click)="goBack()">
+            <i class="bi bi-arrow-left"></i>
+            Back to Articles
+        </button>
+
+        <div class="hero-content">
+            <div class="container">
+                <span class="category-badge">{{ article.category }}</span>
+                <h1 class="article-title">{{ article.title }}</h1>
+                <div class="article-meta">
+                    <span class="meta-item">
+                        <i class="bi bi-person"></i>
+                        {{ article.author }}
+                    </span>
+                    <span class="meta-item">
+                        <i class="bi bi-calendar"></i>
+                        {{ article.date }}
+                    </span>
+                    <span class="meta-item">
+                        <i class="bi bi-clock"></i>
+                        {{ article.readTime }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content-section container">
+        <div class="content-wrapper">
+            <!-- Share Buttons -->
+            <div class="share-card">
+                <p class="share-text">
+                    <i class="bi bi-share"></i>
+                    Share this article
+                </p>
+                <div class="share-buttons">
+                    <button class="share-btn facebook" (click)="handleShare('facebook')">
+                        <i class="bi bi-facebook"></i>
+                    </button>
+                    <button class="share-btn twitter" (click)="handleShare('twitter')">
+                        <i class="bi bi-twitter-x"></i>
+                    </button>
+                    <button class="share-btn linkedin" (click)="handleShare('linkedin')">
+                        <i class="bi bi-linkedin"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Article Body -->
+            <div class="article-body" [innerHTML]="article.content"></div>
+
+            <!-- Tags -->
+            <div class="tags-section" *ngIf="article.tags">
+                <i class="bi bi-tags tag-icon"></i>
+                <span class="tag" *ngFor="let tag of article.tags">{{ tag }}</span>
+            </div>
+        </div>
+
+        <!-- Related Articles -->
+        <div class="related-section" *ngIf="relatedArticles$ | async as relatedArticles">
+            <h2 class="section-title" *ngIf="relatedArticles.length > 0">Related Articles</h2>
+            <div class="related-grid">
+                <div class="related-card" *ngFor="let related of relatedArticles"
+                    [routerLink]="['/articles', related.id]">
+                    <div class="related-image" [style.background-image]="'url(' + related.image + ')'"></div>
+                    <div class="related-content">
+                        <span class="related-category">{{ related.category }}</span>
+                        <h3 class="related-title">{{ related.title }}</h3>
+                        <p class="related-excerpt">{{ related.excerpt }}</p>
+                        <div class="related-meta">
+                            <span><i class="bi bi-calendar"></i> {{ related.date }}</span>
+                            <span><i class="bi bi-clock"></i> {{ related.readTime }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <div class="cta-card">
+                <h2>Help Protect Our Coral Reefs</h2>
+                <p>Your support makes a real difference. Adopt a coral today and contribute to global reef restoration
+                    efforts.</p>
+                <button class="cta-button" routerLink="/corals">
+                    Adopt a Coral
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
