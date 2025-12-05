@@ -1,1 +1,253 @@
-<p>gallery-management works!</p>
+<div class="management-container">
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-3 mb-4 border-bottom">
+    <h1 class="h2">Gallery Management</h1>
+    <button class="btn btn-primary" (click)="openUploadModal()">
+      <i class="bi bi-upload me-2"></i>Upload Images
+    </button>
+  </div>
+
+  <!-- Search & Filter -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+      <div class="row g-3 align-items-center">
+        <div class="col-md-6">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="bi bi-search"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control border-start-0 ps-0" 
+              placeholder="Search by caption or category..."
+              [(ngModel)]="searchTerm"
+              (input)="filterImages()">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <select class="form-select" [(ngModel)]="filterCategory" (change)="filterImages()">
+            <option value="all">All Categories</option>
+            <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <div class="d-flex justify-content-end gap-2">
+            <button class="btn btn-outline-secondary" (click)="toggleViewMode()">
+              <i [ngClass]="viewMode === 'grid' ? 'bi bi-list' : 'bi bi-grid-3x3-gap'"></i>
+            </button>
+            <button class="btn btn-outline-secondary">
+              <i class="bi bi-download me-1"></i>Export
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="stat-badge">
+        <i class="bi bi-images text-primary me-2"></i>
+        <span class="fw-semibold">{{ filteredImages.length }}</span> images
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-badge">
+        <i class="bi bi-folder text-info me-2"></i>
+        <span class="fw-semibold">{{ categories.length }}</span> categories
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-badge">
+        <i class="bi bi-hdd text-success me-2"></i>
+        Total: <span class="fw-semibold">{{ formatFileSize(totalImageSize) }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Grid View -->
+  <div *ngIf="!isLoading && viewMode === 'grid'" class="gallery-grid">
+    <div *ngFor="let image of filteredImages" class="gallery-item">
+      <div class="gallery-card">
+        <div class="gallery-image" [style.background-image]="'url(' + image.url + ')'">
+          <div class="gallery-overlay">
+            <button class="btn btn-sm btn-light me-2" (click)="openEditModal(image)" title="Edit">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="deleteImage(image)" title="Delete">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </div>
+        <div class="gallery-info">
+          <div class="caption">{{ image.caption }}</div>
+          <div class="meta">
+            <span class="badge bg-primary-subtle text-primary">{{ image.category }}</span>
+            <small class="text-muted">{{ formatDate(image.uploadedAt) }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="filteredImages.length === 0" class="col-12 text-center py-5 text-muted">
+      <i class="bi bi-images fs-1 d-block mb-2"></i>
+      No images found
+    </div>
+  </div>
+
+  <!-- List View -->
+  <div *ngIf="!isLoading && viewMode === 'list'" class="card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light">
+          <tr>
+            <th class="px-4 py-3">Preview</th>
+            <th class="py-3">Caption</th>
+            <th class="py-3">Category</th>
+            <th class="py-3">Size</th>
+            <th class="py-3">Upload Date</th>
+            <th class="py-3 text-end pe-4">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let image of filteredImages">
+            <td class="px-4">
+              <div class="list-preview" [style.background-image]="'url(' + image.url + ')'"></div>
+            </td>
+            <td>{{ image.caption }}</td>
+            <td>
+              <span class="badge bg-primary-subtle text-primary">{{ image.category }}</span>
+            </td>
+            <td>{{ formatFileSize(image.size) }}</td>
+            <td>{{ formatDate(image.uploadedAt) }}</td>
+            <td class="text-end pe-4">
+              <div class="btn-group btn-group-sm">
+                <button class="btn btn-outline-primary" (click)="openEditModal(image)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-outline-danger" (click)="deleteImage(image)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="filteredImages.length === 0">
+            <td colspan="6" class="text-center py-5 text-muted">
+              <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+              No images found
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Modal -->
+<div class="modal fade" [class.show]="showUploadModal" [style.display]="showUploadModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Upload Images</h5>
+        <button type="button" class="btn-close" (click)="closeUploadModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label class="form-label">Select Images <span class="text-danger">*</span></label>
+            <input 
+              type="file" 
+              class="form-control" 
+              accept="image/*"
+              multiple
+              (change)="onFileSelected($event)">
+            <small class="form-text text-muted">Supported formats: JPG, PNG, WebP. Max 5MB per image.</small>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Caption</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="newImage.caption" 
+              name="caption"
+              placeholder="Describe this image">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Category <span class="text-danger">*</span></label>
+            <select 
+              class="form-select" 
+              [(ngModel)]="newImage.category" 
+              name="category"
+              required>
+              <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeUploadModal()">Cancel</button>
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          (click)="uploadImage()"
+          [disabled]="!selectedFiles">
+          <i class="bi bi-upload me-2"></i>Upload
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" [class.show]="showEditModal" [style.display]="showEditModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-lg" *ngIf="selectedImage">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Image</h5>
+        <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <img [src]="selectedImage.url" alt="Preview" class="img-fluid rounded">
+        </div>
+        <form>
+          <div class="mb-3">
+            <label class="form-label">Caption</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="selectedImage.caption" 
+              name="caption">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Category</label>
+            <select 
+              class="form-select" 
+              [(ngModel)]="selectedImage.category" 
+              name="category">
+              <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveEdit()">
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="showUploadModal || showEditModal" *ngIf="showUploadModal || showEditModal"></div>

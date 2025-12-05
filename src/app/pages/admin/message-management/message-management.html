@@ -1,1 +1,235 @@
-<p>message-management works!</p>
+<div class="management-container">
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-3 mb-4 border-bottom">
+    <div>
+      <h1 class="h2 mb-1">Message Management</h1>
+      <small class="text-muted" *ngIf="unreadCount > 0">
+        {{ unreadCount }} unread message{{ unreadCount > 1 ? 's' : '' }}
+      </small>
+    </div>
+    <button class="btn btn-success" (click)="exportToCSV()">
+      <i class="bi bi-download me-2"></i>Export to CSV
+    </button>
+  </div>
+
+  <!-- Search & Filter -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-5">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="bi bi-search"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control border-start-0 ps-0" 
+              placeholder="Search by name, email, subject, or message..."
+              [(ngModel)]="searchTerm"
+              (input)="filterMessages()">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <select class="form-select" [(ngModel)]="filterStatus" (change)="filterMessages()">
+            <option value="all">All Status</option>
+            <option value="new">New</option>
+            <option value="read">Read</option>
+            <option value="archived">Archived</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <select class="form-select" [(ngModel)]="filterReplied" (change)="filterMessages()">
+            <option value="all">All</option>
+            <option value="replied">Replied</option>
+            <option value="not-replied">Not Replied</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-outline-secondary w-100">
+            <i class="bi bi-funnel me-2"></i>More
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Data Table -->
+  <div *ngIf="!isLoading" class="card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light">
+          <tr>
+            <th class="px-4 py-3">Contact</th>
+            <th class="py-3">Subject</th>
+            <th class="py-3">Message Preview</th>
+            <th class="py-3 text-center">Status</th>
+            <th class="py-3 text-center">Replied</th>
+            <th class="py-3">Date</th>
+            <th class="py-3 text-end pe-4">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let message of paginatedMessages" [class.table-active]="message.status === 'new'">
+            <td class="px-4">
+              <div class="d-flex align-items-center">
+                <div class="message-avatar me-3">
+                  {{ (message.name?.charAt(0) || '?').toUpperCase() }}
+                </div>
+                <div>
+                  <div class="fw-semibold">{{ message.name }}</div>
+                  <small class="text-muted">{{ message.email }}</small>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="fw-semibold">{{ message.subject }}</span>
+            </td>
+            <td>
+              <div class="text-truncate" style="max-width: 250px;">
+                {{ message.message }}
+              </div>
+            </td>
+            <td class="text-center">
+              <span 
+                class="badge rounded-pill"
+                [ngClass]="'bg-' + getStatusBadgeClass(message.status)">
+                {{ message.status | titlecase }}
+              </span>
+            </td>
+            <td class="text-center">
+              <button 
+                class="btn btn-sm"
+                [ngClass]="message.replied ? 'btn-success' : 'btn-outline-secondary'"
+                (click)="toggleReplied(message)">
+                <i [ngClass]="message.replied ? 'bi bi-reply-fill' : 'bi bi-reply'"></i>
+              </button>
+            </td>
+            <td>
+              <small>{{ formatDate(message.submittedAt) }}</small>
+            </td>
+            <td class="text-end pe-4">
+              <button class="btn btn-sm btn-outline-primary" (click)="viewDetails(message)">
+                <i class="bi bi-eye me-1"></i>View
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="filteredMessages.length === 0">
+            <td colspan="7" class="text-center py-5 text-muted">
+              <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+              No messages found
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="totalPages > 1" class="card-footer bg-white border-top">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-muted small">
+          Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to 
+          {{ Math.min(currentPage * itemsPerPage, filteredMessages.length) }} of 
+          {{ filteredMessages.length }} entries
+        </div>
+        <nav>
+          <ul class="pagination pagination-sm mb-0">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <a class="page-link" (click)="previousPage()" tabindex="-1">
+                <i class="bi bi-chevron-left"></i>
+              </a>
+            </li>
+            <li *ngFor="let page of pageNumbers" 
+                class="page-item" 
+                [class.active]="page === currentPage">
+              <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+            </li>
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <a class="page-link" (click)="nextPage()">
+                <i class="bi bi-chevron-right"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal fade" [class.show]="showDetailModal" [style.display]="showDetailModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" *ngIf="selectedMessage">
+      <div class="modal-header">
+        <h5 class="modal-title">Message Details</h5>
+        <button type="button" class="btn-close" (click)="closeDetailModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-4">
+          <div class="col-md-6">
+            <label class="form-label text-muted small">Name</label>
+            <p class="fw-semibold">{{ selectedMessage.name }}</p>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label text-muted small">Email</label>
+            <p class="fw-semibold">
+              <a [href]="'mailto:' + selectedMessage.email">{{ selectedMessage.email }}</a>
+            </p>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label text-muted small">Received</label>
+            <p class="fw-semibold">{{ formatDate(selectedMessage.submittedAt) }}</p>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label text-muted small">Status</label>
+            <div>
+              <span 
+                class="badge rounded-pill px-3 py-2"
+                [ngClass]="'bg-' + getStatusBadgeClass(selectedMessage.status)">
+                {{ selectedMessage.status | titlecase }}
+              </span>
+            </div>
+          </div>
+          <div class="col-12">
+            <label class="form-label text-muted small">Subject</label>
+            <p class="fw-semibold fs-5">{{ selectedMessage.subject }}</p>
+          </div>
+          <div class="col-12">
+            <label class="form-label text-muted small">Message</label>
+            <div class="border rounded p-3 bg-light message-content">
+              {{ selectedMessage.message }}
+            </div>
+          </div>
+          <div class="col-12">
+            <label class="form-label text-muted small">Reply Status</label>
+            <div>
+              <button 
+                class="btn btn-sm"
+                [ngClass]="selectedMessage.replied ? 'btn-success' : 'btn-outline-secondary'"
+                (click)="toggleReplied(selectedMessage)">
+                <i [ngClass]="selectedMessage.replied ? 'bi bi-check-circle-fill me-2' : 'bi bi-circle me-2'"></i>
+                {{ selectedMessage.replied ? 'Replied' : 'Not Replied' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" (click)="archiveMessage(selectedMessage)">
+          <i class="bi bi-archive me-2"></i>Archive
+        </button>
+        <button type="button" class="btn btn-primary">
+          <i class="bi bi-reply-fill me-2"></i>Reply via Email
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="closeDetailModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="showDetailModal" *ngIf="showDetailModal" (click)="closeDetailModal()"></div>

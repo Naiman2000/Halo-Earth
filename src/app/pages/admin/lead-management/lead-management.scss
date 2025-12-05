@@ -1,0 +1,111 @@
+.management-container {
+  padding: 0;
+
+  .lead-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .table {
+    th {
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #6c757d;
+    }
+
+    td {
+      padding: 1rem 0.5rem;
+    }
+
+    tbody tr {
+      transition: background-color 0.2s ease;
+      
+      &:hover {
+        background-color: #f8f9fa;
+      }
+
+      &.table-active {
+        background-color: #fff3cd !important;
+      }
+    }
+  }
+
+  .input-group-text {
+    background: transparent;
+    color: #6c757d;
+  }
+
+  .badge {
+    padding: 0.35rem 0.75rem;
+    font-weight: 500;
+    font-size: 0.75rem;
+  }
+
+  .btn-sm {
+    .bi {
+      font-size: 1rem;
+    }
+  }
+}
+
+// Modal enhancements
+.modal {
+  &.show {
+    padding-right: 0 !important;
+  }
+
+  .modal-header {
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 1.25rem 1.5rem;
+
+    .modal-title {
+      font-weight: 600;
+      color: #212529;
+    }
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+
+    .form-label {
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+
+    a {
+      color: var(--bs-primary);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .modal-footer {
+    background: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    padding: 1rem 1.5rem;
+  }
+}
+
+.modal-backdrop {
+  &.show {
+    opacity: 0.5;
+  }
+}

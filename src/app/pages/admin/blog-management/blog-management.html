@@ -1,1 +1,235 @@
-<p>blog-management works!</p>
+<div class="management-container">
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-3 mb-4 border-bottom">
+    <h1 class="h2">Blog Management</h1>
+    <button class="btn btn-primary" (click)="openAddModal()">
+      <i class="bi bi-plus-circle me-2"></i>New Blog Post
+    </button>
+  </div>
+
+  <!-- Search & Filter -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-8">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="bi bi-search"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control border-start-0 ps-0" 
+              placeholder="Search by title, content, or tags..."
+              [(ngModel)]="searchTerm"
+              (input)="filterPosts()">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="d-flex justify-content-end gap-2">
+            <button class="btn btn-outline-secondary">
+              <i class="bi bi-funnel me-2"></i>Filter
+            </button>
+            <button class="btn btn-outline-secondary">
+              <i class="bi bi-download me-2"></i>Export
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Data Table -->
+  <div *ngIf="!isLoading" class="card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light">
+          <tr>
+            <th class="px-4 py-3">Title</th>
+            <th class="py-3">Content Preview</th>
+            <th class="py-3">Tags</th>
+            <th class="py-3">Published</th>
+            <th class="py-3 text-end pe-4">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let post of paginatedPosts">
+            <td class="px-4">
+              <div class="d-flex align-items-center">
+                <div class="blog-icon me-3">
+                  <i class="bi bi-journal-text"></i>
+                </div>
+                <div>
+                  <div class="fw-semibold">{{ post.title }}</div>
+                  <small class="text-muted">by {{ post.authorId }}</small>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="text-truncate" style="max-width: 250px;">
+                {{ post.content }}
+              </div>
+            </td>
+            <td>
+              <div class="d-flex flex-wrap gap-1">
+                <span *ngFor="let tag of post.tags?.slice(0, 2)" class="badge bg-secondary-subtle text-secondary">
+                  {{ tag }}
+                </span>
+                <span *ngIf="(post.tags?.length || 0) > 2" class="badge bg-secondary-subtle text-secondary">
+                  +{{ (post.tags?.length || 0) - 2 }}
+                </span>
+              </div>
+            </td>
+            <td>
+              <small>{{ formatDate(post.publishedAt) }}</small>
+            </td>
+            <td class="text-end pe-4">
+              <div class="btn-group btn-group-sm" role="group">
+                <button class="btn btn-outline-info" title="Preview">
+                  <i class="bi bi-eye"></i>
+                </button>
+                <button class="btn btn-outline-primary" (click)="openEditModal(post)" title="Edit">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-outline-danger" (click)="deletePost(post)" title="Delete">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="filteredPosts.length === 0">
+            <td colspan="5" class="text-center py-5 text-muted">
+              <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+              No blog posts found
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="totalPages > 1" class="card-footer bg-white border-top">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-muted small">
+          Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to 
+          {{ Math.min(currentPage * itemsPerPage, filteredPosts.length) }} of 
+          {{ filteredPosts.length }} entries
+        </div>
+        <nav>
+          <ul class="pagination pagination-sm mb-0">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <a class="page-link" (click)="previousPage()" tabindex="-1">
+                <i class="bi bi-chevron-left"></i>
+              </a>
+            </li>
+            <li *ngFor="let page of pageNumbers" 
+                class="page-item" 
+                [class.active]="page === currentPage">
+              <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+            </li>
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <a class="page-link" (click)="nextPage()">
+                <i class="bi bi-chevron-right"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal fade" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{ modalMode === 'add' ? 'Create New Blog Post' : 'Edit Blog Post' }}
+        </h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label class="form-label">Title <span class="text-danger">*</span></label>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="currentPost.title" 
+              name="title"
+              placeholder="Enter blog post title"
+              required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Content <span class="text-danger">*</span></label>
+            <textarea 
+              class="form-control" 
+              rows="10" 
+              [(ngModel)]="currentPost.content" 
+              name="content"
+              placeholder="Write your blog post content here..."
+              required></textarea>
+            <small class="form-text text-muted">Rich text editor integration coming soon</small>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Tags</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="tagsString" 
+                name="tags"
+                placeholder="conservation, restoration, climate-change">
+              <small class="form-text text-muted">Separate tags with commas</small>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Featured Image URL</label>
+              <input 
+                type="url" 
+                class="form-control" 
+                [(ngModel)]="currentPost.imageUrl" 
+                name="imageUrl"
+                placeholder="https://example.com/image.jpg">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Author ID</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="currentPost.authorId" 
+              name="authorId"
+              placeholder="admin"
+              required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary me-auto">
+          <i class="bi bi-eye me-2"></i>Preview
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          (click)="savePost()"
+          [disabled]="!currentPost.title || !currentPost.content">
+          <i class="bi bi-check-circle me-2"></i>
+          {{ modalMode === 'add' ? 'Publish Post' : 'Save Changes' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="showModal" *ngIf="showModal" (click)="closeModal()"></div>

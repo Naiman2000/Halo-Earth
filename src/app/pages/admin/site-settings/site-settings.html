@@ -1,1 +1,324 @@
-<p>site-settings works!</p>
+<div class="settings-container">
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-3 mb-4 border-bottom">
+    <h1 class="h2">Site Settings</h1>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-secondary" (click)="resetToDefaults()">
+        <i class="bi bi-arrow-counterclockwise me-2"></i>Reset to Defaults
+      </button>
+      <button class="btn btn-primary" (click)="saveSettings()" [disabled]="isSaving">
+        <span *ngIf="!isSaving">
+          <i class="bi bi-check-circle me-2"></i>Save Changes
+        </span>
+        <span *ngIf="isSaving">
+          <span class="spinner-border spinner-border-sm me-2"></span>Saving...
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Success Alert -->
+  <div *ngIf="saveSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    Settings saved successfully!
+  </div>
+
+  <!-- Tabs -->
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'general'" (click)="switchTab('general')">
+        <i class="bi bi-gear me-2"></i>General
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'contact'" (click)="switchTab('contact')">
+        <i class="bi bi-telephone me-2"></i>Contact
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'social'" (click)="switchTab('social')">
+        <i class="bi bi-share me-2"></i>Social Media
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'donation'" (click)="switchTab('donation')">
+        <i class="bi bi-cash-coin me-2"></i>Donation
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'advanced'" (click)="switchTab('advanced')">
+        <i class="bi bi-sliders me-2"></i>Advanced
+      </a>
+    </li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <!-- General Tab -->
+    <div *ngIf="activeTab === 'general'" class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <h5 class="card-title mb-4">General Information</h5>
+        <form>
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Site Name <span class="text-danger">*</span></label>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="config.siteName" 
+              name="siteName"
+              placeholder="Enter site name">
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Tagline</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="config.tagline" 
+              name="tagline"
+              placeholder="Enter site tagline">
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Description</label>
+            <textarea 
+              class="form-control" 
+              rows="4" 
+              [(ngModel)]="config.description" 
+              name="description"
+              placeholder="Enter site description"></textarea>
+            <small class="form-text text-muted">This will be used for meta descriptions and SEO.</small>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Contact Tab -->
+    <div *ngIf="activeTab === 'contact'" class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <h5 class="card-title mb-4">Contact Information</h5>
+        <form>
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Contact Email <span class="text-danger">*</span></label>
+            <input 
+              type="email" 
+              class="form-control" 
+              [(ngModel)]="config.contactEmail" 
+              name="contactEmail"
+              placeholder="info@example.com">
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Phone Number</label>
+            <input 
+              type="tel" 
+              class="form-control" 
+              [(ngModel)]="config.contactPhone" 
+              name="contactPhone"
+              placeholder="+1 (555) 123-4567">
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Address</label>
+            <textarea 
+              class="form-control" 
+              rows="3" 
+              [(ngModel)]="config.address" 
+              name="address"
+              placeholder="Enter complete address"></textarea>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Social Media Tab -->
+    <div *ngIf="activeTab === 'social'" class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <h5 class="card-title mb-4">Social Media Links</h5>
+        <form>
+          <div class="mb-4">
+            <label class="form-label fw-semibold">
+              <i class="bi bi-facebook text-primary me-2"></i>Facebook URL
+            </label>
+            <input 
+              type="url" 
+              class="form-control" 
+              [(ngModel)]="config.facebookUrl" 
+              name="facebookUrl"
+              placeholder="https://facebook.com/yourpage">
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">
+              <i class="bi bi-twitter text-info me-2"></i>Twitter URL
+            </label>
+            <input 
+              type="url" 
+              class="form-control" 
+              [(ngModel)]="config.twitterUrl" 
+              name="twitterUrl"
+              placeholder="https://twitter.com/yourhandle">
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">
+              <i class="bi bi-instagram text-danger me-2"></i>Instagram URL
+            </label>
+            <input 
+              type="url" 
+              class="form-control" 
+              [(ngModel)]="config.instagramUrl" 
+              name="instagramUrl"
+              placeholder="https://instagram.com/yourhandle">
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">
+              <i class="bi bi-linkedin text-primary me-2"></i>LinkedIn URL
+            </label>
+            <input 
+              type="url" 
+              class="form-control" 
+              [(ngModel)]="config.linkedinUrl" 
+              name="linkedinUrl"
+              placeholder="https://linkedin.com/company/yourcompany">
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Donation Tab -->
+    <div *ngIf="activeTab === 'donation'" class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <h5 class="card-title mb-4">Donation Settings</h5>
+        
+        <!-- Current Progress -->
+        <div class="mb-4 p-3 bg-light rounded">
+          <div class="d-flex justify-content-between mb-2">
+            <span class="fw-semibold">Current Progress</span>
+            <span class="fw-bold text-primary">{{ donationProgress.toFixed(1) }}%</span>
+          </div>
+          <div class="progress" style="height: 12px;">
+            <div 
+              class="progress-bar bg-success" 
+              [style.width.%]="donationProgress">
+            </div>
+          </div>
+          <small class="text-muted mt-2 d-block">
+            ${{ config.currentDonations.toLocaleString() }} of ${{ config.donationGoal.toLocaleString() }}
+          </small>
+        </div>
+
+        <form>
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Donation Goal (USD)</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              [(ngModel)]="config.donationGoal" 
+              name="donationGoal"
+              min="0"
+              placeholder="60000">
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Current Donations (USD)</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              [(ngModel)]="config.currentDonations" 
+              name="currentDonations"
+              min="0"
+              readonly
+              placeholder="45280">
+            <small class="form-text text-muted">This is calculated automatically from donation records.</small>
+          </div>
+
+          <hr class="my-4">
+
+          <h6 class="mb-3">Bank Details for QR Code</h6>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Bank Name</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="config.bankName" 
+              name="bankName"
+              placeholder="Ocean Bank">
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Account Number</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="config.accountNumber" 
+              name="accountNumber"
+              placeholder="1234567890">
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Account Name</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="config.accountName" 
+              name="accountName"
+              placeholder="Halo Earth Foundation">
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Advanced Tab -->
+    <div *ngIf="activeTab === 'advanced'" class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <h5 class="card-title mb-4">Advanced Settings</h5>
+        <form>
+          <div class="mb-4">
+            <div class="form-check form-switch">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                [(ngModel)]="config.maintenanceMode" 
+                name="maintenanceMode"
+                id="maintenanceSwitch">
+              <label class="form-check-label" for="maintenanceSwitch">
+                <strong>Maintenance Mode</strong>
+                <div class="text-muted small">
+                  When enabled, the public site will show a maintenance page.
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <div class="form-check form-switch">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                [(ngModel)]="config.allowRegistration" 
+                name="allowRegistration"
+                id="registrationSwitch">
+              <label class="form-check-label" for="registrationSwitch">
+                <strong>Allow User Registration</strong>
+                <div class="text-muted small">
+                  Enable or disable new user registration (future feature).
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="alert alert-warning d-flex align-items-start" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-3 fs-5"></i>
+            <div>
+              <strong>Warning:</strong> These settings can affect site availability. 
+              Make sure you understand the implications before making changes.
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
