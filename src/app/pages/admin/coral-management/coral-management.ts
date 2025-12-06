@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CoralSpecies } from '../../../models/coral-species.model';
@@ -13,6 +13,7 @@ import { CoralSpeciesService } from '../../../services/coral-species.service';
 })
 export class CoralManagement implements OnInit {
   private coralService = inject(CoralSpeciesService);
+  private cdr = inject(ChangeDetectorRef);
 
   corals: CoralSpecies[] = [];
   filteredCorals: CoralSpecies[] = [];
@@ -60,15 +61,26 @@ export class CoralManagement implements OnInit {
 
   loadCorals(): void {
     this.isLoading = true;
+    this.cdr.markForCheck(); // Mark for change detection
+    
     this.coralService.getCoralSpecies().subscribe({
       next: (corals) => {
-        this.corals = corals;
+        this.corals = corals || [];
         this.filterCorals(); // Initial filter apply
         this.isLoading = false;
+        this.cdr.markForCheck(); // Mark for change detection
       },
       error: (error) => {
         console.error('Error loading corals:', error);
         this.isLoading = false;
+        this.cdr.markForCheck(); // Mark for change detection
+      },
+      complete: () => {
+        // Ensure loading is false even if next didn't fire
+        if (this.isLoading) {
+          this.isLoading = false;
+          this.cdr.markForCheck(); // Mark for change detection
+        }
       }
     });
   }

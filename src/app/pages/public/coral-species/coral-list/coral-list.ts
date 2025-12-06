@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -19,6 +19,7 @@ export class CoralList implements OnInit, OnDestroy {
   private donationService = inject(DonationService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
   private subscription?: Subscription;
 
   corals: CoralSpecies[] = [];
@@ -55,10 +56,13 @@ export class CoralList implements OnInit, OnDestroy {
 
   private loadCorals() {
     this.isLoading = true;
+    this.cdr.markForCheck(); // Mark for change detection
+    
     this.subscription = this.coralService.getCoralSpecies().subscribe({
       next: (corals) => {
-        this.corals = corals;
+        this.corals = corals || [];
         this.isLoading = false;
+        this.cdr.markForCheck(); // Mark for change detection
       },
       error: (error) => {
         console.error('Error loading corals:', error);
@@ -120,6 +124,14 @@ export class CoralList implements OnInit, OnDestroy {
             location: 'Tropical Waters'
           }
         ];
+        this.cdr.markForCheck(); // Mark for change detection
+      },
+      complete: () => {
+        // Ensure loading is false even if next didn't fire
+        if (this.isLoading) {
+          this.isLoading = false;
+          this.cdr.markForCheck(); // Mark for change detection
+        }
       }
     });
   }
