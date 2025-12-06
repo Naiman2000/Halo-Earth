@@ -15,7 +15,7 @@ import { Timestamp } from '@angular/fire/firestore';
 })
 export class DonationForm implements OnInit {
   donationForm!: FormGroup;
-  presetAmounts = [50, 100, 250, 500];
+  presetAmounts = [10, 50, 100, 250];
   selectedAmount: number | null = null;
   qrCodeValue: string = '';
   referenceNumber: string = '';
