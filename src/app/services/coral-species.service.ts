@@ -17,5 +17,17 @@ export class CoralSpeciesService {
     getCoralById(id: string): Observable<CoralSpecies> {
         return this.firestoreService.getDoc<CoralSpecies>(this.collectionPath, id);
     }
+
+    addCoral(coral: CoralSpecies): Promise<string> {
+        return this.firestoreService.addDoc(this.collectionPath, coral).then(ref => ref.id);
+    }
+
+    updateCoral(id: string, coral: Partial<CoralSpecies>): Promise<void> {
+        return this.firestoreService.updateDoc(this.collectionPath, id, coral);
+    }
+
+    deleteCoral(id: string): Promise<void> {
+        return this.firestoreService.deleteDoc(this.collectionPath, id);
+    }
 }
 

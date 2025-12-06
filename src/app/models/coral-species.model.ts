@@ -4,5 +4,6 @@ export interface CoralSpecies {
     commonName: string;
     description: string;
     imageUrl?: string;
+    location?: string;
     conservationStatus: 'Least Concern' | 'Near Threatened' | 'Vulnerable' | 'Endangered' | 'Critically Endangered' | 'Extinct in the Wild' | 'Extinct';
 }

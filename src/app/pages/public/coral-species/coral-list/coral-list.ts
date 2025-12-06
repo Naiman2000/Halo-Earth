@@ -67,27 +67,57 @@ export class CoralList implements OnInit, OnDestroy {
         this.corals = [
           {
             id: '1',
-            scientificName: 'Acropora millepora',
+            scientificName: 'Acropora cervicornis',
             commonName: 'Staghorn Coral',
-            description: 'A branching coral species known for its rapid growth and important role in reef building.',
-            conservationStatus: 'Vulnerable',
-            imageUrl: 'https://images.unsplash.com/photo-1546026423-cc4642628d2b?auto=format&fit=crop&q=80&w=800'
+            description: 'Fast-growing branching coral that provides critical habitat for fish and invertebrates.',
+            conservationStatus: 'Critically Endangered',
+            imageUrl: 'https://images.unsplash.com/photo-1546026423-cc4642628d2b?auto=format&fit=crop&q=80&w=800',
+            location: 'Caribbean Sea'
           },
           {
             id: '2',
-            scientificName: 'Porites lobata',
-            commonName: 'Lobe Coral',
-            description: 'A massive coral species that forms large boulder-like structures on reefs.',
+            scientificName: 'Diploria labyrinthiformis',
+            commonName: 'Brain Coral',
+            description: 'Long-lived massive coral with distinctive grooved surface resembling a brain.',
             conservationStatus: 'Least Concern',
-            imageUrl: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?auto=format&fit=crop&q=80&w=800'
+            imageUrl: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?auto=format&fit=crop&q=80&w=800',
+            location: 'Atlantic Ocean'
           },
           {
             id: '3',
-            scientificName: 'Montipora capricornis',
-            commonName: 'Vase Coral',
-            description: 'A plating coral species with distinctive vase-like growth patterns.',
+            scientificName: 'Acropora palmata',
+            commonName: 'Elkhorn Coral',
+            description: 'Critically endangered species with broad, flattened branches like elk antlers.',
+            conservationStatus: 'Critically Endangered',
+            imageUrl: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=800',
+            location: 'Caribbean Sea'
+          },
+          {
+            id: '4',
+            scientificName: 'Acropora hyacinthus',
+            commonName: 'Table Coral',
+            description: 'Beautiful plate-like coral that forms extensive horizontal structures.',
             conservationStatus: 'Near Threatened',
-            imageUrl: 'https://images.unsplash.com/photo-1682687982501-1e58ab814714?auto=format&fit=crop&q=80&w=800'
+            imageUrl: 'https://images.unsplash.com/photo-1682687982501-1e58ab814714?auto=format&fit=crop&q=80&w=800',
+            location: 'Indo-Pacific'
+          },
+          {
+            id: '5',
+            scientificName: 'Dendrogyra cylindrus',
+            commonName: 'Pillar Coral',
+            description: 'Rare and unique coral with tall, pillar-like columns reaching towards the surface.',
+            conservationStatus: 'Vulnerable',
+            imageUrl: 'https://images.unsplash.com/photo-1534234058651-73977dc8d123?auto=format&fit=crop&q=80&w=800',
+            location: 'Caribbean Sea'
+          },
+          {
+            id: '6',
+            scientificName: 'Millepora alcicornis',
+            commonName: 'Fire Coral',
+            description: 'Vibrant golden-brown coral that plays an important role in reef structure.',
+            conservationStatus: 'Least Concern',
+            imageUrl: 'https://images.unsplash.com/photo-1620893322421-509cb7b77134?auto=format&fit=crop&q=80&w=800',
+            location: 'Tropical Waters'
           }
         ];
       }

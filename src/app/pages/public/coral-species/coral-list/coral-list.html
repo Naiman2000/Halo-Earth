@@ -6,99 +6,128 @@
         <div class="container hero-content">
             <h1 class="hero-title">Adopt a Coral</h1>
             <p class="hero-subtitle">
-                Choose a coral species to adopt and support. Your adoption helps fund conservation efforts
-                and restoration programs for these beautiful marine creatures.
+                Make a direct impact on coral reef restoration. Your adoption supports coral nurseries,
+                scientific research, and reef conservation efforts around the world.
             </p>
         </div>
     </div>
 
     <div class="container content-wrapper">
+        <!-- Benefits Grid -->
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="bi bi-gift"></i>
+                </div>
+                <h3 class="benefit-title">Adoption Certificate</h3>
+                <p class="benefit-desc">Personalized digital certificate with your coral's details</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="bi bi-camera"></i>
+                </div>
+                <h3 class="benefit-title">Photo Updates</h3>
+                <p class="benefit-desc">Quarterly photos showing your coral's growth</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="bi bi-envelope"></i>
+                </div>
+                <h3 class="benefit-title">Impact Reports</h3>
+                <p class="benefit-desc">Regular updates on conservation progress</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="bi bi-heart"></i>
+                </div>
+                <h3 class="benefit-title">Direct Impact</h3>
+                <p class="benefit-desc">100% goes to coral restoration projects</p>
+            </div>
+        </div>
+
+        <!-- Section Title -->
+        <div class="section-header">
+            <h2 class="section-title">Choose Your Coral</h2>
+            <p class="section-subtitle">Select a coral species to adopt and help protect our ocean's most vital
+                ecosystems</p>
+        </div>
+
         <!-- Coral Grid -->
         <div class="coral-grid">
             <div *ngFor="let coral of corals" class="coral-card" [class.selected]="selectedCoral === coral.id"
-                (click)="coral.id && selectCoral(coral.id)">
-                <div class="coral-image-wrapper">
-                    <img [src]="coral.imageUrl" [alt]="coral.commonName" class="coral-image">
-                    <div class="coral-overlay"></div>
+                (click)="coral.id && selectCoral(coral.id)" [style.backgroundImage]="'url(' + coral.imageUrl + ')'">
 
-                    <!-- Selection Check -->
-                    <div class="check-icon" *ngIf="selectedCoral === coral.id">
-                        <i class="bi bi-check-lg"></i>
-                    </div>
-                </div>
+                <div class="coral-overlay-gradient"></div>
 
-                <div class="coral-info">
+                <div class="coral-content">
                     <h3 class="coral-name">{{ coral.commonName }}</h3>
                     <p class="coral-scientific">{{ coral.scientificName }}</p>
                     <p class="coral-desc">{{ coral.description }}</p>
                     <div class="coral-location">
-                        <span>📍 South China Sea</span>
+                        <i class="bi bi-geo-alt-fill" style="color: #ef4444;"></i> {{ coral.location || 'Unknown
+                        Location' }}
                     </div>
                 </div>
 
-                <!-- Hover Overlay -->
-                <div class="hover-overlay" [class.active]="selectedCoral === coral.id"></div>
+                <!-- Selection Indicator -->
+                <div class="selection-overlay" *ngIf="selectedCoral === coral.id">
+                    <div class="check-circle">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Adoption Form -->
-        <div id="adoption-form" class="adoption-form-section">
-            <div class="form-card">
-                <h3 class="form-title">Complete Your Adoption</h3>
-
-                <p *ngIf="selectedCoral" class="selection-text">
-                    You've selected: <span class="highlight">{{ getSelectedCoralName() }}</span>
-                </p>
-                <p *ngIf="!selectedCoral" class="selection-text-empty">
-                    Please select a coral species above
-                </p>
-
-                <!-- QR Code -->
-                <div class="qr-container">
-                    <p class="qr-label">Scan to Pay</p>
-                    <div class="qr-wrapper">
-                        <!-- Placeholder QR Image matching design -->
-                        <img src="https://images.unsplash.com/photo-1571867424488-4565932edb41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxRUiUyMGNvZGUlMjBwYXltZW50fGVufDF8fHx8MTc2NDY2MzA1N3ww&ixlib=rb-4.1.0&q=80&w=1080"
-                            alt="Payment QR Code" class="qr-image">
-                    </div>
-                    <p class="qr-methods">Alipay, WeChat Pay, or Bank Transfer</p>
+        <div id="adoption-form" class="adoption-form-section" [class.visible]="selectedCoral">
+            <div class="form-container">
+                <div class="form-header">
+                    <h3 class="form-title">Complete Your Adoption</h3>
+                    <p class="form-subtitle">Please select a coral species above</p>
                 </div>
 
-                <!-- Form -->
-                <form [formGroup]="donationForm" (ngSubmit)="onSubmit()" class="donation-form">
-                    <div class="form-group">
-                        <label for="donorName">Donor Name *</label>
-                        <input type="text" id="donorName" formControlName="donorName"
-                            placeholder="Enter your full name">
+                <div class="form-content" *ngIf="selectedCoral">
+
+                    <div class="payment-instruction">
+                        <div class="qr-box">
+                            <p class="qr-label">Scan to Pay</p>
+                            <!-- Placeholder QR -->
+                            <img src="https://images.unsplash.com/photo-1571867424488-4565932edb41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxRUiUyMGNvZGUlMjBwYXltZW50fGVufDF8fHx8MTc2NDY2MzA1N3ww&ixlib=rb-4.1.0&q=80&w=1080"
+                                alt="Payment QR Code" class="qr-image">
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="email">Email Address *</label>
-                        <input type="email" id="email" formControlName="email" placeholder="your.email@example.com">
-                    </div>
+                    <form [formGroup]="donationForm" (ngSubmit)="onSubmit()" class="donation-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="donorName">Name</label>
+                                <input type="text" id="donorName" formControlName="donorName"
+                                    placeholder="Your full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" formControlName="email" placeholder="email@address.com">
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="referenceCode">Payment Reference Code *</label>
-                        <input type="text" id="referenceCode" formControlName="referenceCode"
-                            placeholder="Enter transaction/reference code">
-                    </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="referenceCode">Payment Reference</label>
+                                <input type="text" id="referenceCode" formControlName="referenceCode"
+                                    placeholder="Transaction ID">
+                            </div>
+                            <div class="form-group">
+                                <label for="amount">Amount (MYR)</label>
+                                <input type="number" id="amount" formControlName="amount" placeholder="50">
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="amount">Your Contribution Amount *</label>
-                        <input type="number" id="amount" formControlName="amount"
-                            placeholder="Enter any amount you wish to contribute (MYR)">
-                        <p class="help-text">Every contribution helps protect our coral reefs</p>
-                    </div>
-
-                    <button type="submit" class="submit-btn" [disabled]="isSubmitting">
-                        <i class="bi bi-heart-fill"></i>
-                        Submit Adoption
-                    </button>
-                </form>
-
-                <p class="footer-text">
-                    Your adoption supports coral nurseries, scientific research, and reef conservation efforts.
-                </p>
+                        <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+                            <span *ngIf="!isSubmitting">Complete Adoption</span>
+                            <span *ngIf="isSubmitting">Processing...</span>
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

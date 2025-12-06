@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CoralSpecies } from '../../../models/coral-species.model';
+import { CoralSpeciesService } from '../../../services/coral-species.service';
 
 @Component({
   selector: 'app-coral-management',
@@ -11,6 +12,8 @@ import { CoralSpecies } from '../../../models/coral-species.model';
   styleUrl: './coral-management.scss',
 })
 export class CoralManagement implements OnInit {
+  private coralService = inject(CoralSpeciesService);
+
   corals: CoralSpecies[] = [];
   filteredCorals: CoralSpecies[] = [];
   searchTerm = '';
@@ -18,7 +21,8 @@ export class CoralManagement implements OnInit {
   isLoading = true;
   showModal = false;
   modalMode: 'add' | 'edit' = 'add';
-  
+  isSaving = false;
+
   currentCoral: CoralSpecies = this.getEmptyCoral();
 
   conservationStatuses = [
@@ -49,53 +53,34 @@ export class CoralManagement implements OnInit {
       commonName: '',
       description: '',
       imageUrl: '',
+      location: '',
       conservationStatus: 'Least Concern'
     };
   }
 
   loadCorals(): void {
-    setTimeout(() => {
-      this.corals = [
-        {
-          id: '1',
-          scientificName: 'Acropora cervicornis',
-          commonName: 'Staghorn Coral',
-          description: 'Fast-growing coral with cylindrical branches that form dense thickets',
-          imageUrl: '',
-          conservationStatus: 'Critically Endangered'
-        },
-        {
-          id: '2',
-          scientificName: 'Pocillopora damicornis',
-          commonName: 'Cauliflower Coral',
-          description: 'Hardy coral species with compact, rounded colonies',
-          imageUrl: '',
-          conservationStatus: 'Least Concern'
-        },
-        {
-          id: '3',
-          scientificName: 'Montipora capitata',
-          commonName: 'Rice Coral',
-          description: 'Reef-building coral with small polyps and encrusting growth form',
-          imageUrl: '',
-          conservationStatus: 'Near Threatened'
-        }
-      ];
-      
-      this.filteredCorals = [...this.corals];
-      this.updatePagination();
-      this.isLoading = false;
-    }, 500);
+    this.isLoading = true;
+    this.coralService.getCoralSpecies().subscribe({
+      next: (corals) => {
+        this.corals = corals;
+        this.filterCorals(); // Initial filter apply
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading corals:', error);
+        this.isLoading = false;
+      }
+    });
   }
 
   filterCorals(): void {
     const term = this.searchTerm.toLowerCase().trim();
     this.filteredCorals = this.corals.filter(coral => {
       const matchesSearch = coral.scientificName.toLowerCase().includes(term) ||
-                           coral.commonName.toLowerCase().includes(term) ||
-                           coral.description.toLowerCase().includes(term);
-      const matchesStatus = this.filterStatus === 'all' || 
-                           coral.conservationStatus === this.filterStatus;
+        coral.commonName.toLowerCase().includes(term) ||
+        coral.description.toLowerCase().includes(term);
+      const matchesStatus = this.filterStatus === 'all' ||
+        coral.conservationStatus === this.filterStatus;
       return matchesSearch && matchesStatus;
     });
     this.updatePagination();
@@ -128,28 +113,35 @@ export class CoralManagement implements OnInit {
     this.showModal = false;
   }
 
-  saveCoral(): void {
-    if (this.modalMode === 'add') {
-      const newCoral = {
-        ...this.currentCoral,
-        id: Date.now().toString()
-      };
-      this.corals.unshift(newCoral);
-    } else {
-      const index = this.corals.findIndex(c => c.id === this.currentCoral.id);
-      if (index !== -1) {
-        this.corals[index] = { ...this.currentCoral };
+  async saveCoral(): Promise<void> {
+    this.isSaving = true;
+    try {
+      if (this.modalMode === 'add') {
+        const { id, ...data } = this.currentCoral; // Remove ID for add
+        await this.coralService.addCoral(data as CoralSpecies);
+      } else {
+        if (this.currentCoral.id) {
+          await this.coralService.updateCoral(this.currentCoral.id, this.currentCoral);
+        }
       }
+      this.closeModal();
+      // Data will auto-update via subscription, but we can verify
+    } catch (error) {
+      console.error('Error saving coral:', error);
+      alert('Failed to save coral species.');
+    } finally {
+      this.isSaving = false;
     }
-    
-    this.filterCorals();
-    this.closeModal();
   }
 
-  deleteCoral(coral: CoralSpecies): void {
-    if (confirm(`Are you sure you want to delete "${coral.commonName}"?`)) {
-      this.corals = this.corals.filter(c => c.id !== coral.id);
-      this.filterCorals();
+  async deleteCoral(coral: CoralSpecies): Promise<void> {
+    if (confirm(`Are you sure you want to delete "${coral.commonName}"?`) && coral.id) {
+      try {
+        await this.coralService.deleteCoral(coral.id);
+      } catch (error) {
+        console.error('Error deleting coral:', error);
+        alert('Failed to delete coral species.');
+      }
     }
   }
 
