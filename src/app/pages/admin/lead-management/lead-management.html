@@ -95,7 +95,7 @@
               <span 
                 class="badge rounded-pill"
                 [ngClass]="'bg-' + getStatusBadgeClass(lead.status)">
-                {{ lead.status | titlecase }}
+                {{ (lead.status || 'new') | titlecase }}
               </span>
             </td>
             <td class="text-center">
@@ -203,7 +203,7 @@
               <span 
                 class="badge rounded-pill px-3 py-2"
                 [ngClass]="'bg-' + getStatusBadgeClass(selectedLead.status)">
-                {{ selectedLead.status | titlecase }}
+                {{ (selectedLead.status || 'new') | titlecase }}
               </span>
             </div>
           </div>

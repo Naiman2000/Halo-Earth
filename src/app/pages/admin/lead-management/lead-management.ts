@@ -1,17 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { FormSubmission } from '../../../models/form.model';
 import { Timestamp } from '@angular/fire/firestore';
-
-interface Lead extends FormSubmission {
-  name?: string;
-  email?: string;
-  phone?: string;
-  program?: string;
-  message?: string;
-  contacted?: boolean;
-}
+import { LeadService, Lead } from '../../../services/lead.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-lead-management',
@@ -20,7 +12,7 @@ interface Lead extends FormSubmission {
   templateUrl: './lead-management.html',
   styleUrl: './lead-management.scss',
 })
-export class LeadManagement implements OnInit {
+export class LeadManagement implements OnInit, OnDestroy {
   leads: Lead[] = [];
   filteredLeads: Lead[] = [];
   searchTerm = '';
@@ -29,6 +21,7 @@ export class LeadManagement implements OnInit {
   isLoading = true;
   showDetailModal = false;
   selectedLead: Lead | null = null;
+  private subscription?: Subscription;
 
   // Pagination
   currentPage = 1;
@@ -38,58 +31,32 @@ export class LeadManagement implements OnInit {
   // For template access
   Math = Math;
 
+  constructor(private leadService: LeadService) {}
+
   ngOnInit(): void {
     this.loadLeads();
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   loadLeads(): void {
-    setTimeout(() => {
-      this.leads = [
-        {
-          id: '1',
-          type: 'signup',
-          status: 'new',
-          name: 'Sarah Johnson',
-          email: 'sarah@example.com',
-          phone: '+1 555-0123',
-          program: 'Reef Restoration Program',
-          message: 'Interested in volunteering this summer',
-          submittedAt: Timestamp.fromDate(new Date('2024-12-05')),
-          contacted: false,
-          data: {}
-        },
-        {
-          id: '2',
-          type: 'signup',
-          status: 'read',
-          name: 'Michael Chen',
-          email: 'michael@example.com',
-          phone: '+1 555-0124',
-          program: 'Marine Research Initiative',
-          message: 'Looking for research opportunities',
-          submittedAt: Timestamp.fromDate(new Date('2024-12-04')),
-          contacted: true,
-          data: {}
-        },
-        {
-          id: '3',
-          type: 'signup',
-          status: 'new',
-          name: 'Emily Davis',
-          email: 'emily@example.com',
-          phone: '+1 555-0125',
-          program: 'Educational Outreach',
-          message: 'Want to help with school programs',
-          submittedAt: Timestamp.fromDate(new Date('2024-12-03')),
-          contacted: false,
-          data: {}
-        }
-      ];
-      
-      this.filteredLeads = [...this.leads];
-      this.updatePagination();
-      this.isLoading = false;
-    }, 500);
+    this.isLoading = true;
+    this.subscription = this.leadService.getLeads().subscribe({
+      next: (leads) => {
+        this.leads = leads;
+        this.filteredLeads = [...this.leads];
+        this.updatePagination();
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading leads:', error);
+        this.isLoading = false;
+      }
+    });
   }
 
   filterLeads(): void {
@@ -139,24 +106,39 @@ export class LeadManagement implements OnInit {
     this.selectedLead = null;
   }
 
-  updateLeadStatus(lead: Lead, status: 'new' | 'read' | 'archived'): void {
-    const index = this.leads.findIndex(l => l.id === lead.id);
-    if (index !== -1) {
-      this.leads[index].status = status;
-      this.filterLeads();
+  async updateLeadStatus(lead: Lead, status: 'new' | 'read' | 'archived'): Promise<void> {
+    if (!lead.id) {
+      alert('Cannot update status: Missing ID');
+      return;
+    }
+
+    try {
+      await this.leadService.updateLeadStatus(lead.id, status);
+      // The subscription will automatically update the list
+    } catch (error) {
+      console.error('Error updating lead status:', error);
+      alert('Failed to update lead status. Please try again.');
     }
   }
 
-  toggleContacted(lead: Lead): void {
-    const index = this.leads.findIndex(l => l.id === lead.id);
-    if (index !== -1) {
-      this.leads[index].contacted = !this.leads[index].contacted;
-      this.filterLeads();
+  async toggleContacted(lead: Lead): Promise<void> {
+    if (!lead.id) {
+      alert('Cannot update contacted status: Missing ID');
+      return;
+    }
+
+    try {
+      const newContactedStatus = !lead.contacted;
+      await this.leadService.updateLeadContacted(lead.id, newContactedStatus);
+      // The subscription will automatically update the list
+    } catch (error) {
+      console.error('Error updating contacted status:', error);
+      alert('Failed to update contacted status. Please try again.');
     }
   }
 
-  archiveLead(lead: Lead): void {
-    this.updateLeadStatus(lead, 'archived');
+  async archiveLead(lead: Lead): Promise<void> {
+    await this.updateLeadStatus(lead, 'archived');
     this.closeDetailModal();
   }
 
@@ -187,8 +169,11 @@ export class LeadManagement implements OnInit {
     window.URL.revokeObjectURL(url);
   }
 
-  formatDate(timestamp: Timestamp): string {
-    const date = timestamp.toDate();
+  formatDate(timestamp: Timestamp | Date | undefined): string {
+    if (!timestamp) {
+      return '—';
+    }
+    const date = timestamp instanceof Date ? timestamp : timestamp.toDate();
     return new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
       month: 'short',
@@ -196,13 +181,13 @@ export class LeadManagement implements OnInit {
     }).format(date);
   }
 
-  getStatusBadgeClass(status: string): string {
+  getStatusBadgeClass(status: string | undefined): string {
     const statusMap: { [key: string]: string } = {
       'new': 'danger',
       'read': 'warning',
       'archived': 'secondary'
     };
-    return statusMap[status] || 'secondary';
+    return status ? statusMap[status] || 'secondary' : 'secondary';
   }
 
   nextPage(): void {
