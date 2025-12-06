@@ -1,5 +1,7 @@
 import { Timestamp } from '@angular/fire/firestore';
 
+export type PaymentStatus = 'unverified' | 'verified';
+
 export interface Donation {
     id?: string;
     amount: number;
@@ -8,4 +10,6 @@ export interface Donation {
     message?: string;
     date: Timestamp;
     programId?: string; // Optional link to a specific program
+    reference?: string; // Donation reference number
+    status?: PaymentStatus; // Payment verification status
 }

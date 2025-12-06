@@ -30,7 +30,7 @@
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
             <div>
-              <h6 class="text-muted mb-1">Total Amount</h6>
+              <h6 class="text-muted mb-1">Total Amount (Verified)</h6>
               <h3 class="mb-0">{{ formatCurrency(totalAmount) }}</h3>
             </div>
             <div class="stat-icon bg-success-subtle text-success">
@@ -46,7 +46,7 @@
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
             <div>
-              <h6 class="text-muted mb-1">Average Amount</h6>
+              <h6 class="text-muted mb-1">Average Amount (Verified)</h6>
               <h3 class="mb-0">{{ formatCurrency(averageAmount) }}</h3>
             </div>
             <div class="stat-icon bg-info-subtle text-info">
@@ -70,7 +70,7 @@
             <input 
               type="text" 
               class="form-control border-start-0 ps-0" 
-              placeholder="Search by name, email, or amount..."
+              placeholder="Search by name, email, amount, or reference..."
               [(ngModel)]="searchTerm"
               (input)="filterDonations()">
           </div>
@@ -85,9 +85,11 @@
           </select>
         </div>
         <div class="col-md-3">
-          <button class="btn btn-outline-secondary w-100">
-            <i class="bi bi-funnel me-2"></i>Advanced Filters
-          </button>
+          <select class="form-select" [(ngModel)]="filterStatus" (change)="filterDonations()">
+            <option value="all">All Status</option>
+            <option value="unverified">Unverified</option>
+            <option value="verified">Verified</option>
+          </select>
         </div>
       </div>
     </div>
@@ -108,6 +110,8 @@
           <tr>
             <th class="px-4 py-3">Donor</th>
             <th class="py-3">Amount</th>
+            <th class="py-3">Reference</th>
+            <th class="py-3">Status</th>
             <th class="py-3">Date</th>
             <th class="py-3">Message</th>
             <th class="py-3 text-end pe-4">Actions</th>
@@ -132,6 +136,43 @@
               </span>
             </td>
             <td>
+              <code class="text-primary">{{ donation.reference || '—' }}</code>
+            </td>
+            <td>
+              <div *ngIf="!isEditingStatus(donation)" class="d-flex align-items-center gap-2">
+                <span class="badge" [ngClass]="getStatusBadgeClass(donation.status)">
+                  {{ getStatusText(donation.status) }}
+                </span>
+                <button 
+                  class="btn btn-sm btn-link p-0 text-muted" 
+                  (click)="startEditingStatus(donation)"
+                  title="Edit Status">
+                  <i class="bi bi-pencil"></i>
+                </button>
+              </div>
+              <div *ngIf="isEditingStatus(donation)" class="d-flex align-items-center gap-2">
+                <select 
+                  class="form-select form-select-sm" 
+                  style="width: auto;"
+                  [(ngModel)]="editingStatus[donation.id!]">
+                  <option value="unverified">Unverified</option>
+                  <option value="verified">Verified</option>
+                </select>
+                <button 
+                  class="btn btn-sm btn-success p-1" 
+                  (click)="saveStatus(donation)"
+                  title="Save">
+                  <i class="bi bi-check"></i>
+                </button>
+                <button 
+                  class="btn btn-sm btn-secondary p-1" 
+                  (click)="cancelEditingStatus(donation)"
+                  title="Cancel">
+                  <i class="bi bi-x"></i>
+                </button>
+              </div>
+            </td>
+            <td>
               <small>{{ formatDate(donation.date) }}</small>
             </td>
             <td>
@@ -140,13 +181,21 @@
               </div>
             </td>
             <td class="text-end pe-4">
-              <button class="btn btn-sm btn-outline-primary" (click)="viewDetails(donation)">
-                <i class="bi bi-eye me-1"></i>View
-              </button>
+              <div class="btn-group" role="group">
+                <button class="btn btn-sm btn-outline-primary" (click)="viewDetails(donation)" title="View Details">
+                  <i class="bi bi-eye"></i>
+                </button>
+                <button 
+                  class="btn btn-sm btn-outline-danger" 
+                  (click)="deleteDonation(donation)"
+                  title="Delete Donation">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
             </td>
           </tr>
           <tr *ngIf="filteredDonations.length === 0">
-            <td colspan="5" class="text-center py-5 text-muted">
+            <td colspan="7" class="text-center py-5 text-muted">
               <i class="bi bi-inbox fs-1 d-block mb-2"></i>
               No donations found
             </td>
@@ -210,6 +259,28 @@
             <p class="fw-semibold fs-4 text-success">{{ formatCurrency(selectedDonation.amount) }}</p>
           </div>
           <div class="col-md-6">
+            <label class="form-label text-muted small">Reference Number</label>
+            <p class="fw-semibold">
+              <code class="text-primary">{{ selectedDonation.reference || 'Not available' }}</code>
+            </p>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label text-muted small">Payment Status</label>
+            <div class="d-flex align-items-center gap-2">
+              <select 
+                class="form-select" 
+                style="width: auto;"
+                [ngModel]="selectedDonation.status || 'unverified'"
+                (ngModelChange)="updateStatus(selectedDonation, $event)">
+                <option value="unverified">Unverified</option>
+                <option value="verified">Verified</option>
+              </select>
+              <span class="badge" [ngClass]="getStatusBadgeClass(selectedDonation.status)">
+                {{ getStatusText(selectedDonation.status) }}
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6">
             <label class="form-label text-muted small">Date & Time</label>
             <p class="fw-semibold">{{ formatDate(selectedDonation.date) }}</p>
           </div>
@@ -226,7 +297,15 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary">
+        <div class="me-auto">
+          <button 
+            type="button" 
+            class="btn btn-danger me-2"
+            (click)="deleteDonation(selectedDonation); closeDetailModal()">
+            <i class="bi bi-trash me-2"></i>Delete
+          </button>
+        </div>
+        <button type="button" class="btn btn-outline-primary me-2">
           <i class="bi bi-envelope me-2"></i>Send Thank You
         </button>
         <button type="button" class="btn btn-secondary" (click)="closeDetailModal()">Close</button>

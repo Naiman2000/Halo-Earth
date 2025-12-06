@@ -61,7 +61,7 @@ export class Dashboard implements OnInit {
           id: '1',
           type: 'donation',
           title: 'New Donation Received',
-          description: 'John Doe donated $250',
+          description: 'John Doe donated RM 250',
           time: new Date(Date.now() - 1000 * 60 * 15),
           status: 'success'
         },
