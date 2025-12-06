@@ -30,6 +30,14 @@ export class AuthService {
   });
 
   constructor() {
+    // Initialize with current user if available
+    const currentUser = this.auth.currentUser;
+    if (currentUser) {
+      this.currentUser.set(currentUser);
+      this.loadUserData(currentUser.uid);
+    }
+    
+    // Listen for auth state changes
     onAuthStateChanged(this.auth, async (user) => {
       this.currentUser.set(user);
       if (user) {
@@ -73,7 +81,6 @@ export class AuthService {
 
           try {
             await setDoc(userDocRef, userData);
-            console.log('User document created in Firestore for:', firebaseUser.email);
             
             // Set the user data after creation
             this.userData.set({

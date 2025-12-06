@@ -61,13 +61,41 @@ export class UserManagement implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    // Wait for auth state to be ready
+    let attempts = 0;
+    let currentUser = this.authService.getCurrentUser();
+    
+    // Wait up to 3 seconds for auth to initialize
+    while (!currentUser && attempts < 30) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      currentUser = this.authService.getCurrentUser();
+      attempts++;
+    }
+    
+    if (!currentUser) {
+      alert('Not authenticated. Please log in first.');
+      window.location.href = '/admin/login';
+      return;
+    }
+    
+    // Wait for user data to load from Firestore
+    await this.authService.refreshUserData();
+    
+    // Wait a bit more to ensure the signal has updated
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
     // Check if user can access this page
-    if (!this.authService.canCreateUsers()) {
-      console.error('Access denied: Only super admins can manage users');
-      alert('Access denied: Only super admins can manage users');
-      // Optionally redirect to dashboard
-      // this.router.navigate(['/admin/dashboard']);
+    const userData = this.authService.getUserData();
+    const isSuperAdmin = this.authService.isSuperAdmin();
+    const userId = this.authService.getCurrentUser()?.uid;
+    
+    if (!isSuperAdmin) {
+      const errorMsg = userData 
+        ? `Access denied: Only super admins can manage users. Your current role is: "${userData.role}". Please ensure your user document in Firestore (users/${userId}) has role set to 'super-admin'.`
+        : `Access denied: Only super admins can manage users. User document not found in Firestore. Please ensure a user document exists at users/${userId} with role set to 'super-admin'.`;
+      
+      alert(errorMsg);
       return;
     }
     
@@ -89,8 +117,8 @@ export class UserManagement implements OnInit, OnDestroy {
         this.isLoading.set(false);
       },
       error: (error) => {
-        console.error('Error loading users:', error);
         this.isLoading.set(false);
+        alert('Error loading users. Please try again.');
       }
     });
   }

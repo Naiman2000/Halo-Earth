@@ -12,7 +12,9 @@ export class FirestoreService {
     getCollection<T>(path: string): Observable<T[]> {
         try {
             const colRef = collection(this.firestore, path);
-            return collectionData(colRef, { idField: 'id' }).pipe(
+            // Use query() to ensure proper type handling
+            const q = query(colRef);
+            return collectionData(q, { idField: 'id' }).pipe(
                 catchError(error => {
                     console.error(`Error loading collection ${path}:`, error);
                     return of([]);

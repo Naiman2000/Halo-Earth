@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
-import { Firestore, doc, setDoc, serverTimestamp } from '@angular/fire/firestore';
+import { Firestore, doc, setDoc, serverTimestamp, Timestamp } from '@angular/fire/firestore';
 import { Observable, map } from 'rxjs';
 import { User, UserRole } from '../models/user.model';
 import { AuthService } from './auth.service';
@@ -18,8 +18,22 @@ export class UserService {
 
   getUsers(): Observable<User[]> {
     return this.firestoreService.getCollection<User>(this.collectionPath).pipe(
-      map(users => users.filter(user => user.active !== false))
+      map(users => users
+        .filter(user => user.active !== false)
+        .map(user => this.convertTimestamps(user))
+      )
     );
+  }
+
+  private convertTimestamps(user: User): User {
+    // Convert Firestore Timestamp to Date
+    if (user.createdAt && typeof user.createdAt === 'object' && 'toDate' in user.createdAt) {
+      user.createdAt = (user.createdAt as Timestamp).toDate();
+    }
+    if (user.updatedAt && typeof user.updatedAt === 'object' && 'toDate' in user.updatedAt) {
+      user.updatedAt = (user.updatedAt as Timestamp).toDate();
+    }
+    return user;
   }
 
   getUser(id: string): Observable<User | undefined> {
