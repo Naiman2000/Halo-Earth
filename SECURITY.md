@@ -103,7 +103,7 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
     
-    match /blog/{document} {
+    match /articles/{document} {
       allow read: if true;
       allow write: if isAdmin();
     }

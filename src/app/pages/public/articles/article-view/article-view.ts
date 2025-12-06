@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Article, ArticleService } from '../../../../services/article.service';
+import { Article } from '../../../../models/article.model';
+import { ArticleService } from '../../../../services/article.service';
 import { Observable, of, switchMap } from 'rxjs';
 
 @Component({
@@ -25,16 +26,19 @@ export class ArticleView implements OnInit {
         this.article$ = this.route.paramMap.pipe(
             switchMap(params => {
                 const id = params.get('id');
-                return this.articleService.getArticleById(id!);
+                if (!id) {
+                    return of(undefined);
+                }
+                return this.articleService.getArticleById(id);
             })
         );
 
         this.relatedArticles$ = this.article$.pipe(
             switchMap(article => {
-                if (article) {
+                if (article && article.id) {
                     return this.articleService.getRelatedArticles(article.category, article.id);
                 }
-                return [];
+                return of([]);
             })
         );
     }

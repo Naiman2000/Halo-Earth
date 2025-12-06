@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Article, ArticleService } from '../../../../services/article.service';
+import { Article } from '../../../../models/article.model';
+import { ArticleService } from '../../../../services/article.service';
 
 @Component({
   selector: 'app-article-detail',
@@ -12,6 +13,7 @@ import { Article, ArticleService } from '../../../../services/article.service';
 })
 export class ArticleDetail implements OnInit {
   articles: Article[] = [];
+  isLoading = true;
 
   categories = [
     'All',
@@ -32,8 +34,21 @@ export class ArticleDetail implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.articleService.getArticles().subscribe(articles => {
-      this.articles = articles;
+    this.loadArticles();
+  }
+
+  loadArticles() {
+    this.isLoading = true;
+    this.articleService.getArticles().subscribe({
+      next: (articles) => {
+        this.articles = articles || [];
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading articles:', error);
+        this.articles = [];
+        this.isLoading = false;
+      }
     });
   }
 

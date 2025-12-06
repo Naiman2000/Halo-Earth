@@ -7,7 +7,13 @@
         </p>
     </header>
 
-    <section class="article-controls">
+    <!-- Loading State -->
+    <section *ngIf="isLoading" class="article-loading">
+        <div class="loading-spinner"></div>
+        <p>Loading articles...</p>
+    </section>
+
+    <section class="article-controls" *ngIf="!isLoading">
         <div class="search-wrapper">
             <input type="text" placeholder="Search articles..." [(ngModel)]="searchQuery" />
         </div>
@@ -19,7 +25,7 @@
         </div>
     </section>
 
-    <section class="article-featured" *ngIf="featuredArticle as a">
+    <section class="article-featured" *ngIf="!isLoading && featuredArticle as a">
         <article class="feature-card">
             <div class="feature-image" [style.background-image]="'url(' + a.image + ')'"></div>
             <div class="feature-body">
@@ -33,7 +39,7 @@
                     <span>{{ a.author }}</span>
                     <span>{{ a.date }}</span>
                 </div>
-                <button class="feature-button" type="button" (click)="viewArticle(a.id)">
+                <button class="feature-button" type="button" (click)="viewArticle(a.id!)" *ngIf="a.id">
                     <span>Read Article</span>
                     <span>→</span>
                 </button>
@@ -41,7 +47,7 @@
         </article>
     </section>
 
-    <section class="article-list-wrapper" *ngIf="listArticles.length > 0">
+    <section class="article-list-wrapper" *ngIf="!isLoading && listArticles.length > 0">
         <h2>Latest Articles</h2>
         <div class="article-list">
             <article class="article-card" *ngFor="let a of listArticles">
@@ -55,10 +61,9 @@
                     <p class="article-card-excerpt">{{ a.excerpt }}</p>
                     <div class="article-card-meta">
                         <span>{{ a.author }}</span>
-                        <!-- Simple date formatting for demo -->
-                        <span>{{ a.date.split(' ').slice(0, 2).join(' ') }}</span>
+                        <span>{{ a.date ? a.date.split(' ').slice(0, 2).join(' ') : '' }}</span>
                     </div>
-                    <button class="article-card-button" type="button" (click)="viewArticle(a.id)">
+                    <button class="article-card-button" type="button" (click)="viewArticle(a.id!)" *ngIf="a.id">
                         Read More
                     </button>
                 </div>
@@ -66,7 +71,7 @@
         </div>
     </section>
 
-    <section class="article-empty" *ngIf="filteredArticles.length === 0">
+    <section class="article-empty" *ngIf="!isLoading && filteredArticles.length === 0">
         <p>No articles found. Try a different search or category.</p>
     </section>
 </div>

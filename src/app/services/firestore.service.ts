@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, collectionData, addDoc, doc, docData, updateDoc, deleteDoc, query, where, orderBy, limit } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of, tap } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -10,8 +10,22 @@ export class FirestoreService {
 
     // Generic get collection
     getCollection<T>(path: string): Observable<T[]> {
-        const colRef = collection(this.firestore, path);
-        return collectionData(colRef, { idField: 'id' }) as Observable<T[]>;
+        try {
+            const colRef = collection(this.firestore, path);
+            return collectionData(colRef, { idField: 'id' }).pipe(
+                tap(data => {
+                    // Log for debugging - remove in production if needed
+                    console.log(`Loaded ${data.length} items from ${path}`);
+                }),
+                catchError(error => {
+                    console.error(`Error loading collection ${path}:`, error);
+                    return of([]);
+                })
+            ) as Observable<T[]>;
+        } catch (error) {
+            console.error(`Error creating collection reference for ${path}:`, error);
+            return of([]);
+        }
     }
 
     // Generic get document
