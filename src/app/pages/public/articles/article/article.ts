@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -30,7 +30,8 @@ export class ArticleDetail implements OnInit {
 
   constructor(
     private articleService: ArticleService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -39,15 +40,26 @@ export class ArticleDetail implements OnInit {
 
   loadArticles() {
     this.isLoading = true;
+    this.cdr.markForCheck(); // Mark for change detection
+    
     this.articleService.getArticles().subscribe({
       next: (articles) => {
         this.articles = articles || [];
         this.isLoading = false;
+        this.cdr.markForCheck(); // Mark for change detection
       },
       error: (error) => {
         console.error('Error loading articles:', error);
         this.articles = [];
         this.isLoading = false;
+        this.cdr.markForCheck(); // Mark for change detection
+      },
+      complete: () => {
+        // Ensure loading is false even if next didn't fire
+        if (this.isLoading) {
+          this.isLoading = false;
+          this.cdr.markForCheck(); // Mark for change detection
+        }
       }
     });
   }

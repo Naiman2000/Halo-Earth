@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, map, catchError, of } from 'rxjs';
+import { Observable, map, catchError, of, take, timeout } from 'rxjs';
 import { Article } from '../models/article.model';
 import { FirestoreService } from './firestore.service';
 import { Timestamp } from '@angular/fire/firestore';
@@ -60,6 +60,8 @@ export class ArticleService {
 
     getArticles(): Observable<Article[]> {
         return this.firestoreService.getCollection<Article>(this.collectionPath).pipe(
+            take(1), // Take first emission and complete the observable immediately
+            timeout(15000), // 15 second timeout to prevent hanging
             map(articles => {
                 if (!articles || articles.length === 0) {
                     return [];
