@@ -1,0 +1,274 @@
+<div class="management-container">
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-3 mb-4 border-bottom">
+    <h1 class="h2">User Management</h1>
+    <button class="btn btn-success" (click)="openCreateModal()">
+      <i class="bi bi-person-plus me-2"></i>Create User
+    </button>
+  </div>
+
+  <!-- Search & Filter -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-10">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="bi bi-search"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control border-start-0 ps-0" 
+              placeholder="Search by name, email, or role..."
+              [value]="searchTerm()"
+              (input)="searchTerm.set($any($event.target).value); filterUsers()">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  @if (isLoading()) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  }
+
+  <!-- Data Table -->
+  @if (!isLoading()) {
+    <div class="card border-0 shadow-sm">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light">
+            <tr>
+              <th class="px-4 py-3">User</th>
+              <th class="py-3">Email</th>
+              <th class="py-3 text-center">Role</th>
+              <th class="py-3 text-center">Status</th>
+              <th class="py-3">Created</th>
+              <th class="py-3 text-end pe-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (user of paginatedUsers(); track user.id) {
+              <tr>
+                <td class="px-4">
+                  <div class="d-flex align-items-center">
+                    <div class="user-avatar me-3">
+                      {{ ((user.displayName && user.displayName.charAt(0)) || (user.email && user.email.charAt(0)) || '?').toUpperCase() }}
+                    </div>
+                    <div>
+                      <div class="fw-semibold">{{ user.displayName || '—' }}</div>
+                      <small class="text-muted">{{ user.role }}</small>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span>{{ user.email }}</span>
+                </td>
+                <td class="text-center">
+                  <span 
+                    class="badge rounded-pill"
+                    [class.bg-danger]="user.role === 'super-admin'"
+                    [class.bg-primary]="user.role === 'admin'">
+                    {{ user.role === 'super-admin' ? 'Super Admin' : 'Admin' }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <span 
+                    class="badge rounded-pill"
+                    [class.bg-success]="user.active !== false"
+                    [class.bg-secondary]="user.active === false">
+                    {{ user.active !== false ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+                <td>
+                  <small>{{ user.createdAt ? (user.createdAt | date:'short') : '—' }}</small>
+                </td>
+                <td class="text-end pe-4">
+                  <button class="btn btn-sm btn-outline-primary me-2" (click)="openEditModal(user)">
+                    <i class="bi bi-pencil me-1"></i>Edit
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="openDeleteModal(user)">
+                    <i class="bi bi-trash me-1"></i>Delete
+                  </button>
+                </td>
+              </tr>
+            }
+            @if (filteredUsers().length === 0) {
+              <tr>
+                <td colspan="6" class="text-center py-5 text-muted">
+                  <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                  No users found
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      @if (totalPages() > 1) {
+        <div class="card-footer bg-white border-top">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="text-muted small">
+              Showing {{ (currentPage() - 1) * itemsPerPage + 1 }} to 
+              {{ Math.min(currentPage() * itemsPerPage, filteredUsers().length) }} of 
+              {{ filteredUsers().length }} entries
+            </div>
+            <nav>
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item" [class.disabled]="currentPage() === 1">
+                  <a class="page-link" (click)="previousPage()" tabindex="-1">
+                    <i class="bi bi-chevron-left"></i>
+                  </a>
+                </li>
+                @for (page of pageNumbers; track page) {
+                  <li class="page-item" [class.active]="page === currentPage()">
+                    <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+                  </li>
+                }
+                <li class="page-item" [class.disabled]="currentPage() === totalPages()">
+                  <a class="page-link" (click)="nextPage()">
+                    <i class="bi bi-chevron-right"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<!-- Create User Modal -->
+<div class="modal fade" [class.show]="showCreateModal()" [style.display]="showCreateModal() ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create New User</h5>
+        <button type="button" class="btn-close" (click)="closeCreateModal()"></button>
+      </div>
+      <form [formGroup]="createUserForm" (ngSubmit)="onCreateSubmit()">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Email <span class="text-danger">*</span></label>
+            <input type="email" class="form-control" formControlName="email" [class.is-invalid]="createUserForm.get('email')?.invalid && createUserForm.get('email')?.touched">
+            @if (createUserForm.get('email')?.invalid && createUserForm.get('email')?.touched) {
+              <div class="invalid-feedback">Please enter a valid email address</div>
+            }
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password <span class="text-danger">*</span></label>
+            <input type="password" class="form-control" formControlName="password" [class.is-invalid]="createUserForm.get('password')?.invalid && createUserForm.get('password')?.touched">
+            @if (createUserForm.get('password')?.invalid && createUserForm.get('password')?.touched) {
+              <div class="invalid-feedback">Password must be at least 6 characters</div>
+            }
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Display Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="displayName" [class.is-invalid]="createUserForm.get('displayName')?.invalid && createUserForm.get('displayName')?.touched">
+            @if (createUserForm.get('displayName')?.invalid && createUserForm.get('displayName')?.touched) {
+              <div class="invalid-feedback">Please enter a display name</div>
+            }
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Role <span class="text-danger">*</span></label>
+            <select class="form-select" formControlName="role" [class.is-invalid]="createUserForm.get('role')?.invalid && createUserForm.get('role')?.touched">
+              <option value="admin">Admin</option>
+              @if (authService.isSuperAdmin()) {
+                <option value="super-admin">Super Admin</option>
+              }
+            </select>
+            <small class="text-muted">Only super admins can create other super admins</small>
+            <div class="alert alert-warning mt-2 mb-0" role="alert">
+              <small><i class="bi bi-info-circle me-1"></i><strong>Note:</strong> You will be signed out after creating a user. This is a limitation of Firebase Auth client SDK. Your email will be pre-filled on the login page.</small>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeCreateModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="createUserForm.invalid">Create User</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="showCreateModal()" *ngIf="showCreateModal()" (click)="closeCreateModal()"></div>
+
+<!-- Edit User Modal -->
+<div class="modal fade" [class.show]="showEditModal()" [style.display]="showEditModal() ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit User</h5>
+        <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+      </div>
+      <form [formGroup]="editUserForm" (ngSubmit)="onEditSubmit()">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" [value]="selectedUser()?.email" disabled>
+            <small class="text-muted">Email cannot be changed</small>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Display Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="displayName" [class.is-invalid]="editUserForm.get('displayName')?.invalid && editUserForm.get('displayName')?.touched">
+            @if (editUserForm.get('displayName')?.invalid && editUserForm.get('displayName')?.touched) {
+              <div class="invalid-feedback">Please enter a display name</div>
+            }
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Role <span class="text-danger">*</span></label>
+            <select class="form-select" formControlName="role" [class.is-invalid]="editUserForm.get('role')?.invalid && editUserForm.get('role')?.touched">
+              <option value="admin">Admin</option>
+              @if (authService.isSuperAdmin()) {
+                <option value="super-admin">Super Admin</option>
+              }
+            </select>
+            <small class="text-muted">Only super admins can assign super-admin role</small>
+          </div>
+          <div class="mb-3">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" formControlName="active" id="activeCheck">
+              <label class="form-check-label" for="activeCheck">
+                Active
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="editUserForm.invalid">Update User</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="showEditModal()" *ngIf="showEditModal()" (click)="closeEditModal()"></div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" [class.show]="showDeleteModal()" [style.display]="showDeleteModal() ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete User</h5>
+        <button type="button" class="btn-close" (click)="closeDeleteModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete <strong>{{ selectedUser()?.displayName || selectedUser()?.email }}</strong>?</p>
+        <p class="text-muted small">This action will deactivate the user account. They will no longer be able to access the admin panel.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="confirmDelete()">Delete User</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="showDeleteModal()" *ngIf="showDeleteModal()" (click)="closeDeleteModal()"></div>
+

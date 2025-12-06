@@ -31,6 +31,7 @@ import { LeadManagement } from './pages/admin/lead-management/lead-management';
 import { MessageManagement } from './pages/admin/message-management/message-management';
 import { SiteSettings } from './pages/admin/site-settings/site-settings';
 import { GalleryManagement } from './pages/admin/gallery-management/gallery-management';
+import { UserManagement } from './pages/admin/user-management/user-management';
 
 export const routes: Routes = [
     {
@@ -54,6 +55,7 @@ export const routes: Routes = [
             { path: 'messages', component: MessageManagement },
             { path: 'settings', component: SiteSettings },
             { path: 'gallery', component: GalleryManagement },
+            { path: 'users', component: UserManagement },
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
     },

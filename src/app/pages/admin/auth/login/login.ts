@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth, signInWithEmailAndPassword, sendPasswordResetEmail } from '@angular/fire/auth';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ export class Login {
   private fb = inject(FormBuilder);
   private auth = inject(Auth);
   private router = inject(Router);
+  private authService = inject(AuthService);
   
   loginForm: FormGroup;
   isSubmitting = false;
@@ -28,10 +30,20 @@ export class Login {
       rememberMe: [false]
     });
 
-    // Check for saved credentials
-    const savedEmail = localStorage.getItem('rememberedEmail');
-    if (savedEmail) {
-      this.loginForm.patchValue({ email: savedEmail, rememberMe: true });
+    // Check for saved credentials or pending re-login
+    const pendingReLoginEmail = localStorage.getItem('pendingReLoginEmail');
+    if (pendingReLoginEmail) {
+      this.loginForm.patchValue({ email: pendingReLoginEmail, rememberMe: true });
+      localStorage.removeItem('pendingReLoginEmail');
+      // Show a message that user was created successfully
+      setTimeout(() => {
+        alert('User created successfully! Please sign back in to continue.');
+      }, 100);
+    } else {
+      const savedEmail = localStorage.getItem('rememberedEmail');
+      if (savedEmail) {
+        this.loginForm.patchValue({ email: savedEmail, rememberMe: true });
+      }
     }
   }
 
@@ -53,6 +65,11 @@ export class Login {
 
       // Sign in with Firebase
       await signInWithEmailAndPassword(this.auth, email, password);
+
+      // Ensure user document exists in Firestore (will be created automatically by AuthService)
+      // Wait a moment for the auth state to update
+      await new Promise(resolve => setTimeout(resolve, 500));
+      await this.authService.refreshUserData();
 
       // Save email if remember me is checked
       if (rememberMe) {
