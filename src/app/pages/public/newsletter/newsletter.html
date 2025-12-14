@@ -1,5 +1,13 @@
 <div class="newsletter-page ocean-bg">
-    <div class="container-fluid px-4">
+    <!-- Full-screen Background Image -->
+    <div class="fullscreen-bg">
+        <img src="/assets/newsletter-bg.jpg" alt="Underwater divers background" />
+    </div>
+
+    <!-- Cyan Gradient Overlay -->
+    <div class="gradient-overlay gradient-overlay-cyan"></div>
+
+    <div class="container-fluid px-4 content-wrapper">
         <!-- Hero Section -->
         <section class="newsletter-hero text-overlay">
             <div class="hero-icon">
@@ -9,7 +17,7 @@
             </div>
             <h1 class="hero-title">Ocean Waves Newsletter</h1>
             <p class="hero-subtitle">
-                Stay connected with the latest coral conservation news, marine research breakthroughs, 
+                Stay connected with the latest coral conservation news, marine research breakthroughs,
                 and opportunities to make a difference in ocean preservation.
             </p>
         </section>
@@ -29,15 +37,11 @@
                             <!-- First Name -->
                             <div class="form-group mb-3">
                                 <label for="firstName" class="form-label">First Name</label>
-                                <input 
-                                    type="text" 
-                                    id="firstName"
-                                    formControlName="firstName"
-                                    class="form-control input-mycoral"
-                                    placeholder="Your first name"
-                                    [class.is-invalid]="newsletterForm.get('firstName')?.invalid && newsletterForm.get('firstName')?.touched"
-                                />
-                                <div class="invalid-feedback" *ngIf="newsletterForm.get('firstName')?.invalid && newsletterForm.get('firstName')?.touched">
+                                <input type="text" id="firstName" formControlName="firstName"
+                                    class="form-control input-mycoral" placeholder="Your first name"
+                                    [class.is-invalid]="newsletterForm.get('firstName')?.invalid && newsletterForm.get('firstName')?.touched" />
+                                <div class="invalid-feedback"
+                                    *ngIf="newsletterForm.get('firstName')?.invalid && newsletterForm.get('firstName')?.touched">
                                     Please enter your first name
                                 </div>
                             </div>
@@ -47,16 +51,12 @@
                                 <label for="email" class="form-label">Email Address</label>
                                 <div class="input-wrapper">
                                     <i class="bi bi-envelope input-icon"></i>
-                                    <input 
-                                        type="email" 
-                                        id="email"
-                                        formControlName="email"
-                                        class="form-control input-mycoral"
-                                        placeholder="your.email@example.com"
-                                        [class.is-invalid]="newsletterForm.get('email')?.invalid && newsletterForm.get('email')?.touched"
-                                    />
+                                    <input type="email" id="email" formControlName="email"
+                                        class="form-control input-mycoral" placeholder="your.email@example.com"
+                                        [class.is-invalid]="newsletterForm.get('email')?.invalid && newsletterForm.get('email')?.touched" />
                                 </div>
-                                <div class="invalid-feedback" *ngIf="newsletterForm.get('email')?.invalid && newsletterForm.get('email')?.touched">
+                                <div class="invalid-feedback"
+                                    *ngIf="newsletterForm.get('email')?.invalid && newsletterForm.get('email')?.touched">
                                     Please enter a valid email address
                                 </div>
                             </div>
@@ -65,13 +65,9 @@
                             <div class="form-group mb-4">
                                 <label class="form-label">Your Interests (optional)</label>
                                 <div class="interest-tags">
-                                    <button 
-                                        type="button"
-                                        *ngFor="let interest of availableInterests"
-                                        [class.active]="isInterestSelected(interest)"
-                                        (click)="toggleInterest(interest)"
-                                        class="interest-tag"
-                                    >
+                                    <button type="button" *ngFor="let interest of availableInterests"
+                                        [class.active]="isInterestSelected(interest)" (click)="toggleInterest(interest)"
+                                        class="interest-tag">
                                         {{ interest }}
                                     </button>
                                 </div>
@@ -88,11 +84,7 @@
                             </div>
 
                             <!-- Submit Button -->
-                            <button 
-                                type="submit" 
-                                class="btn btn-mycoral w-100"
-                                [disabled]="isSubmitting"
-                            >
+                            <button type="submit" class="btn btn-mycoral w-100" [disabled]="isSubmitting">
                                 <span *ngIf="!isSubmitting">Subscribe</span>
                                 <span *ngIf="isSubmitting">
                                     <span class="spinner-border spinner-border-sm me-2" role="status"></span>
@@ -115,7 +107,8 @@
                                 <div class="benefit-content">
                                     <h3 class="benefit-title">Conservation Updates</h3>
                                     <p class="benefit-description">
-                                        Monthly reports on our coral restoration projects and their impact on marine ecosystems.
+                                        Monthly reports on our coral restoration projects and their impact on marine
+                                        ecosystems.
                                     </p>
                                 </div>
                             </div>
@@ -127,7 +120,8 @@
                                 <div class="benefit-content">
                                     <h3 class="benefit-title">Marine Education</h3>
                                     <p class="benefit-description">
-                                        Expert insights, research findings, and fascinating facts about coral reefs and ocean life.
+                                        Expert insights, research findings, and fascinating facts about coral reefs and
+                                        ocean life.
                                     </p>
                                 </div>
                             </div>
@@ -139,7 +133,8 @@
                                 <div class="benefit-content">
                                     <h3 class="benefit-title">Exclusive Opportunities</h3>
                                     <p class="benefit-description">
-                                        Early access to volunteer programs, events, and special campaigns for subscribers only.
+                                        Early access to volunteer programs, events, and special campaigns for
+                                        subscribers only.
                                     </p>
                                 </div>
                             </div>
@@ -151,7 +146,8 @@
                                 <div class="benefit-content">
                                     <h3 class="benefit-title">Event Invitations</h3>
                                     <p class="benefit-description">
-                                        Get invited to webinars, workshops, and exclusive events with marine conservation experts.
+                                        Get invited to webinars, workshops, and exclusive events with marine
+                                        conservation experts.
                                     </p>
                                 </div>
                             </div>
@@ -162,4 +158,3 @@
         </section>
     </div>
 </div>
-

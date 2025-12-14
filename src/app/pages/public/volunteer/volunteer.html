@@ -6,17 +6,14 @@
                 <div class="volunteer-content text-overlay">
                     <h1 class="volunteer-title">Become a Reef Guardian</h1>
                     <p class="volunteer-description">
-                        Join a passionate community dedicated to making a difference. As a volunteer, you can 
-                        participate in local cleanup events, help in our coral nurseries, or contribute your skills 
+                        Join a passionate community dedicated to making a difference. As a volunteer, you can
+                        participate in local cleanup events, help in our coral nurseries, or contribute your skills
                         remotely. Your time and talent are invaluable to our cause.
                     </p>
                     <!-- Volunteer Image Placeholder -->
                     <div class="volunteer-image">
-                        <img 
-                            src="/assets/examplepic1.png" 
-                            alt="Volunteers working together for coral conservation"
-                            class="img-fluid rounded"
-                        />
+                        <img src="/assets/volunteer-bg.jpg" alt="Volunteers working together for coral conservation"
+                            class="img-fluid rounded" />
                     </div>
                 </div>
             </div>
@@ -31,15 +28,11 @@
                         <!-- Full Name -->
                         <div class="form-group mb-3">
                             <label for="fullName" class="form-label">Full Name</label>
-                            <input 
-                                type="text" 
-                                id="fullName"
-                                formControlName="fullName"
-                                class="form-control input-mycoral"
-                                placeholder="Alex Reefsaver"
-                                [class.is-invalid]="volunteerForm.get('fullName')?.invalid && volunteerForm.get('fullName')?.touched"
-                            />
-                            <div class="invalid-feedback" *ngIf="volunteerForm.get('fullName')?.invalid && volunteerForm.get('fullName')?.touched">
+                            <input type="text" id="fullName" formControlName="fullName"
+                                class="form-control input-mycoral" placeholder="Alex Reefsaver"
+                                [class.is-invalid]="volunteerForm.get('fullName')?.invalid && volunteerForm.get('fullName')?.touched" />
+                            <div class="invalid-feedback"
+                                *ngIf="volunteerForm.get('fullName')?.invalid && volunteerForm.get('fullName')?.touched">
                                 Please enter your full name
                             </div>
                         </div>
@@ -47,15 +40,11 @@
                         <!-- Email -->
                         <div class="form-group mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input 
-                                type="email" 
-                                id="email"
-                                formControlName="email"
-                                class="form-control input-mycoral"
+                            <input type="email" id="email" formControlName="email" class="form-control input-mycoral"
                                 placeholder="alex@oceanlover.com"
-                                [class.is-invalid]="volunteerForm.get('email')?.invalid && volunteerForm.get('email')?.touched"
-                            />
-                            <div class="invalid-feedback" *ngIf="volunteerForm.get('email')?.invalid && volunteerForm.get('email')?.touched">
+                                [class.is-invalid]="volunteerForm.get('email')?.invalid && volunteerForm.get('email')?.touched" />
+                            <div class="invalid-feedback"
+                                *ngIf="volunteerForm.get('email')?.invalid && volunteerForm.get('email')?.touched">
                                 Please enter a valid email address
                             </div>
                         </div>
@@ -63,13 +52,8 @@
                         <!-- Interests -->
                         <div class="form-group mb-4">
                             <label for="interests" class="form-label">Your Interests (optional)</label>
-                            <textarea 
-                                id="interests"
-                                formControlName="interests"
-                                class="form-control input-mycoral"
-                                rows="4"
-                                placeholder="e.g., Scuba diving, graphic design, event planning..."
-                            ></textarea>
+                            <textarea id="interests" formControlName="interests" class="form-control input-mycoral"
+                                rows="4" placeholder="e.g., Scuba diving, graphic design, event planning..."></textarea>
                         </div>
 
                         <!-- Error Message -->
@@ -83,11 +67,8 @@
                         </div>
 
                         <!-- Submit Button -->
-                        <button 
-                            type="submit" 
-                            class="btn btn-mycoral w-100 volunteer-submit-btn"
-                            [disabled]="isSubmitting"
-                        >
+                        <button type="submit" class="btn btn-mycoral w-100 volunteer-submit-btn"
+                            [disabled]="isSubmitting">
                             <i class="bi bi-people-fill me-2"></i>
                             <span *ngIf="!isSubmitting">Sign Up to Volunteer</span>
                             <span *ngIf="isSubmitting">
@@ -98,7 +79,7 @@
 
                         <!-- Footer Text -->
                         <p class="form-footer">
-                            Questions? Email us at 
+                            Questions? Email us at
                             <a href="mailto:volunteer@coralconservation.org" class="email-link">
                                 volunteer@coralconservation.org
                             </a>
@@ -109,4 +90,3 @@
         </div>
     </div>
 </div>
-

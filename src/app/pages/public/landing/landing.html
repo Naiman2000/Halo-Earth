@@ -1,7 +1,12 @@
 <div class="landing-page ocean-bg">
     <!-- Full-screen Background Image -->
     <div class="fullscreen-bg">
-        <img src="/assets/background1.png" alt="Underwater coral reef background" />
+        <video autoplay muted loop playsinline poster="/assets/grpfishunderwater.webp">
+            <!-- Expected video file -> -->
+            <source src="/assets/grpfishunderwater.mp4" type="video/mp4">
+            <!-- Fallback to image if video not supported/found -->
+            <img src="/assets/grpfishunderwater.webp" alt="Underwater coral reef background" />
+        </video>
     </div>
 
     <!-- Cyan Gradient Overlay -->
@@ -12,12 +17,12 @@
         <div class="container-fluid px-6 pt-32">
             <!-- Hero Content -->
             <div class="hero-content">
-                <div class="max-w-4xl">
+                <div class="max-w-4xl" *ngIf="settings$ | async as settings">
                     <h1 class="hero-title text-8xl text-9xl-md mb-4">
-                        Title.
+                        {{ settings.siteName }}
                     </h1>
                     <p class="hero-subtitle text-xl mb-16 tracking-wide">
-                        DESCRIPTION: 123456789​10
+                        {{ settings.description }}
                     </p>
                 </div>
             </div>

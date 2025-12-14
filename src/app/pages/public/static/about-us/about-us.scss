@@ -150,3 +150,47 @@
     }
 }
 
+/* Added utilities */
+.max-w-4xl {
+    max-width: 56rem;
+}
+
+.text-lg {
+    font-size: 1.125rem;
+}
+
+.text-2xl {
+    font-size: 1.5rem;
+}
+
+.fw-bold {
+    font-weight: 700;
+}
+
+.text-start {
+    text-align: left;
+}
+
+.list-disc {
+    list-style-type: disc;
+}
+
+.ps-6 {
+    padding-left: 1.5rem;
+}
+
+.mb-0 {
+    margin-bottom: 0;
+}
+
+.mb-10 {
+    margin-bottom: 2.5rem;
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}
+
+.p-6 {
+    padding: 1.5rem;
+}
