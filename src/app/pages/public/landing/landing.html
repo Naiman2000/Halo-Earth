@@ -45,22 +45,33 @@
                     <div class="d-flex align-items-center gap-4">
                         <!-- Social Media Icons -->
                         <div class="d-flex align-items-center gap-3">
-                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-                                class="glass-icon-circle" aria-label="Instagram">
-                                <i class="bi bi-instagram"></i>
-                            </a>
-                            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
-                                class="glass-icon-circle" aria-label="YouTube">
-                                <i class="bi bi-youtube"></i>
-                            </a>
-                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
-                                class="glass-icon-circle" aria-label="Facebook">
-                                <i class="bi bi-facebook"></i>
-                            </a>
-                            <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="glass-icon-circle"
-                                aria-label="Twitter">
-                                <i class="bi bi-twitter-x"></i>
-                            </a>
+                            <ng-container *ngIf="settings$ | async as settings">
+                                <a *ngIf="settings.showInstagram && settings.instagramUrl"
+                                    [href]="settings.instagramUrl" target="_blank" rel="noopener noreferrer"
+                                    class="glass-icon-circle" aria-label="Instagram">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                                <a *ngIf="settings.showYoutube && settings.youtubeUrl" [href]="settings.youtubeUrl"
+                                    target="_blank" rel="noopener noreferrer" class="glass-icon-circle"
+                                    aria-label="YouTube">
+                                    <i class="bi bi-youtube"></i>
+                                </a>
+                                <a *ngIf="settings.showFacebook && settings.facebookUrl" [href]="settings.facebookUrl"
+                                    target="_blank" rel="noopener noreferrer" class="glass-icon-circle"
+                                    aria-label="Facebook">
+                                    <i class="bi bi-facebook"></i>
+                                </a>
+                                <a *ngIf="settings.showTwitter && settings.twitterUrl" [href]="settings.twitterUrl"
+                                    target="_blank" rel="noopener noreferrer" class="glass-icon-circle"
+                                    aria-label="Twitter">
+                                    <i class="bi bi-twitter-x"></i>
+                                </a>
+                                <a *ngIf="settings.showLinkedin && settings.linkedinUrl" [href]="settings.linkedinUrl"
+                                    target="_blank" rel="noopener noreferrer" class="glass-icon-circle"
+                                    aria-label="LinkedIn">
+                                    <i class="bi bi-linkedin"></i>
+                                </a>
+                            </ng-container>
                         </div>
 
                         <!-- Donate Button -->

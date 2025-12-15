@@ -16,7 +16,7 @@ export class PublicFooterComponent implements OnInit, OnDestroy {
     private subscription?: Subscription;
 
     currentYear = new Date().getFullYear();
-    
+
     // Settings from admin (auto-updates when admin changes them!)
     siteName = 'Halo Earth';
     description = 'Dedicated to the preservation and restoration of our planet\'s coral reefs for future generations.';
@@ -24,6 +24,10 @@ export class PublicFooterComponent implements OnInit, OnDestroy {
     twitterUrl = '';
     instagramUrl = '';
     linkedinUrl = '';
+    showFacebook = true;
+    showTwitter = true;
+    showInstagram = true;
+    showLinkedin = true;
     contactEmail = '';
     contactPhone = '';
     address = '';
@@ -41,6 +45,10 @@ export class PublicFooterComponent implements OnInit, OnDestroy {
                 this.contactEmail = settings.contactEmail;
                 this.contactPhone = settings.contactPhone;
                 this.address = settings.address;
+                this.showFacebook = settings.showFacebook ?? true;
+                this.showTwitter = settings.showTwitter ?? true;
+                this.showInstagram = settings.showInstagram ?? true;
+                this.showLinkedin = settings.showLinkedin ?? true;
             }
         });
     }
@@ -53,7 +61,7 @@ export class PublicFooterComponent implements OnInit, OnDestroy {
         event.preventDefault();
         const form = event.target as HTMLFormElement;
         const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement;
-        
+
         if (emailInput && emailInput.value) {
             // Redirect to newsletter page with email pre-filled or handle submission
             window.location.href = `/newsletter?email=${encodeURIComponent(emailInput.value)}`;

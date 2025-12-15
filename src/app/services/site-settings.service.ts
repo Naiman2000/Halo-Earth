@@ -14,6 +14,12 @@ export interface SiteSettings {
   twitterUrl: string;
   instagramUrl: string;
   linkedinUrl: string;
+  showFacebook: boolean;
+  showTwitter: boolean;
+  showInstagram: boolean;
+  showLinkedin: boolean;
+  showYoutube: boolean;
+  youtubeUrl: string;
   bankName: string;
   accountNumber: string;
   accountName: string;
@@ -29,7 +35,7 @@ export interface SiteSettings {
 export class SiteSettingsService {
   private firestore = inject(Firestore);
   private settingsSubject = new BehaviorSubject<SiteSettings | null>(null);
-  
+
   // Observable for components to subscribe to
   settings$ = this.settingsSubject.asObservable();
 
@@ -62,6 +68,12 @@ export class SiteSettingsService {
       donationGoal: 60000,
       currentDonations: 45280,
       maintenanceMode: false,
+      showFacebook: true,
+      showTwitter: true,
+      showInstagram: true,
+      showLinkedin: true,
+      showYoutube: true,
+      youtubeUrl: 'https://youtube.com/haloearth',
       allowRegistration: true
     };
   }
@@ -71,7 +83,7 @@ export class SiteSettingsService {
    */
   loadSettings(): void {
     const docRef = doc(this.firestore, this.SETTINGS_DOC);
-    
+
     from(getDoc(docRef)).pipe(
       map(docSnap => {
         if (docSnap.exists()) {
@@ -114,7 +126,7 @@ export class SiteSettingsService {
    */
   async saveSettings(settings: SiteSettings): Promise<void> {
     const docRef = doc(this.firestore, this.SETTINGS_DOC);
-    
+
     try {
       await setDoc(docRef, settings, { merge: true });
       this.settingsSubject.next(settings);

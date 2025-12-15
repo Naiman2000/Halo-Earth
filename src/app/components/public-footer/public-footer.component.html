@@ -12,16 +12,20 @@
                     </p>
                     <div class="social-links">
                         <!-- Dynamic social links from admin settings -->
-                        <a *ngIf="twitterUrl" [href]="twitterUrl" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter">
+                        <a *ngIf="twitterUrl && showTwitter" [href]="twitterUrl" target="_blank"
+                            rel="noopener noreferrer" class="social-link" aria-label="Twitter">
                             <i class="bi bi-twitter-x"></i>
                         </a>
-                        <a *ngIf="facebookUrl" [href]="facebookUrl" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
+                        <a *ngIf="facebookUrl && showFacebook" [href]="facebookUrl" target="_blank"
+                            rel="noopener noreferrer" class="social-link" aria-label="Facebook">
                             <i class="bi bi-facebook"></i>
                         </a>
-                        <a *ngIf="instagramUrl" [href]="instagramUrl" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+                        <a *ngIf="instagramUrl && showInstagram" [href]="instagramUrl" target="_blank"
+                            rel="noopener noreferrer" class="social-link" aria-label="Instagram">
                             <i class="bi bi-instagram"></i>
                         </a>
-                        <a *ngIf="linkedinUrl" [href]="linkedinUrl" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+                        <a *ngIf="linkedinUrl && showLinkedin" [href]="linkedinUrl" target="_blank"
+                            rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
                             <i class="bi bi-linkedin"></i>
                         </a>
                     </div>
@@ -42,7 +46,8 @@
             <!-- Stay Updated / Newsletter -->
             <div class="col-lg-6 col-md-12">
                 <h5 class="footer-heading">Stay Updated</h5>
-                <p class="footer-description-small">Subscribe to our newsletter for the latest news on coral conservation.</p>
+                <p class="footer-description-small">Subscribe to our newsletter for the latest news on coral
+                    conservation.</p>
                 <a routerLink="/newsletter" class="btn btn-mycoral-outline mb-3 w-100">
                     Subscribe to Newsletter
                 </a>
@@ -60,7 +65,7 @@
             </p>
         </div>
     </div>
-    
+
     <!-- Help Button -->
     <button class="help-button" aria-label="Help">
         <i class="bi bi-question-circle"></i>

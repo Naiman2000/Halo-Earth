@@ -67,31 +67,19 @@
         <form>
           <div class="mb-4">
             <label class="form-label fw-semibold">Site Name <span class="text-danger">*</span></label>
-            <input 
-              type="text" 
-              class="form-control" 
-              [(ngModel)]="config.siteName" 
-              name="siteName"
+            <input type="text" class="form-control" [(ngModel)]="config.siteName" name="siteName"
               placeholder="Enter site name">
           </div>
 
           <div class="mb-4">
             <label class="form-label fw-semibold">Tagline</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              [(ngModel)]="config.tagline" 
-              name="tagline"
+            <input type="text" class="form-control" [(ngModel)]="config.tagline" name="tagline"
               placeholder="Enter site tagline">
           </div>
 
           <div class="mb-4">
             <label class="form-label fw-semibold">Description</label>
-            <textarea 
-              class="form-control" 
-              rows="4" 
-              [(ngModel)]="config.description" 
-              name="description"
+            <textarea class="form-control" rows="4" [(ngModel)]="config.description" name="description"
               placeholder="Enter site description"></textarea>
             <small class="form-text text-muted">This will be used for meta descriptions and SEO.</small>
           </div>
@@ -106,31 +94,19 @@
         <form>
           <div class="mb-4">
             <label class="form-label fw-semibold">Contact Email <span class="text-danger">*</span></label>
-            <input 
-              type="email" 
-              class="form-control" 
-              [(ngModel)]="config.contactEmail" 
-              name="contactEmail"
+            <input type="email" class="form-control" [(ngModel)]="config.contactEmail" name="contactEmail"
               placeholder="info@example.com">
           </div>
 
           <div class="mb-4">
             <label class="form-label fw-semibold">Phone Number</label>
-            <input 
-              type="tel" 
-              class="form-control" 
-              [(ngModel)]="config.contactPhone" 
-              name="contactPhone"
+            <input type="tel" class="form-control" [(ngModel)]="config.contactPhone" name="contactPhone"
               placeholder="+1 (555) 123-4567">
           </div>
 
           <div class="mb-4">
             <label class="form-label fw-semibold">Address</label>
-            <textarea 
-              class="form-control" 
-              rows="3" 
-              [(ngModel)]="config.address" 
-              name="address"
+            <textarea class="form-control" rows="3" [(ngModel)]="config.address" name="address"
               placeholder="Enter complete address"></textarea>
           </div>
         </form>
@@ -146,48 +122,80 @@
             <label class="form-label fw-semibold">
               <i class="bi bi-facebook text-primary me-2"></i>Facebook URL
             </label>
-            <input 
-              type="url" 
-              class="form-control" 
-              [(ngModel)]="config.facebookUrl" 
-              name="facebookUrl"
-              placeholder="https://facebook.com/yourpage">
+            <div class="input-group">
+              <div class="input-group-text bg-light">
+                <div class="form-check form-switch mb-0">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="config.showFacebook" name="showFacebook"
+                    title="Show Facebook link on public site">
+                </div>
+              </div>
+              <input type="url" class="form-control" [(ngModel)]="config.facebookUrl" name="facebookUrl"
+                placeholder="https://facebook.com/yourpage">
+            </div>
           </div>
 
           <div class="mb-4">
             <label class="form-label fw-semibold">
               <i class="bi bi-twitter text-info me-2"></i>Twitter URL
             </label>
-            <input 
-              type="url" 
-              class="form-control" 
-              [(ngModel)]="config.twitterUrl" 
-              name="twitterUrl"
-              placeholder="https://twitter.com/yourhandle">
+            <div class="input-group">
+              <div class="input-group-text bg-light">
+                <div class="form-check form-switch mb-0">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="config.showTwitter" name="showTwitter"
+                    title="Show Twitter link on public site">
+                </div>
+              </div>
+              <input type="url" class="form-control" [(ngModel)]="config.twitterUrl" name="twitterUrl"
+                placeholder="https://twitter.com/yourhandle">
+            </div>
           </div>
 
           <div class="mb-4">
             <label class="form-label fw-semibold">
               <i class="bi bi-instagram text-danger me-2"></i>Instagram URL
             </label>
-            <input 
-              type="url" 
-              class="form-control" 
-              [(ngModel)]="config.instagramUrl" 
-              name="instagramUrl"
-              placeholder="https://instagram.com/yourhandle">
+            <div class="input-group">
+              <div class="input-group-text bg-light">
+                <div class="form-check form-switch mb-0">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="config.showInstagram"
+                    name="showInstagram" title="Show Instagram link on public site">
+                </div>
+              </div>
+              <input type="url" class="form-control" [(ngModel)]="config.instagramUrl" name="instagramUrl"
+                placeholder="https://instagram.com/yourhandle">
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">
+              <i class="bi bi-youtube text-danger me-2"></i>YouTube URL
+            </label>
+            <div class="input-group">
+              <div class="input-group-text bg-light">
+                <div class="form-check form-switch mb-0">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="config.showYoutube" name="showYoutube"
+                    title="Show YouTube link on public site">
+                </div>
+              </div>
+              <input type="url" class="form-control" [(ngModel)]="config.youtubeUrl" name="youtubeUrl"
+                placeholder="https://youtube.com/yourchannel">
+            </div>
           </div>
 
           <div class="mb-4">
             <label class="form-label fw-semibold">
               <i class="bi bi-linkedin text-primary me-2"></i>LinkedIn URL
             </label>
-            <input 
-              type="url" 
-              class="form-control" 
-              [(ngModel)]="config.linkedinUrl" 
-              name="linkedinUrl"
-              placeholder="https://linkedin.com/company/yourcompany">
+            <div class="input-group">
+              <div class="input-group-text bg-light">
+                <div class="form-check form-switch mb-0">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="config.showLinkedin" name="showLinkedin"
+                    title="Show LinkedIn link on public site">
+                </div>
+              </div>
+              <input type="url" class="form-control" [(ngModel)]="config.linkedinUrl" name="linkedinUrl"
+                placeholder="https://linkedin.com/company/yourcompany">
+            </div>
           </div>
         </form>
       </div>
@@ -197,7 +205,7 @@
     <div *ngIf="activeTab === 'donation'" class="card border-0 shadow-sm">
       <div class="card-body p-4">
         <h5 class="card-title mb-4">Donation Settings</h5>
-        
+
         <!-- Current Progress -->
         <div class="mb-4 p-3 bg-light rounded">
           <div class="d-flex justify-content-between mb-2">
@@ -205,9 +213,7 @@
             <span class="fw-bold text-primary">{{ donationProgress.toFixed(1) }}%</span>
           </div>
           <div class="progress" style="height: 12px;">
-            <div 
-              class="progress-bar bg-success" 
-              [style.width.%]="donationProgress">
+            <div class="progress-bar bg-success" [style.width.%]="donationProgress">
             </div>
           </div>
           <small class="text-muted mt-2 d-block">
@@ -218,25 +224,14 @@
         <form>
           <div class="mb-4">
             <label class="form-label fw-semibold">Donation Goal (MYR)</label>
-            <input 
-              type="number" 
-              class="form-control" 
-              [(ngModel)]="config.donationGoal" 
-              name="donationGoal"
-              min="0"
+            <input type="number" class="form-control" [(ngModel)]="config.donationGoal" name="donationGoal" min="0"
               placeholder="60000">
           </div>
 
           <div class="mb-4">
             <label class="form-label fw-semibold">Current Donations (MYR)</label>
-            <input 
-              type="number" 
-              class="form-control" 
-              [(ngModel)]="config.currentDonations" 
-              name="currentDonations"
-              min="0"
-              readonly
-              placeholder="45280">
+            <input type="number" class="form-control" [(ngModel)]="config.currentDonations" name="currentDonations"
+              min="0" readonly placeholder="45280">
             <small class="form-text text-muted">This is calculated automatically from donation records.</small>
           </div>
 
@@ -246,31 +241,19 @@
 
           <div class="mb-4">
             <label class="form-label fw-semibold">Bank Name</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              [(ngModel)]="config.bankName" 
-              name="bankName"
+            <input type="text" class="form-control" [(ngModel)]="config.bankName" name="bankName"
               placeholder="Ocean Bank">
           </div>
 
           <div class="mb-4">
             <label class="form-label fw-semibold">Account Number</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              [(ngModel)]="config.accountNumber" 
-              name="accountNumber"
+            <input type="text" class="form-control" [(ngModel)]="config.accountNumber" name="accountNumber"
               placeholder="1234567890">
           </div>
 
           <div class="mb-4">
             <label class="form-label fw-semibold">Account Name</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              [(ngModel)]="config.accountName" 
-              name="accountName"
+            <input type="text" class="form-control" [(ngModel)]="config.accountName" name="accountName"
               placeholder="Halo Earth Foundation">
           </div>
         </form>
@@ -284,12 +267,8 @@
         <form>
           <div class="mb-4">
             <div class="form-check form-switch">
-              <input 
-                class="form-check-input" 
-                type="checkbox" 
-                [(ngModel)]="config.maintenanceMode" 
-                name="maintenanceMode"
-                id="maintenanceSwitch">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="config.maintenanceMode"
+                name="maintenanceMode" id="maintenanceSwitch">
               <label class="form-check-label" for="maintenanceSwitch">
                 <strong>Maintenance Mode</strong>
                 <div class="text-muted small">
@@ -301,12 +280,8 @@
 
           <div class="mb-4">
             <div class="form-check form-switch">
-              <input 
-                class="form-check-input" 
-                type="checkbox" 
-                [(ngModel)]="config.allowRegistration" 
-                name="allowRegistration"
-                id="registrationSwitch">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="config.allowRegistration"
+                name="allowRegistration" id="registrationSwitch">
               <label class="form-check-label" for="registrationSwitch">
                 <strong>Allow User Registration</strong>
                 <div class="text-muted small">
@@ -319,7 +294,7 @@
           <div class="alert alert-warning d-flex align-items-start" role="alert">
             <i class="bi bi-exclamation-triangle-fill me-3 fs-5"></i>
             <div>
-              <strong>Warning:</strong> These settings can affect site availability. 
+              <strong>Warning:</strong> These settings can affect site availability.
               Make sure you understand the implications before making changes.
             </div>
           </div>
