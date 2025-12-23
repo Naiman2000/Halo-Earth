@@ -1,108 +1,98 @@
 # Halo Earth - Coral Conservation Platform
 
-Halo Earth is a mobile-friendly, web-based platform dedicated to coral conservation. It connects users with partner programs, provides educational resources about coral species, and facilitates donations to support conservation efforts.
+Halo Earth is a premium, mobile-responsive web platform dedicated to coral reef conservation. Built with **Angular 20** and **Firebase**, it provides an immersive experience for users to learn about marine ecosystems, track conservation efforts via interactive maps, and support global initiatives through a secure donation system.
 
-## Features
+## ✨ Key Highlights
 
-### Public Website
-- **Homepage**: Mission statement, key statistics, and featured partner programs.
-- **Partner Programs**: Searchable directory of conservation partners with filtering options.
-- **Coral Dictionary**: Educational resource with details on various coral species.
-- **Blog/News**: Articles and updates on conservation efforts.
-- **Donation System**: Secure donation forms with QR code support for bank transfers.
-- **Contact & Interest Forms**: Easy ways for users to get in touch or express interest in volunteering.
+- **Premium UI/UX**: Modern glassmorphism design with full-screen cinematic backgrounds.
+- **Interactive Reef Mapping**: Real-time tracking of conservation sites using Leaflet.js.
+- **Comprehensive CMS**: Data-driven admin dashboard for managing all platform content.
+- **Secure Donations**: Integrated QR-code based donation system with manual verification workflows.
 
-### Admin Dashboard
-- **Secure Login**: Authenticated access for administrators.
-- **Dashboard Overview**: Statistics on donations, messages, and leads.
-- **Content Management**: Full CRUD capabilities for Partner Programs, Coral Species, Blog Posts, and Gallery.
-- **Donation & Lead Management**: Tools to view, verify, and export donation and lead data.
-- **Site Settings**: Global configuration for the website.
+## 🚀 Features
 
-## Technology Stack
+### 🌐 Public Portal
+- **Interactive Map**: Explore active conservation stations and expanding reef projects worldwide.
+- **Coral Dictionary**: A searchable, filterable educational resource for coral species and habitats.
+- **Partner Programs**: Directory of conservation organizations with detailed profiles.
+- **News & Insights**: Blog section with rich-text articles and category filtering.
+- **Newsletter Subscription**: Targeted updates based on user interests (Marine Research, Volunteer, etc.).
+- **Photo Gallery**: Immersive lightbox gallery showcasing reef restoration progress.
+- **Secure Donations**: Form-based donations with unique reference generation and QR support.
 
-- **Frontend**: Angular 20
-- **Styling**: Bootstrap 5
-- **Backend**: Firebase (Firestore, Authentication, Storage, Hosting)
-- **Key Libraries**:
-  - `angularx-qrcode`: For generating QR codes.
-  - `ngx-quill`: Rich text editor for admin content management.
-  - `@angular/fire`: Official Angular library for Firebase.
+### 🛡️ Management Dashboard (Admin)
+- **Dashboard Overview**: Centralized view of donation statistics, recent leads, and platform activity.
+- **User Management**: Support for **Super Admin** and **Admin** roles with secure 초대 (invite) and audit capabilities.
+- **Content CRUD**: Full lifecycle management for Partners, Coral Species, Articles, and Gallery assets.
+- **Donation & Lead Tracking**: Workflow tools to verify manual transfers and manage volunteer/interest leads.
+- **Site Settings**: Dynamic configuration of site name, social links, contact info, and SEO metadata.
 
-## Prerequisites
+## 🛠️ Technology Stack
 
-Before you begin, ensure you have the following installed:
-- **Node.js**: (Latest LTS version recommended)
-- **Angular CLI**: Version 20.1.4 or higher (`npm install -g @angular/cli`)
+- **Framework**: [Angular 20+](https://angular.dev/)
+- **State & Logic**: Signals-based architecture for reactive UI.
+- **Styling**: Bootstrap 5 with custom SCSS and Glassmorphism effects.
+- **Backend-as-a-Service**: Firebase
+  - **Firestore**: Real-time NoSQL database.
+  - **Authentication**: Secure email/password auth with role-based access control (RBAC).
+  - **Cloud Storage**: Optimized hosting for media assets.
+  - **Hosting**: Fast, global CDN deployment.
+- **Third-Party Libraries**:
+  - `Leaflet`: Interactive map integration.
+  - `ngx-quill`: Pro-grade rich text editor for content creators.
+  - `angularx-qrcode`: Dynamic QR reference generation.
+  - `Bootstrap Icons`: Modern iconography.
 
-## Installation
+## 📦 Project Structure
 
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository-url>
-    cd halo-earth
-    ```
-
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-
-## Configuration
-
-1.  **Firebase Setup:**
-    - Create a new project in the [Firebase Console](https://console.firebase.google.com/).
-    - Enable **Authentication** (Email/Password).
-    - Enable **Firestore Database**.
-    - Enable **Storage**.
-    - **Configure Security Rules** (see SECURITY.md for details).
-
-2.  **Environment Configuration:**
-    
-    ⚠️ **IMPORTANT: Never commit real API keys to version control!**
-
-    - Copy the template files to create your local environment files:
-      ```bash
-      cp src/environments/environment.template.ts src/environments/environment.ts
-      cp src/environments/environment.prod.template.ts src/environments/environment.prod.ts
-      ```
-    
-    - Open `src/environments/environment.ts` and replace the placeholder values with your Firebase project configuration from the Firebase Console.
-    
-    - For production, update `src/environments/environment.prod.ts` similarly.
-    
-    - **Note**: The actual `environment.ts` and `environment.prod.ts` files are gitignored to prevent accidental commits of sensitive data.
-    
-    For detailed security setup instructions, see [SECURITY.md](./SECURITY.md).
-
-## Development Server
-
-Run the following command to start a local development server:
-
-```bash
-ng serve
+```text
+src/app/
+├── components/          # Reusable UI components (Headers, Sidebars, etc.)
+├── layouts/             # Public and Admin layout wrappers
+├── models/              # TypeScript interfaces for data consistency
+├── pages/
+│   ├── public/          # Consumer-facing pages (Home, Map, Dictionary)
+│   └── admin/           # Secured management modules
+├── services/            # Core business logic and Firebase integration
+└── environments/        # Project configuration and API keys
 ```
 
-Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## ⚙️ Prerequisites
 
-## Building
+- **Node.js**: v18.x or v20.x (LTS recommended)
+- **Angular CLI**: v20.1.4 or higher
+- **Firebase Account**: For database and authentication setup.
 
-To build the project for production:
+## 🛠️ Installation & Setup
 
-```bash
-ng build
-```
+1. **Clone & Install**:
+   ```bash
+   git clone <repository-url>
+   cd halo-earth
+   npm install
+   ```
 
-The build artifacts will be stored in the `dist/` directory.
+2. **Environment Configuration**:
+   - Create `src/environments/environment.ts` based on the template.
+   - Add your Firebase SDK configuration keys.
+   - *Note: These files are gitignored for security.*
 
-## Testing
+3. **Firebase Rules**:
+   - Deploy the provided `firestore.rules` and `storage.rules` to ensure data security.
 
-To execute unit tests via [Karma](https://karma-runner.github.io):
+4. **Run Development Server**:
+   ```bash
+   ng serve
+   ```
+   Access at `http://localhost:4200`.
 
+## 🧪 Testing
+
+Execute unit tests via Karma:
 ```bash
 ng test
 ```
 
-## Further Help
+## 📄 License & Security
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+For detailed security implementation details, please refer to [SECURITY.md](./SECURITY.md).
