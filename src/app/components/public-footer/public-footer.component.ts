@@ -18,8 +18,8 @@ export class PublicFooterComponent implements OnInit, OnDestroy {
     currentYear = new Date().getFullYear();
 
     // Settings from admin (auto-updates when admin changes them!)
-    siteName = 'Halo Earth';
-    description = 'Dedicated to the preservation and restoration of our planet\'s coral reefs for future generations.';
+    siteName = 'MyCoral CARE';
+    description = 'Coral Awareness & Restoration Education';
     facebookUrl = '';
     twitterUrl = '';
     instagramUrl = '';

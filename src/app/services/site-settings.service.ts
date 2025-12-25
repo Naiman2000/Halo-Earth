@@ -52,9 +52,9 @@ export class SiteSettingsService {
    */
   private getDefaultSettings(): SiteSettings {
     return {
-      siteName: 'Halo Earth',
+      siteName: 'MyCoral CARE',
       tagline: 'Protecting Our Oceans, One Coral at a Time',
-      description: 'Halo Earth is dedicated to coral conservation and marine ecosystem restoration.',
+      description: 'Coral Awareness & Restoration Education',
       contactEmail: 'info@haloearth.org',
       contactPhone: '+1 (555) 123-4567',
       address: '123 Ocean Drive, Coastal City, CC 12345',
