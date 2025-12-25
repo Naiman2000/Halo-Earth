@@ -19,10 +19,10 @@
             <div class="hero-content">
                 <div class="max-w-4xl" *ngIf="settings$ | async as settings">
                     <h1 class="hero-title text-8xl text-9xl-md mb-4">
-                        MyCoral CARE
+                        {{ settings.siteName }}
                     </h1>
                     <p class="hero-subtitle text-xl mb-16 tracking-wide">
-                        Coral Awareness & Restoration Education
+                        {{ settings.description }}
                     </p>
                 </div>
             </div>

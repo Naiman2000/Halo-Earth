@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, doc, docData, setDoc, getDoc } from '@angular/fire/firestore';
 import { Observable, BehaviorSubject, from } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
+import { map, catchError, tap, startWith } from 'rxjs/operators';
 
 export interface SiteSettings {
   siteName: string;
@@ -109,6 +109,7 @@ export class SiteSettingsService {
   getSettings(): Observable<SiteSettings> {
     const docRef = doc(this.firestore, this.SETTINGS_DOC);
     return docData(docRef).pipe(
+      startWith(this.getDefaultSettings()),
       map(data => data as SiteSettings || this.getDefaultSettings()),
       catchError(() => [this.getDefaultSettings()])
     );
